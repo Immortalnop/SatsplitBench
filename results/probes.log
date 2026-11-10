@@ -1,0 +1,205 @@
+      pixelstats         full  utility linear: accuracy 0.898 [0.890, 0.906]
+      pixelstats         full  utility    mlp: accuracy 0.938 [0.931, 0.944]
+      pixelstats         full  leakage linear: roc_auc 0.836 [0.817, 0.856]
+      pixelstats         full  leakage    mlp: roc_auc 0.907 [0.890, 0.917]
+  (39s)
+   resnet18_moco         full  utility linear: accuracy 0.966 [0.961, 0.970]
+   resnet18_moco         full  utility    mlp: accuracy 0.967 [0.963, 0.972]
+   resnet18_moco         full  leakage linear: roc_auc 0.894 [0.880, 0.908]
+   resnet18_moco         full  leakage    mlp: roc_auc 0.904 [0.891, 0.918]
+  (12s)
+   resnet18_moco    full_int8  utility linear: accuracy 0.966 [0.961, 0.971]
+   resnet18_moco    full_int8  utility    mlp: accuracy 0.967 [0.963, 0.973]
+   resnet18_moco    full_int8  leakage linear: roc_auc 0.894 [0.879, 0.908]
+   resnet18_moco    full_int8  leakage    mlp: roc_auc 0.904 [0.891, 0.918]
+  (12s)
+   resnet18_moco        pca16  utility linear: accuracy 0.937 [0.930, 0.944]
+   resnet18_moco        pca16  utility    mlp: accuracy 0.951 [0.946, 0.957]
+   resnet18_moco        pca16  leakage linear: roc_auc 0.791 [0.767, 0.814]
+   resnet18_moco        pca16  leakage    mlp: roc_auc 0.863 [0.842, 0.875]
+  (32s)
+   resnet18_moco   pca16_int8  utility linear: accuracy 0.936 [0.930, 0.943]
+   resnet18_moco   pca16_int8  utility    mlp: accuracy 0.950 [0.944, 0.956]
+   resnet18_moco   pca16_int8  leakage linear: roc_auc 0.791 [0.767, 0.814]
+   resnet18_moco   pca16_int8  leakage    mlp: roc_auc 0.860 [0.840, 0.875]
+  (28s)
+   resnet18_moco       pca256  utility linear: accuracy 0.964 [0.959, 0.969]
+   resnet18_moco       pca256  utility    mlp: accuracy 0.965 [0.961, 0.971]
+   resnet18_moco       pca256  leakage linear: roc_auc 0.890 [0.876, 0.905]
+   resnet18_moco       pca256  leakage    mlp: roc_auc 0.901 [0.887, 0.915]
+  (11s)
+   resnet18_moco  pca256_int8  utility linear: accuracy 0.964 [0.960, 0.969]
+   resnet18_moco  pca256_int8  utility    mlp: accuracy 0.965 [0.961, 0.970]
+   resnet18_moco  pca256_int8  leakage linear: roc_auc 0.890 [0.876, 0.905]
+   resnet18_moco  pca256_int8  leakage    mlp: roc_auc 0.901 [0.887, 0.915]
+  (11s)
+   resnet18_moco        pca64  utility linear: accuracy 0.957 [0.952, 0.963]
+   resnet18_moco        pca64  utility    mlp: accuracy 0.962 [0.958, 0.968]
+   resnet18_moco        pca64  leakage linear: roc_auc 0.863 [0.845, 0.879]
+   resnet18_moco        pca64  leakage    mlp: roc_auc 0.892 [0.879, 0.909]
+  (14s)
+   resnet18_moco   pca64_int8  utility linear: accuracy 0.957 [0.952, 0.963]
+   resnet18_moco   pca64_int8  utility    mlp: accuracy 0.962 [0.959, 0.968]
+   resnet18_moco   pca64_int8  leakage linear: roc_auc 0.863 [0.845, 0.879]
+   resnet18_moco   pca64_int8  leakage    mlp: roc_auc 0.892 [0.880, 0.909]
+  (14s)
+ resnet18_random         full  utility linear: accuracy 0.799 [0.788, 0.810]
+ resnet18_random         full  utility    mlp: accuracy 0.817 [0.804, 0.825]
+ resnet18_random         full  leakage linear: roc_auc 0.796 [0.775, 0.817]
+ resnet18_random         full  leakage    mlp: roc_auc 0.824 [0.801, 0.840]
+  (25s)
+ resnet18_random    full_int8  utility linear: accuracy 0.794 [0.784, 0.805]
+ resnet18_random    full_int8  utility    mlp: accuracy 0.819 [0.813, 0.832]
+ resnet18_random    full_int8  leakage linear: roc_auc 0.791 [0.770, 0.813]
+ resnet18_random    full_int8  leakage    mlp: roc_auc 0.825 [0.803, 0.842]
+  (25s)
+ resnet18_random        pca16  utility linear: accuracy 0.699 [0.688, 0.711]
+ resnet18_random        pca16  utility    mlp: accuracy 0.765 [0.752, 0.775]
+ resnet18_random        pca16  leakage linear: roc_auc 0.762 [0.739, 0.785]
+ resnet18_random        pca16  leakage    mlp: roc_auc 0.812 [0.791, 0.833]
+  (28s)
+ resnet18_random   pca16_int8  utility linear: accuracy 0.697 [0.686, 0.709]
+ resnet18_random   pca16_int8  utility    mlp: accuracy 0.763 [0.750, 0.771]
+ resnet18_random   pca16_int8  leakage linear: roc_auc 0.762 [0.738, 0.784]
+ resnet18_random   pca16_int8  leakage    mlp: roc_auc 0.812 [0.791, 0.832]
+  (29s)
+ resnet18_random       pca256  utility linear: accuracy 0.804 [0.793, 0.814]
+ resnet18_random       pca256  utility    mlp: accuracy 0.814 [0.806, 0.827]
+ resnet18_random       pca256  leakage linear: roc_auc 0.798 [0.777, 0.819]
+ resnet18_random       pca256  leakage    mlp: roc_auc 0.832 [0.811, 0.848]
+  (9s)
+ resnet18_random  pca256_int8  utility linear: accuracy 0.798 [0.787, 0.809]
+ resnet18_random  pca256_int8  utility    mlp: accuracy 0.814 [0.807, 0.827]
+ resnet18_random  pca256_int8  leakage linear: roc_auc 0.796 [0.775, 0.817]
+ resnet18_random  pca256_int8  leakage    mlp: roc_auc 0.831 [0.810, 0.848]
+  (9s)
+ resnet18_random        pca64  utility linear: accuracy 0.775 [0.764, 0.785]
+ resnet18_random        pca64  utility    mlp: accuracy 0.812 [0.801, 0.822]
+ resnet18_random        pca64  leakage linear: roc_auc 0.784 [0.761, 0.807]
+ resnet18_random        pca64  leakage    mlp: roc_auc 0.824 [0.802, 0.842]
+  (12s)
+ resnet18_random   pca64_int8  utility linear: accuracy 0.772 [0.760, 0.782]
+ resnet18_random   pca64_int8  utility    mlp: accuracy 0.813 [0.802, 0.822]
+ resnet18_random   pca64_int8  leakage linear: roc_auc 0.782 [0.760, 0.806]
+ resnet18_random   pca64_int8  leakage    mlp: roc_auc 0.824 [0.805, 0.844]
+  (12s)
+   resnet50_dino         full  utility linear: accuracy 0.974 [0.970, 0.978]
+   resnet50_dino         full  utility    mlp: accuracy 0.972 [0.967, 0.976]
+   resnet50_dino         full  leakage linear: roc_auc 0.934 [0.924, 0.944]
+   resnet50_dino         full  leakage    mlp: roc_auc 0.934 [0.923, 0.944]
+  (23s)
+   resnet50_dino    full_int8  utility linear: accuracy 0.974 [0.969, 0.978]
+   resnet50_dino    full_int8  utility    mlp: accuracy 0.971 [0.967, 0.976]
+   resnet50_dino    full_int8  leakage linear: roc_auc 0.934 [0.924, 0.944]
+   resnet50_dino    full_int8  leakage    mlp: roc_auc 0.934 [0.924, 0.945]
+  (23s)
+   resnet50_dino        pca16  utility linear: accuracy 0.913 [0.905, 0.920]
+   resnet50_dino        pca16  utility    mlp: accuracy 0.936 [0.930, 0.943]
+   resnet50_dino        pca16  leakage linear: roc_auc 0.855 [0.837, 0.872]
+   resnet50_dino        pca16  leakage    mlp: roc_auc 0.907 [0.893, 0.919]
+  (27s)
+   resnet50_dino   pca16_int8  utility linear: accuracy 0.913 [0.905, 0.920]
+   resnet50_dino   pca16_int8  utility    mlp: accuracy 0.936 [0.929, 0.942]
+   resnet50_dino   pca16_int8  leakage linear: roc_auc 0.855 [0.837, 0.872]
+   resnet50_dino   pca16_int8  leakage    mlp: roc_auc 0.906 [0.893, 0.919]
+  (26s)
+   resnet50_dino       pca256  utility linear: accuracy 0.972 [0.967, 0.976]
+   resnet50_dino       pca256  utility    mlp: accuracy 0.974 [0.970, 0.978]
+   resnet50_dino       pca256  leakage linear: roc_auc 0.931 [0.920, 0.942]
+   resnet50_dino       pca256  leakage    mlp: roc_auc 0.936 [0.925, 0.946]
+  (9s)
+   resnet50_dino  pca256_int8  utility linear: accuracy 0.971 [0.967, 0.975]
+   resnet50_dino  pca256_int8  utility    mlp: accuracy 0.974 [0.970, 0.978]
+   resnet50_dino  pca256_int8  leakage linear: roc_auc 0.931 [0.920, 0.941]
+   resnet50_dino  pca256_int8  leakage    mlp: roc_auc 0.936 [0.925, 0.946]
+  (9s)
+   resnet50_dino        pca64  utility linear: accuracy 0.954 [0.948, 0.959]
+   resnet50_dino        pca64  utility    mlp: accuracy 0.964 [0.960, 0.969]
+   resnet50_dino        pca64  leakage linear: roc_auc 0.906 [0.893, 0.919]
+   resnet50_dino        pca64  leakage    mlp: roc_auc 0.928 [0.917, 0.940]
+  (13s)
+   resnet50_dino   pca64_int8  utility linear: accuracy 0.954 [0.948, 0.959]
+   resnet50_dino   pca64_int8  utility    mlp: accuracy 0.964 [0.960, 0.970]
+   resnet50_dino   pca64_int8  leakage linear: roc_auc 0.906 [0.893, 0.919]
+   resnet50_dino   pca64_int8  leakage    mlp: roc_auc 0.928 [0.917, 0.939]
+  (13s)
+     vits16_dino         full  utility linear: accuracy 0.963 [0.957, 0.968]
+     vits16_dino         full  utility    mlp: accuracy 0.966 [0.961, 0.971]
+     vits16_dino         full  leakage linear: roc_auc 0.937 [0.927, 0.947]
+     vits16_dino         full  leakage    mlp: roc_auc 0.947 [0.938, 0.956]
+  (9s)
+     vits16_dino    full_int8  utility linear: accuracy 0.963 [0.957, 0.968]
+     vits16_dino    full_int8  utility    mlp: accuracy 0.966 [0.961, 0.971]
+     vits16_dino    full_int8  leakage linear: roc_auc 0.937 [0.927, 0.947]
+     vits16_dino    full_int8  leakage    mlp: roc_auc 0.947 [0.938, 0.956]
+  (9s)
+     vits16_dino        pca16  utility linear: accuracy 0.911 [0.903, 0.918]
+     vits16_dino        pca16  utility    mlp: accuracy 0.933 [0.927, 0.940]
+     vits16_dino        pca16  leakage linear: roc_auc 0.889 [0.872, 0.904]
+     vits16_dino        pca16  leakage    mlp: roc_auc 0.919 [0.907, 0.930]
+  (24s)
+     vits16_dino   pca16_int8  utility linear: accuracy 0.911 [0.904, 0.919]
+     vits16_dino   pca16_int8  utility    mlp: accuracy 0.933 [0.927, 0.940]
+     vits16_dino   pca16_int8  leakage linear: roc_auc 0.889 [0.872, 0.904]
+     vits16_dino   pca16_int8  leakage    mlp: roc_auc 0.919 [0.907, 0.930]
+  (24s)
+     vits16_dino       pca256  utility linear: accuracy 0.962 [0.956, 0.967]
+     vits16_dino       pca256  utility    mlp: accuracy 0.962 [0.956, 0.966]
+     vits16_dino       pca256  leakage linear: roc_auc 0.938 [0.927, 0.947]
+     vits16_dino       pca256  leakage    mlp: roc_auc 0.946 [0.937, 0.955]
+  (9s)
+     vits16_dino  pca256_int8  utility linear: accuracy 0.961 [0.956, 0.966]
+     vits16_dino  pca256_int8  utility    mlp: accuracy 0.962 [0.956, 0.966]
+     vits16_dino  pca256_int8  leakage linear: roc_auc 0.938 [0.927, 0.947]
+     vits16_dino  pca256_int8  leakage    mlp: roc_auc 0.946 [0.937, 0.955]
+  (10s)
+     vits16_dino        pca64  utility linear: accuracy 0.950 [0.944, 0.956]
+     vits16_dino        pca64  utility    mlp: accuracy 0.958 [0.952, 0.962]
+     vits16_dino        pca64  leakage linear: roc_auc 0.924 [0.913, 0.935]
+     vits16_dino        pca64  leakage    mlp: roc_auc 0.939 [0.930, 0.948]
+  (12s)
+     vits16_dino   pca64_int8  utility linear: accuracy 0.951 [0.945, 0.956]
+     vits16_dino   pca64_int8  utility    mlp: accuracy 0.958 [0.952, 0.962]
+     vits16_dino   pca64_int8  leakage linear: roc_auc 0.924 [0.913, 0.935]
+     vits16_dino   pca64_int8  leakage    mlp: roc_auc 0.939 [0.930, 0.948]
+  (12s)
+     vits16_moco         full  utility linear: accuracy 0.953 [0.947, 0.959]
+     vits16_moco         full  utility    mlp: accuracy 0.959 [0.953, 0.963]
+     vits16_moco         full  leakage linear: roc_auc 0.922 [0.912, 0.933]
+     vits16_moco         full  leakage    mlp: roc_auc 0.932 [0.923, 0.944]
+  (11s)
+     vits16_moco    full_int8  utility linear: accuracy 0.951 [0.945, 0.957]
+     vits16_moco    full_int8  utility    mlp: accuracy 0.959 [0.953, 0.963]
+     vits16_moco    full_int8  leakage linear: roc_auc 0.922 [0.911, 0.933]
+     vits16_moco    full_int8  leakage    mlp: roc_auc 0.932 [0.923, 0.944]
+  (10s)
+     vits16_moco        pca16  utility linear: accuracy 0.875 [0.866, 0.883]
+     vits16_moco        pca16  utility    mlp: accuracy 0.902 [0.893, 0.908]
+     vits16_moco        pca16  leakage linear: roc_auc 0.861 [0.842, 0.877]
+     vits16_moco        pca16  leakage    mlp: roc_auc 0.892 [0.876, 0.905]
+  (25s)
+     vits16_moco   pca16_int8  utility linear: accuracy 0.874 [0.865, 0.882]
+     vits16_moco   pca16_int8  utility    mlp: accuracy 0.903 [0.894, 0.909]
+     vits16_moco   pca16_int8  leakage linear: roc_auc 0.861 [0.842, 0.877]
+     vits16_moco   pca16_int8  leakage    mlp: roc_auc 0.891 [0.876, 0.905]
+  (25s)
+     vits16_moco       pca256  utility linear: accuracy 0.950 [0.944, 0.956]
+     vits16_moco       pca256  utility    mlp: accuracy 0.949 [0.944, 0.955]
+     vits16_moco       pca256  leakage linear: roc_auc 0.919 [0.908, 0.929]
+     vits16_moco       pca256  leakage    mlp: roc_auc 0.927 [0.917, 0.938]
+  (11s)
+     vits16_moco  pca256_int8  utility linear: accuracy 0.947 [0.940, 0.953]
+     vits16_moco  pca256_int8  utility    mlp: accuracy 0.949 [0.944, 0.955]
+     vits16_moco  pca256_int8  leakage linear: roc_auc 0.919 [0.908, 0.929]
+     vits16_moco  pca256_int8  leakage    mlp: roc_auc 0.927 [0.918, 0.938]
+  (8s)
+     vits16_moco        pca64  utility linear: accuracy 0.939 [0.932, 0.945]
+     vits16_moco        pca64  utility    mlp: accuracy 0.950 [0.945, 0.956]
+     vits16_moco        pca64  leakage linear: roc_auc 0.897 [0.884, 0.909]
+     vits16_moco        pca64  leakage    mlp: roc_auc 0.919 [0.906, 0.929]
+  (13s)
+     vits16_moco   pca64_int8  utility linear: accuracy 0.938 [0.931, 0.944]
+     vits16_moco   pca64_int8  utility    mlp: accuracy 0.950 [0.945, 0.957]
+     vits16_moco   pca64_int8  leakage linear: roc_auc 0.897 [0.883, 0.909]
+     vits16_moco   pca64_int8  leakage    mlp: roc_auc 0.919 [0.906, 0.929]
+  (13s)
