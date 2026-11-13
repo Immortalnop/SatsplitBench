@@ -1,0 +1,19 @@
+{
+  "encoder": "vits16_moco",
+  "variant": "pca16",
+  "dims": 16,
+  "summary": {
+    "mean_iou_positive": 0.33805951476097107,
+    "prior_mean_iou_positive": 0.3351880609989166,
+    "detection_auc": 0.8733109027037096,
+    "threshold": 0.2,
+    "prior_threshold": 0.2
+  },
+  "info": {
+    "epochs_run": 15,
+    "best_val_iou": 0.26711544333435894,
+    "params_m": 4.89,
+    "n_train": 38784,
+    "seconds": 1124
+  }
+}

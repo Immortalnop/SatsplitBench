@@ -136,7 +136,17 @@ def main():
     ap.add_argument("--workers", type=int, default=6)
     ap.add_argument("--device", default="mps" if torch.backends.mps.is_available() else "cpu")
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--compress-only", action="store_true",
+                    help="apply an encoder's Phase 3/4b fits to existing data/embeddings/<enc>/ben_*.npy "
+                         "(for Phase 7's own encoders, whose BigEarthNet embeddings come from own_encoder.py)")
     args = ap.parse_args()
+
+    if args.compress_only:
+        for e in args.encoders:
+            for split in ("train", "val", "test"):
+                compress_like_phase3(e, np.load(os.path.join(C.EMB, e, f"ben_{split}.npy")), split)
+            print(f"compressed BigEarthNet embeddings for {e}")
+        return
 
     os.makedirs(OUT, exist_ok=True)
     names, subset = select_subset(args.n, args.seed)

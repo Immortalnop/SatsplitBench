@@ -1,0 +1,19 @@
+{
+  "encoder": "resnet50_dino",
+  "variant": "pca64",
+  "dims": 64,
+  "summary": {
+    "mean_iou_positive": 0.33851221203804016,
+    "prior_mean_iou_positive": 0.3351880609989166,
+    "detection_auc": 0.9226457278536783,
+    "threshold": 0.2,
+    "prior_threshold": 0.2
+  },
+  "info": {
+    "epochs_run": 12,
+    "best_val_iou": 0.28352386139068764,
+    "params_m": 5.09,
+    "n_train": 38784,
+    "seconds": 904
+  }
+}

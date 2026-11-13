@@ -1,0 +1,19 @@
+{
+  "encoder": "own_vit_defended",
+  "variant": "full",
+  "dims": 384,
+  "summary": {
+    "mean_iou_positive": 0.3427655100822449,
+    "prior_mean_iou_positive": 0.3351880609989166,
+    "detection_auc": 0.900802240017157,
+    "threshold": 0.2,
+    "prior_threshold": 0.2
+  },
+  "info": {
+    "epochs_run": 40,
+    "best_val_iou": 0.30072419143871804,
+    "params_m": 6.4,
+    "n_train": 38784,
+    "seconds": 3328
+  }
+}

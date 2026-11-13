@@ -1,0 +1,19 @@
+{
+  "encoder": "resnet18_moco",
+  "variant": "pca16",
+  "dims": 16,
+  "summary": {
+    "mean_iou_positive": 0.33840981125831604,
+    "prior_mean_iou_positive": 0.3351880609989166,
+    "detection_auc": 0.8369859055356021,
+    "threshold": 0.2,
+    "prior_threshold": 0.2
+  },
+  "info": {
+    "epochs_run": 16,
+    "best_val_iou": 0.24596739652266258,
+    "params_m": 4.89,
+    "n_train": 38784,
+    "seconds": 1202
+  }
+}

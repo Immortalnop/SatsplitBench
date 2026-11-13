@@ -1,0 +1,19 @@
+{
+  "encoder": "vits16_dino",
+  "variant": "full",
+  "dims": 384,
+  "summary": {
+    "mean_iou_positive": 0.33498603105545044,
+    "prior_mean_iou_positive": 0.3351880609989166,
+    "detection_auc": 0.9326403655092057,
+    "threshold": 0.2,
+    "prior_threshold": 0.2
+  },
+  "info": {
+    "epochs_run": 20,
+    "best_val_iou": 0.29090934135532576,
+    "params_m": 6.4,
+    "n_train": 38784,
+    "seconds": 3559
+  }
+}

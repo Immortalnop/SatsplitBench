@@ -2,13 +2,31 @@
 
 How much object-level information leaks from compact Earth observation (EO) embeddings, and how does that leakage trade off against downstream utility as the embeddings are compressed?
 
-Full research plan: [EO Embedding Leakage Study — Research Plan](https://claude.ai/artifact/QXSerKGJrwe2oUhe8QX23P)
-
-## Research questions
+Research Question: SatSplit-Bench: accuracy-bytes-compute-privacy benchmark for split inference on EO tasks over orbit-realistic ISLs, with an object-level feature-inversion leakage metric"## Research questions
 
 - **RQ1, attribute leakage:** can a linear probe on an embedding detect objects it was not used for (solar farms), above chance?
 - **RQ2, trade-off:** as embeddings are compressed (PCA dims, int8), does leakage fall faster or slower than utility?
 - **RQ3, metric mismatch:** do pixel metrics (SSIM, LPIPS) of an inverted image rank encoders the same way as object-level leakage?
+
+## How to run
+
+From the project folder, with `eoenv` set up (Phase 0). All phases (0–7) are done; results are in `RESULTS.md`. The commands below re-run a phase (completed runs are skipped). They use the GPU, so run them one after the other. Each resumes where it stopped if run again; `caffeinate -i` keeps the Mac awake. Start long jobs detached from VS Code (`nohup ... &`, in macOS Terminal) so closing the editor cannot kill them, and keep other heavy apps closed: memory pressure (swapping) made Phase 6 stall earlier.
+
+```bash
+cd ~/Desktop/projects/Satsplitbench
+
+# Phases 4b, 5 and 6 are finished. To re-run any of them (finished runs are skipped):
+#   caffeinate -i bash scripts/run_phase4b.sh | run_phase5.sh | run_phase6.sh
+
+# Phase 7 baseline (~11-17 h), detached
+mkdir -p results/phase7 && nohup caffeinate -i bash scripts/run_phase7.sh baseline > results/phase7/baseline.log 2>&1 &
+tail -f results/phase7/baseline.log        # Ctrl+C stops watching only
+
+# Phase 7 defended (~11-17 h), after the baseline. Uses the pre-registered lambda = 0.5, then runs the Phase 7 analysis
+nohup caffeinate -i bash scripts/run_phase7.sh defended > results/phase7/defended.log 2>&1 &
+```
+
+Results: `results/phase4b/analysis/`, `results/phase5/analysis/`, `results/phase6/analysis/` and (after the defended run) `results/phase7/analysis/`. Individual steps are listed under each phase below.
 
 ## Status
 
@@ -19,10 +37,10 @@ Full research plan: [EO Embedding Leakage Study — Research Plan](https://claud
 | 2 | Embeddings | Done |
 | 3 | Compression | Done |
 | 4 | Probes and controls (linear + MLP) | Done |
-| 4b | Learned-leakage follow-ups (pre-registered) | Built, testing |
-| 5 | Inversion: weak and strong inverters | Built, testing |
-| 6 | Localisation attack | Planned |
-| 7 | Own encoder and defence | Planned |
+| 4b | Learned-leakage follow-ups (pre-registered) | Done |
+| 5 | Inversion: weak and strong inverters | Done |
+| 6 | Localisation attack | Done |
+| 7 | Own encoder and defence | Done: "leakage cut at a cost" (leakage −0.018 AUC, utility fails non-inferiority) |
 | 8 | Analysis and paper | Planned |
 
 ---
@@ -247,12 +265,12 @@ Written down before running; every one is reported whatever it shows.
 
 The full pre-registration, with primary and secondary analyses, Holm correction and its disclosure, is in `results/preregistration.md`.
 
-**Status: scripts built and tested end to end on small variants (numbers not used); full run not started.**
+**Status: done; results in `RESULTS.md` and `results/phase4b/analysis/`.**
 
 Run everything, in pre-registered order (resumes if interrupted; roughly 15–18 h in total, best overnight):
 
 ```bash
-bash scripts/run_phase4b.sh 2>&1 | tee results/phase4b/run.log
+mkdir -p results/phase4b && caffeinate -i bash scripts/run_phase4b.sh 2>&1 | tee results/phase4b/run.log
 ```
 
 The script runs these steps; each can also be run on its own:
@@ -286,12 +304,12 @@ Measured on the largest input (ResNet50 DINO, 2048 dims, full-size leakage):
 
 ### Phase 5: Inversion
 
-**Status: scripts built and tested end to end (1–2-epoch runs, numbers not used); full run not started.**
+**Status: done; results in `RESULTS.md` and `results/phase5/analysis/`.**
 
 Run after Phase 4b has finished (both use the GPU, and RQ3 reads Phase 4b's results). Roughly 14–20 h:
 
 ```bash
-mkdir -p results/phase5 && bash scripts/run_phase5.sh 2>&1 | tee results/phase5/run.log
+mkdir -p results/phase5 && caffeinate -i bash scripts/run_phase5.sh 2>&1 | tee results/phase5/run.log
 ```
 
 The analysis plan is pre-registered in `results/preregistration.md` (Phase 5 section), written before any Phase 5 model was trained: 8 primary tests (learned and spatial leakage through GAN inversion at full size, Holm-corrected), with secondary analyses and RQ3's rank correlations.
@@ -327,12 +345,49 @@ Every run writes `results/phase5/<method>/<encoder>/<variant>/` (`metrics.json`,
 - Pixel statistics cannot localise, so localisation above the location prior is learned leakage.
 - Compared with the inverters on the same mask-IoU score.
 
+**Status: done; results in `RESULTS.md` and `results/phase6/analysis/`.** The analysis plan is pre-registered in `results/preregistration.md` (Phase 6 section): 8 primary tests at full size (vs the location prior and vs the pixel-statistics control), Holm-corrected.
+
+```bash
+mkdir -p results/phase6 && caffeinate -i bash scripts/run_phase6.sh 2>&1 | tee results/phase6/run.log
+```
+
+| Step | Command | What it does |
+|---|---|---|
+| 1 | `python scripts/localise.py --encoder pixelstats --variant full` | Pixel-statistics control |
+| 2 | `python scripts/localise.py --encoder <enc> --variant <var>` | 4 audited encoders × full, pca256, pca64, pca16 (full first: primary tests) |
+| 3 | `python scripts/localise.py --encoder resnet18_random --variant full` | Random-weight control |
+| 4 | `python scripts/analysis6.py` | Pre-registered tests into `results/phase6/analysis/` |
+
+Model: 16 memory tokens from the embedding, 64 learned queries (8×8) with learned 2D positions, 4 pre-norm decoder layers (width 256, 8 heads), 3 upsampling conv stages to 64×64; 13.2M parameters for a 2048-dim input. Trained on all train tiles with Dice + focal loss, so it also gives a detection score comparable with Phase 5. About 1–2 min per epoch; ~30–70 min per run with early stopping; 18 runs.
+
 ### Phase 7: Own encoder and defence
 
 - Train the same small ViT twice with the same data and budget: baseline MAE, and MAE with the adversarial leakage penalty.
+- **One script, one difference.** Both runs train MAE (75% masking), the same land-cover head, and the same solar-farm adversary behind a gradient-reversal layer. Only the reversal strength λ differs: the baseline uses λ = 0, so its adversary trains and monitors leakage but sends exactly zero gradient into the encoder (verified); the defended run uses λ > 0.
+- Encoder: ViT-Small, 8-pixel patches on 64×64×13 (64 tokens), fixed 2D sin-cos positions (so BigEarthNet's 112×112 works unchanged), mean-pooled 384-dim embedding, the same size as the audited ViT-S/16s. 25.3M parameters including decoder and heads. Trained only on train-split tiles (EuroSAT train + GloSoFarID train).
+- Each encoder then goes through exactly the audited encoders' pipeline: compression, quantisation, BigEarthNet, all Phase 4b attackers, the Phase 6 localisation attack and the Phase 5 GAN, all trained fresh on its embeddings.
 - The only difference between the two is the privacy objective, so any change in leakage is caused by the defence.
 - Realistic target: remove the learned excess over pixel statistics, not reach AUC 0.5, since spectral leakage is inherent to any useful embedding.
 - Evaluated only against attackers trained fresh on its outputs (Phase 4b–6), never only against its own adversary.
+
+**Status: done (13 Nov). Verdict: "leakage cut at a cost"; see RESULTS.md, Phase 7.** The settings, recorded in `results/preregistration.md` (section "Phase 7 defence settings") before either encoder is trained:
+- **λ = 0.5**, ramped linearly from 0 over the first 4 epochs (the baseline's λ = 0 stays exactly 0), a single untuned choice because the deadline allows one defended run. `run_phase7.sh defended` refuses any other value.
+- **No spatial adversary.** Phase 6 found almost no location information to remove (mask IoU within 0.01 of the position-only prior), so the defence targets presence leakage only.
+- **Five primary tests** (`scripts/analysis7.py`, Holm over 5): leakage must fall (Phase 4b best attacker, Phase 6 detection AUC, Phase 5 GAN detection AUC) while BigEarthNet macro AP and EuroSAT accuracy stay within 0.02 and 0.01 of the baseline. The verdict is one of "works", "leakage cut at a cost" or "no reduction", and all three are reported.
+
+```bash
+mkdir -p results/phase7 && nohup caffeinate -i bash scripts/run_phase7.sh baseline > results/phase7/baseline.log 2>&1 &
+nohup caffeinate -i bash scripts/run_phase7.sh defended > results/phase7/defended.log 2>&1 &    # after the baseline; ends with analysis7.py
+```
+
+| Step | Command | What it does |
+|---|---|---|
+| 1 | `python scripts/own_encoder.py --name own_vit_baseline --adv-weight 0 --ben` | Train (40 epochs, ~5–7 h) and export embeddings incl. BigEarthNet |
+| 2 | `python scripts/compress.py --encoders <name>`, `python scripts/quantise.py --encoders <name>`, `python scripts/bigearthnet.py --compress-only --encoders <name>` | Same compression as the audited encoders |
+| 3 | `python scripts/attack4b.py --tasks leakage leakage_incr utility_eurosat utility_ben spatial --encoders <name>` | All Phase 4b attackers |
+| 4 | `python scripts/localise.py --encoder <name> --variant full` | Phase 6 localisation attack |
+| 5 | `python scripts/invert.py --method gan --encoder <name> --variant full` | Phase 5 GAN inverter |
+| 6 | `python scripts/analysis7.py` (run by the defended stage) | Baseline vs defended: 5 pre-registered tests, secondary analyses |
 
 ### Phase 8: Analysis and paper
 
@@ -373,8 +428,14 @@ scripts/
   segmenter.py             # Phase 5: panel segmenter
   invert.py                # Phase 5: mean, kNN and GAN inverters + evaluation
   analysis5.py             # Phase 5: pre-registered tests
+  localise.py              # Phase 6: query-based transformer decoder, embedding -> panel mask
+  analysis6.py             # Phase 6: pre-registered tests
+  own_encoder.py           # Phase 7: ViT-Small/8 MAE encoder, baseline and defended (gradient reversal)
+  analysis7.py             # Phase 7: baseline vs defended, pre-registered tests
   run_phase4b.sh           # runs all of Phase 4b
   run_phase5.sh            # runs all of Phase 5
+  run_phase6.sh            # runs all of Phase 6
+  run_phase7.sh            # runs Phase 7: baseline, then defended
 results/
   preregistration.md       # Phase 4b pre-registration
   probes.csv               # Phase 4 results

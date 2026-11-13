@@ -1,0 +1,261 @@
+== 1. Pixel-statistics control
+== 2. Audited encoders, full size first (primary tests), then the compression curve
+== localisation attack, vits16_dino/pca256 (256 dims, 5.9M parameters)
+  epoch  1: val IoU(positive) 0.2550 (78s)
+  epoch  2: val IoU(positive) 0.2749 (154s)
+  epoch  3: val IoU(positive) 0.2530 (230s)
+  epoch  4: val IoU(positive) 0.2826 (305s)
+  epoch  5: val IoU(positive) 0.2481 (381s)
+  epoch  6: val IoU(positive) 0.2683 (456s)
+  epoch  7: val IoU(positive) 0.2803 (531s)
+  epoch  8: val IoU(positive) 0.2763 (606s)
+  epoch  9: val IoU(positive) 0.2781 (682s)
+  epoch 10: val IoU(positive) 0.2819 (758s)
+  epoch 11: val IoU(positive) 0.2597 (835s)
+  epoch 12: val IoU(positive) 0.2933 (912s)
+  epoch 13: val IoU(positive) 0.2535 (987s)
+  epoch 14: val IoU(positive) 0.2765 (1062s)
+  epoch 15: val IoU(positive) 0.2500 (1138s)
+  epoch 16: val IoU(positive) 0.2477 (1213s)
+  epoch 17: val IoU(positive) 0.2676 (1289s)
+  epoch 18: val IoU(positive) 0.2674 (1364s)
+  epoch 19: val IoU(positive) 0.2718 (1440s)
+  epoch 20: val IoU(positive) 0.2567 (1516s)
+{
+  "mean_iou_positive": 0.32668283581733704,
+  "prior_mean_iou_positive": 0.3351880609989166,
+  "detection_auc": 0.919455207467624,
+  "threshold": 0.25,
+  "prior_threshold": 0.2
+}
+== localisation attack, resnet18_moco/pca64 (64 dims, 5.1M parameters)
+  epoch  1: val IoU(positive) 0.2104 (76s)
+  epoch  2: val IoU(positive) 0.2615 (150s)
+  epoch  3: val IoU(positive) 0.2554 (225s)
+  epoch  4: val IoU(positive) 0.2517 (301s)
+  epoch  5: val IoU(positive) 0.2460 (376s)
+  epoch  6: val IoU(positive) 0.2411 (451s)
+  epoch  7: val IoU(positive) 0.2550 (525s)
+  epoch  8: val IoU(positive) 0.2632 (600s)
+  epoch  9: val IoU(positive) 0.2429 (675s)
+  epoch 10: val IoU(positive) 0.2576 (749s)
+  epoch 11: val IoU(positive) 0.2546 (824s)
+  epoch 12: val IoU(positive) 0.2522 (899s)
+  epoch 13: val IoU(positive) 0.2630 (974s)
+  epoch 14: val IoU(positive) 0.2566 (1050s)
+  epoch 15: val IoU(positive) 0.2598 (1127s)
+  epoch 16: val IoU(positive) 0.2503 (1203s)
+{
+  "mean_iou_positive": 0.3376561999320984,
+  "prior_mean_iou_positive": 0.3351880609989166,
+  "detection_auc": 0.879161910539515,
+  "threshold": 0.2,
+  "prior_threshold": 0.2
+}
+== localisation attack, vits16_moco/pca64 (64 dims, 5.1M parameters)
+  epoch  1: val IoU(positive) 0.2645 (75s)
+  epoch  2: val IoU(positive) 0.2813 (150s)
+  epoch  3: val IoU(positive) 0.2695 (225s)
+  epoch  4: val IoU(positive) 0.2501 (299s)
+  epoch  5: val IoU(positive) 0.2536 (375s)
+  epoch  6: val IoU(positive) 0.2529 (451s)
+  epoch  7: val IoU(positive) 0.2638 (527s)
+  epoch  8: val IoU(positive) 0.2657 (602s)
+  epoch  9: val IoU(positive) 0.2664 (677s)
+  epoch 10: val IoU(positive) 0.2790 (751s)
+{
+  "mean_iou_positive": 0.343260258436203,
+  "prior_mean_iou_positive": 0.3351880609989166,
+  "detection_auc": 0.8839078326731864,
+  "threshold": 0.2,
+  "prior_threshold": 0.2
+}
+== localisation attack, resnet50_dino/pca64 (64 dims, 5.1M parameters)
+  epoch  1: val IoU(positive) 0.2263 (76s)
+  epoch  2: val IoU(positive) 0.2763 (150s)
+  epoch  3: val IoU(positive) 0.2727 (225s)
+  epoch  4: val IoU(positive) 0.2835 (299s)
+  epoch  5: val IoU(positive) 0.2788 (375s)
+  epoch  6: val IoU(positive) 0.2587 (450s)
+  epoch  7: val IoU(positive) 0.2762 (525s)
+  epoch  8: val IoU(positive) 0.2713 (599s)
+  epoch  9: val IoU(positive) 0.2752 (674s)
+  epoch 10: val IoU(positive) 0.2818 (749s)
+  epoch 11: val IoU(positive) 0.2763 (823s)
+  epoch 12: val IoU(positive) 0.2644 (898s)
+{
+  "mean_iou_positive": 0.33851221203804016,
+  "prior_mean_iou_positive": 0.3351880609989166,
+  "detection_auc": 0.9226457278536783,
+  "threshold": 0.2,
+  "prior_threshold": 0.2
+}
+== localisation attack, vits16_dino/pca64 (64 dims, 5.1M parameters)
+  epoch  1: val IoU(positive) 0.2681 (76s)
+  epoch  2: val IoU(positive) 0.2745 (150s)
+  epoch  3: val IoU(positive) 0.2648 (225s)
+  epoch  4: val IoU(positive) 0.2829 (299s)
+  epoch  5: val IoU(positive) 0.2680 (374s)
+  epoch  6: val IoU(positive) 0.2824 (449s)
+  epoch  7: val IoU(positive) 0.2673 (523s)
+  epoch  8: val IoU(positive) 0.2672 (598s)
+  epoch  9: val IoU(positive) 0.2659 (672s)
+  epoch 10: val IoU(positive) 0.2764 (747s)
+  epoch 11: val IoU(positive) 0.2837 (821s)
+  epoch 12: val IoU(positive) 0.2761 (898s)
+  epoch 13: val IoU(positive) 0.2833 (976s)
+  epoch 14: val IoU(positive) 0.2866 (1051s)
+  epoch 15: val IoU(positive) 0.2644 (1126s)
+  epoch 16: val IoU(positive) 0.2377 (1200s)
+  epoch 17: val IoU(positive) 0.2632 (1275s)
+  epoch 18: val IoU(positive) 0.2771 (1350s)
+  epoch 19: val IoU(positive) 0.2710 (1425s)
+  epoch 20: val IoU(positive) 0.2787 (1499s)
+  epoch 21: val IoU(positive) 0.2603 (1574s)
+  epoch 22: val IoU(positive) 0.2749 (1649s)
+{
+  "mean_iou_positive": 0.3390945792198181,
+  "prior_mean_iou_positive": 0.3351880609989166,
+  "detection_auc": 0.9099915840001331,
+  "threshold": 0.2,
+  "prior_threshold": 0.2
+}
+== localisation attack, resnet18_moco/pca16 (16 dims, 4.9M parameters)
+  epoch  1: val IoU(positive) 0.2247 (75s)
+  epoch  2: val IoU(positive) 0.2183 (150s)
+  epoch  3: val IoU(positive) 0.2341 (224s)
+  epoch  4: val IoU(positive) 0.2260 (299s)
+  epoch  5: val IoU(positive) 0.2033 (373s)
+  epoch  6: val IoU(positive) 0.2197 (447s)
+  epoch  7: val IoU(positive) 0.2450 (522s)
+  epoch  8: val IoU(positive) 0.2460 (596s)
+  epoch  9: val IoU(positive) 0.2198 (672s)
+  epoch 10: val IoU(positive) 0.2020 (746s)
+  epoch 11: val IoU(positive) 0.2318 (821s)
+  epoch 12: val IoU(positive) 0.2385 (895s)
+  epoch 13: val IoU(positive) 0.2298 (970s)
+  epoch 14: val IoU(positive) 0.2333 (1044s)
+  epoch 15: val IoU(positive) 0.2319 (1119s)
+  epoch 16: val IoU(positive) 0.2149 (1195s)
+{
+  "mean_iou_positive": 0.33840981125831604,
+  "prior_mean_iou_positive": 0.3351880609989166,
+  "detection_auc": 0.8369859055356021,
+  "threshold": 0.2,
+  "prior_threshold": 0.2
+}
+== localisation attack, vits16_moco/pca16 (16 dims, 4.9M parameters)
+  epoch  1: val IoU(positive) 0.2295 (75s)
+  epoch  2: val IoU(positive) 0.2527 (150s)
+  epoch  3: val IoU(positive) 0.2473 (224s)
+  epoch  4: val IoU(positive) 0.2411 (298s)
+  epoch  5: val IoU(positive) 0.2592 (373s)
+  epoch  6: val IoU(positive) 0.2455 (447s)
+  epoch  7: val IoU(positive) 0.2671 (521s)
+  epoch  8: val IoU(positive) 0.2503 (596s)
+  epoch  9: val IoU(positive) 0.2425 (670s)
+  epoch 10: val IoU(positive) 0.2592 (744s)
+  epoch 11: val IoU(positive) 0.2334 (819s)
+  epoch 12: val IoU(positive) 0.2301 (893s)
+  epoch 13: val IoU(positive) 0.2389 (968s)
+  epoch 14: val IoU(positive) 0.2411 (1043s)
+  epoch 15: val IoU(positive) 0.2418 (1117s)
+{
+  "mean_iou_positive": 0.33805951476097107,
+  "prior_mean_iou_positive": 0.3351880609989166,
+  "detection_auc": 0.8733109027037096,
+  "threshold": 0.2,
+  "prior_threshold": 0.2
+}
+== localisation attack, resnet50_dino/pca16 (16 dims, 4.9M parameters)
+  epoch  1: val IoU(positive) 0.1928 (75s)
+  epoch  2: val IoU(positive) 0.2460 (150s)
+  epoch  3: val IoU(positive) 0.2412 (224s)
+  epoch  4: val IoU(positive) 0.2296 (299s)
+  epoch  5: val IoU(positive) 0.2296 (373s)
+  epoch  6: val IoU(positive) 0.2293 (448s)
+  epoch  7: val IoU(positive) 0.2563 (522s)
+  epoch  8: val IoU(positive) 0.2372 (597s)
+  epoch  9: val IoU(positive) 0.2449 (671s)
+  epoch 10: val IoU(positive) 0.2419 (746s)
+  epoch 11: val IoU(positive) 0.2328 (820s)
+  epoch 12: val IoU(positive) 0.2350 (895s)
+  epoch 13: val IoU(positive) 0.2362 (969s)
+  epoch 14: val IoU(positive) 0.2345 (1044s)
+  epoch 15: val IoU(positive) 0.2490 (1118s)
+{
+  "mean_iou_positive": 0.3342895805835724,
+  "prior_mean_iou_positive": 0.3351880609989166,
+  "detection_auc": 0.8844480313774474,
+  "threshold": 0.2,
+  "prior_threshold": 0.2
+}
+== localisation attack, vits16_dino/pca16 (16 dims, 4.9M parameters)
+  epoch  1: val IoU(positive) 0.2064 (75s)
+  epoch  2: val IoU(positive) 0.2614 (150s)
+  epoch  3: val IoU(positive) 0.2405 (224s)
+  epoch  4: val IoU(positive) 0.2667 (298s)
+  epoch  5: val IoU(positive) 0.2558 (373s)
+  epoch  6: val IoU(positive) 0.2066 (447s)
+  epoch  7: val IoU(positive) 0.2631 (521s)
+  epoch  8: val IoU(positive) 0.2632 (597s)
+  epoch  9: val IoU(positive) 0.2465 (672s)
+  epoch 10: val IoU(positive) 0.2573 (746s)
+  epoch 11: val IoU(positive) 0.2431 (821s)
+  epoch 12: val IoU(positive) 0.2541 (895s)
+{
+  "mean_iou_positive": 0.3376913070678711,
+  "prior_mean_iou_positive": 0.3351880609989166,
+  "detection_auc": 0.8755728056993615,
+  "threshold": 0.2,
+  "prior_threshold": 0.2
+}
+== 3. Random-weight control
+== localisation attack, resnet18_random/full (512 dims, 6.9M parameters)
+  epoch  1: val IoU(positive) 0.1717 (76s)
+  epoch  2: val IoU(positive) 0.1891 (150s)
+  epoch  3: val IoU(positive) 0.1971 (225s)
+  epoch  4: val IoU(positive) 0.1510 (300s)
+  epoch  5: val IoU(positive) 0.1790 (375s)
+  epoch  6: val IoU(positive) 0.2010 (449s)
+  epoch  7: val IoU(positive) 0.1788 (524s)
+  epoch  8: val IoU(positive) 0.1833 (598s)
+  epoch  9: val IoU(positive) 0.2182 (673s)
+  epoch 10: val IoU(positive) 0.2109 (748s)
+  epoch 11: val IoU(positive) 0.2364 (822s)
+  epoch 12: val IoU(positive) 0.2299 (897s)
+  epoch 13: val IoU(positive) 0.2482 (972s)
+  epoch 14: val IoU(positive) 0.2346 (1046s)
+  epoch 15: val IoU(positive) 0.2577 (1121s)
+  epoch 16: val IoU(positive) 0.2365 (1196s)
+  epoch 17: val IoU(positive) 0.2517 (1270s)
+  epoch 18: val IoU(positive) 0.2596 (1345s)
+  epoch 19: val IoU(positive) 0.2457 (1421s)
+  epoch 20: val IoU(positive) 0.2355 (1496s)
+  epoch 21: val IoU(positive) 0.2544 (1571s)
+  epoch 22: val IoU(positive) 0.2486 (1646s)
+  epoch 23: val IoU(positive) 0.2539 (1721s)
+  epoch 24: val IoU(positive) 0.2538 (1795s)
+  epoch 25: val IoU(positive) 0.2603 (1870s)
+  epoch 26: val IoU(positive) 0.2487 (1945s)
+  epoch 27: val IoU(positive) 0.2467 (2020s)
+  epoch 28: val IoU(positive) 0.2471 (2095s)
+  epoch 29: val IoU(positive) 0.2482 (2169s)
+  epoch 30: val IoU(positive) 0.2465 (2244s)
+  epoch 31: val IoU(positive) 0.2435 (2319s)
+  epoch 32: val IoU(positive) 0.2489 (2393s)
+  epoch 33: val IoU(positive) 0.2459 (2468s)
+{
+  "mean_iou_positive": 0.33236438035964966,
+  "prior_mean_iou_positive": 0.3351880609989166,
+  "detection_auc": 0.7988864127328482,
+  "threshold": 0.2,
+  "prior_threshold": 0.2
+}
+== 4. Analysis
+18 localisation runs
+  wrote results/phase6/analysis/summary.csv (18 rows)
+  wrote results/phase6/analysis/primary.csv (8 rows)
+  wrote results/phase6/analysis/secondary.csv (35 rows)
+  wrote results/phase6/analysis/detection.csv (18 rows)
+== Phase 6 done. Results in results/phase6/analysis/

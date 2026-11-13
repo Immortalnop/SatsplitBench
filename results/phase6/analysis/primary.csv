@@ -1,0 +1,9 @@
+encoder,variant,test,vs,diff,ci_lo,ci_hi,p,p_holm,significant_holm
+resnet18_moco,full,spatial_vs_location_prior,location_prior,0.0085,0.0036,0.0133,0.001,0.008,True
+resnet18_moco,full,learned_spatial_vs_pixelstats,pixelstats,0.0068,0.0037,0.0096,0.001,0.008,True
+resnet50_dino,full,spatial_vs_location_prior,location_prior,0.0072,-0.0016,0.015,0.052,0.208,False
+resnet50_dino,full,learned_spatial_vs_pixelstats,pixelstats,0.0054,-0.0026,0.0124,0.075,0.225,False
+vits16_dino,full,spatial_vs_location_prior,location_prior,-0.0002,-0.0054,0.0047,0.529,1.0,False
+vits16_dino,full,learned_spatial_vs_pixelstats,pixelstats,-0.002,-0.0058,0.0014,0.858,1.0,False
+vits16_moco,full,spatial_vs_location_prior,location_prior,0.0069,0.0029,0.0108,0.001,0.008,True
+vits16_moco,full,learned_spatial_vs_pixelstats,pixelstats,0.0051,0.0036,0.0067,0.001,0.008,True

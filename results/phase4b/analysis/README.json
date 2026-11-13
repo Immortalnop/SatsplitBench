@@ -1,0 +1,6 @@
+{
+  "selection": "best validation score among attackers",
+  "bootstrap": 1000,
+  "cluster": "GloSoFarID patch",
+  "holm": "6 primary tests, split seed 0"
+}

@@ -1,0 +1,488 @@
+split_seed,encoder,variant,task,attacker,metric,val_score,test_score,n_train,n_test,dims,params,seconds
+0,pixelstats,full,leakage,deep_mlp,roc_auc,0.9133,0.91,38784,8320,65,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",189
+0,pixelstats,full,leakage,lightgbm,roc_auc,0.8913,0.8973,38784,8320,65,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",23
+0,pixelstats,full,leakage,svm_rbf,roc_auc,0.8957,0.9057,38784,8320,65,"{""gamma"": ""2.0/d"", ""C"": 1.0}",97
+0,resnet18_moco,full,leakage,deep_mlp,roc_auc,0.9017,0.9039,38784,8320,512,"{""lr"": 0.001, ""wd"": 0.0001, ""dropout"": 0.1}",72
+0,resnet18_moco,full,leakage,lightgbm,roc_auc,0.9014,0.9062,38784,8320,512,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",39
+0,resnet18_moco,full,leakage,svm_rbf,roc_auc,0.9013,0.9013,38784,8320,512,"{""gamma"": ""0.5/d"", ""C"": 1.0}",63
+0,resnet18_moco,pca256,leakage,deep_mlp,roc_auc,0.8963,0.9004,38784,8320,256,"{""lr"": 0.0003, ""wd"": 0.01, ""dropout"": 0.3}",64
+0,resnet18_moco,pca256,leakage,lightgbm,roc_auc,0.891,0.895,38784,8320,256,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",26
+0,resnet18_moco,pca256,leakage,svm_rbf,roc_auc,0.8956,0.8979,38784,8320,256,"{""gamma"": ""0.5/d"", ""C"": 1.0}",50
+0,resnet18_moco,pca64,leakage,deep_mlp,roc_auc,0.8941,0.8946,38784,8320,64,"{""lr"": 0.001, ""wd"": 0.0001, ""dropout"": 0.1}",82
+0,resnet18_moco,pca64,leakage,lightgbm,roc_auc,0.8861,0.8851,38784,8320,64,"{""num_leaves"": 127, ""colsample_bytree"": 0.9}",21
+0,resnet18_moco,pca64,leakage,svm_rbf,roc_auc,0.892,0.8949,38784,8320,64,"{""gamma"": ""0.5/d"", ""C"": 1.0}",70
+0,resnet18_moco,pca16,leakage,deep_mlp,roc_auc,0.8656,0.8648,38784,8320,16,"{""lr"": 0.001, ""wd"": 0.0001, ""dropout"": 0.1}",139
+0,resnet18_moco,pca16,leakage,lightgbm,roc_auc,0.8585,0.8477,38784,8320,16,"{""num_leaves"": 127, ""colsample_bytree"": 0.9}",17
+0,resnet18_moco,pca16,leakage,svm_rbf,roc_auc,0.8635,0.8636,38784,8320,16,"{""gamma"": ""1.0/d"", ""C"": 1.0}",111
+0,vits16_moco,full,leakage,deep_mlp,roc_auc,0.927,0.9289,38784,8320,384,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",77
+0,vits16_moco,full,leakage,lightgbm,roc_auc,0.918,0.9248,38784,8320,384,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",26
+0,vits16_moco,full,leakage,svm_rbf,roc_auc,0.9281,0.9317,38784,8320,384,"{""gamma"": ""1.0/d"", ""C"": 1.0}",61
+0,vits16_moco,pca256,leakage,deep_mlp,roc_auc,0.9162,0.9215,38784,8320,256,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",71
+0,vits16_moco,pca256,leakage,lightgbm,roc_auc,0.9148,0.9226,38784,8320,256,"{""num_leaves"": 31, ""colsample_bytree"": 0.9}",24
+0,vits16_moco,pca256,leakage,svm_rbf,roc_auc,0.9141,0.9246,38784,8320,256,"{""gamma"": ""0.5/d"", ""C"": 1.0}",38
+0,vits16_moco,pca64,leakage,deep_mlp,roc_auc,0.9187,0.9166,38784,8320,64,"{""lr"": 0.0003, ""wd"": 0.01, ""dropout"": 0.3}",81
+0,vits16_moco,pca64,leakage,lightgbm,roc_auc,0.9116,0.9141,38784,8320,64,"{""num_leaves"": 31, ""colsample_bytree"": 0.9}",19
+0,vits16_moco,pca64,leakage,svm_rbf,roc_auc,0.9139,0.9157,38784,8320,64,"{""gamma"": ""1.0/d"", ""C"": 1.0}",51
+0,vits16_moco,pca16,leakage,deep_mlp,roc_auc,0.8892,0.8911,38784,8320,16,"{""lr"": 0.001, ""wd"": 0.01, ""dropout"": 0.3}",104
+0,vits16_moco,pca16,leakage,lightgbm,roc_auc,0.8787,0.8835,38784,8320,16,"{""num_leaves"": 31, ""colsample_bytree"": 0.9}",19
+0,vits16_moco,pca16,leakage,svm_rbf,roc_auc,0.886,0.8912,38784,8320,16,"{""gamma"": ""0.5/d"", ""C"": 1.0}",77
+0,resnet50_dino,full,leakage,deep_mlp,roc_auc,0.9308,0.9264,38784,8320,2048,"{""lr"": 0.001, ""wd"": 0.01, ""dropout"": 0.3}",106
+0,resnet50_dino,full,leakage,lightgbm,roc_auc,0.9311,0.9326,38784,8320,2048,"{""num_leaves"": 31, ""colsample_bytree"": 0.9}",74
+0,resnet50_dino,full,leakage,svm_rbf,roc_auc,0.931,0.9372,38784,8320,2048,"{""gamma"": ""0.5/d"", ""C"": 1.0}",71
+0,resnet50_dino,pca256,leakage,deep_mlp,roc_auc,0.9274,0.9318,38784,8320,256,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",64
+0,resnet50_dino,pca256,leakage,lightgbm,roc_auc,0.9249,0.9314,38784,8320,256,"{""num_leaves"": 31, ""colsample_bytree"": 0.9}",22
+0,resnet50_dino,pca256,leakage,svm_rbf,roc_auc,0.9267,0.9349,38784,8320,256,"{""gamma"": ""0.5/d"", ""C"": 1.0}",43
+0,resnet50_dino,pca64,leakage,deep_mlp,roc_auc,0.9255,0.9254,38784,8320,64,"{""lr"": 0.001, ""wd"": 0.0001, ""dropout"": 0.3}",83
+0,resnet50_dino,pca64,leakage,lightgbm,roc_auc,0.9229,0.9241,38784,8320,64,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",17
+0,resnet50_dino,pca64,leakage,svm_rbf,roc_auc,0.9241,0.9283,38784,8320,64,"{""gamma"": ""0.5/d"", ""C"": 1.0}",59
+0,resnet50_dino,pca16,leakage,deep_mlp,roc_auc,0.9104,0.9054,38784,8320,16,"{""lr"": 0.001, ""wd"": 0.0001, ""dropout"": 0.3}",117
+0,resnet50_dino,pca16,leakage,lightgbm,roc_auc,0.9022,0.897,38784,8320,16,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",17
+0,resnet50_dino,pca16,leakage,svm_rbf,roc_auc,0.9079,0.9093,38784,8320,16,"{""gamma"": ""0.5/d"", ""C"": 1.0}",76
+0,vits16_dino,full,leakage,deep_mlp,roc_auc,0.9392,0.9444,38784,8320,384,"{""lr"": 0.001, ""wd"": 0.01, ""dropout"": 0.3}",71
+0,vits16_dino,full,leakage,lightgbm,roc_auc,0.9353,0.9424,38784,8320,384,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",24
+0,vits16_dino,full,leakage,svm_rbf,roc_auc,0.9393,0.9481,38784,8320,384,"{""gamma"": ""1.0/d"", ""C"": 1.0}",52
+0,vits16_dino,pca256,leakage,deep_mlp,roc_auc,0.9338,0.9385,38784,8320,256,"{""lr"": 0.001, ""wd"": 0.01, ""dropout"": 0.3}",69
+0,vits16_dino,pca256,leakage,lightgbm,roc_auc,0.9335,0.9404,38784,8320,256,"{""num_leaves"": 31, ""colsample_bytree"": 0.9}",22
+0,vits16_dino,pca256,leakage,svm_rbf,roc_auc,0.9324,0.9442,38784,8320,256,"{""gamma"": ""0.5/d"", ""C"": 1.0}",40
+0,vits16_dino,pca64,leakage,deep_mlp,roc_auc,0.9327,0.9407,38784,8320,64,"{""lr"": 0.0003, ""wd"": 0.01, ""dropout"": 0.3}",80
+0,vits16_dino,pca64,leakage,lightgbm,roc_auc,0.9256,0.9375,38784,8320,64,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",17
+0,vits16_dino,pca64,leakage,svm_rbf,roc_auc,0.9318,0.939,38784,8320,64,"{""gamma"": ""0.5/d"", ""C"": 1.0}",53
+0,vits16_dino,pca16,leakage,deep_mlp,roc_auc,0.9119,0.9184,38784,8320,16,"{""lr"": 0.001, ""wd"": 0.0001, ""dropout"": 0.1}",87
+0,vits16_dino,pca16,leakage,lightgbm,roc_auc,0.9037,0.9128,38784,8320,16,"{""num_leaves"": 127, ""colsample_bytree"": 0.9}",17
+0,vits16_dino,pca16,leakage,svm_rbf,roc_auc,0.9083,0.9188,38784,8320,16,"{""gamma"": ""1.0/d"", ""C"": 0.1}",74
+0,resnet18_random,full,leakage,deep_mlp,roc_auc,0.8245,0.8287,38784,8320,512,"{""lr"": 0.001, ""wd"": 0.0001, ""dropout"": 0.3}",141
+0,resnet18_random,full,leakage,lightgbm,roc_auc,0.8227,0.8241,38784,8320,512,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",18
+0,resnet18_random,full,leakage,svm_rbf,roc_auc,0.8205,0.8211,38784,8320,512,"{""gamma"": ""2.0/d"", ""C"": 1.0}",91
+0,resnet18_random,pca256,leakage,deep_mlp,roc_auc,0.8246,0.8242,38784,8320,256,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",67
+0,resnet18_random,pca256,leakage,lightgbm,roc_auc,0.8273,0.8231,38784,8320,256,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",14
+0,resnet18_random,pca256,leakage,svm_rbf,roc_auc,0.8203,0.8282,38784,8320,256,"{""gamma"": ""0.5/d"", ""C"": 1.0}",57
+0,resnet18_random,pca64,leakage,deep_mlp,roc_auc,0.8286,0.8264,38784,8320,64,"{""lr"": 0.001, ""wd"": 0.01, ""dropout"": 0.3}",77
+0,resnet18_random,pca64,leakage,lightgbm,roc_auc,0.8242,0.8211,38784,8320,64,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",13
+0,resnet18_random,pca64,leakage,svm_rbf,roc_auc,0.821,0.8234,38784,8320,64,"{""gamma"": ""0.5/d"", ""C"": 1.0}",76
+0,resnet18_random,pca16,leakage,deep_mlp,roc_auc,0.8204,0.8133,38784,8320,16,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",106
+0,resnet18_random,pca16,leakage,lightgbm,roc_auc,0.8084,0.7995,38784,8320,16,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",7
+0,resnet18_random,pca16,leakage,svm_rbf,roc_auc,0.8144,0.8063,38784,8320,16,"{""gamma"": ""1.0/d"", ""C"": 1.0}",91
+0,resnet18_moco,full,leakage_incr,deep_mlp,roc_auc,0.9096,0.9122,38784,8320,577,"{""lr"": 0.001, ""wd"": 0.0001, ""dropout"": 0.3}",77
+0,resnet18_moco,full,leakage_incr,lightgbm,roc_auc,0.9232,0.9259,38784,8320,577,"{""num_leaves"": 31, ""colsample_bytree"": 0.9}",35
+0,resnet18_moco,full,leakage_incr,svm_rbf,roc_auc,0.908,0.9094,38784,8320,577,"{""gamma"": ""0.5/d"", ""C"": 1.0}",64
+0,resnet18_moco,pca256,leakage_incr,deep_mlp,roc_auc,0.9058,0.9067,38784,8320,321,"{""lr"": 0.0003, ""wd"": 0.01, ""dropout"": 0.3}",70
+0,resnet18_moco,pca256,leakage_incr,lightgbm,roc_auc,0.9175,0.9223,38784,8320,321,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",25
+0,resnet18_moco,pca256,leakage_incr,svm_rbf,roc_auc,0.9059,0.9098,38784,8320,321,"{""gamma"": ""0.5/d"", ""C"": 1.0}",54
+0,resnet18_moco,pca64,leakage_incr,deep_mlp,roc_auc,0.9186,0.9154,38784,8320,129,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.1}",89
+0,resnet18_moco,pca64,leakage_incr,lightgbm,roc_auc,0.9191,0.9205,38784,8320,129,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",22
+0,resnet18_moco,pca64,leakage_incr,svm_rbf,roc_auc,0.9148,0.9164,38784,8320,129,"{""gamma"": ""1.0/d"", ""C"": 1.0}",74
+0,resnet18_moco,pca16,leakage_incr,deep_mlp,roc_auc,0.924,0.9238,38784,8320,81,"{""lr"": 0.001, ""wd"": 0.01, ""dropout"": 0.3}",131
+0,resnet18_moco,pca16,leakage_incr,lightgbm,roc_auc,0.9168,0.9187,38784,8320,81,"{""num_leaves"": 31, ""colsample_bytree"": 0.9}",20
+0,resnet18_moco,pca16,leakage_incr,svm_rbf,roc_auc,0.9176,0.9225,38784,8320,81,"{""gamma"": ""1.0/d"", ""C"": 1.0}",87
+0,vits16_moco,full,leakage_incr,deep_mlp,roc_auc,0.9285,0.9367,38784,8320,449,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",73
+0,vits16_moco,full,leakage_incr,lightgbm,roc_auc,0.927,0.9354,38784,8320,449,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",26
+0,vits16_moco,full,leakage_incr,svm_rbf,roc_auc,0.9302,0.9355,38784,8320,449,"{""gamma"": ""1.0/d"", ""C"": 1.0}",58
+0,vits16_moco,pca256,leakage_incr,deep_mlp,roc_auc,0.924,0.927,38784,8320,321,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",70
+0,vits16_moco,pca256,leakage_incr,lightgbm,roc_auc,0.9238,0.9313,38784,8320,321,"{""num_leaves"": 127, ""colsample_bytree"": 0.9}",26
+0,vits16_moco,pca256,leakage_incr,svm_rbf,roc_auc,0.9205,0.9317,38784,8320,321,"{""gamma"": ""0.5/d"", ""C"": 1.0}",49
+0,vits16_moco,pca64,leakage_incr,deep_mlp,roc_auc,0.9266,0.9272,38784,8320,129,"{""lr"": 0.001, ""wd"": 0.01, ""dropout"": 0.3}",77
+0,vits16_moco,pca64,leakage_incr,lightgbm,roc_auc,0.9253,0.9304,38784,8320,129,"{""num_leaves"": 31, ""colsample_bytree"": 0.9}",23
+0,vits16_moco,pca64,leakage_incr,svm_rbf,roc_auc,0.9244,0.9288,38784,8320,129,"{""gamma"": ""0.5/d"", ""C"": 1.0}",61
+0,vits16_moco,pca16,leakage_incr,deep_mlp,roc_auc,0.9201,0.9271,38784,8320,81,"{""lr"": 0.0003, ""wd"": 0.01, ""dropout"": 0.3}",116
+0,vits16_moco,pca16,leakage_incr,lightgbm,roc_auc,0.915,0.9238,38784,8320,81,"{""num_leaves"": 31, ""colsample_bytree"": 0.9}",19
+0,vits16_moco,pca16,leakage_incr,svm_rbf,roc_auc,0.9194,0.9251,38784,8320,81,"{""gamma"": ""1.0/d"", ""C"": 1.0}",80
+0,resnet50_dino,full,leakage_incr,deep_mlp,roc_auc,0.933,0.9365,38784,8320,2113,"{""lr"": 0.0003, ""wd"": 0.01, ""dropout"": 0.3}",107
+0,resnet50_dino,full,leakage_incr,lightgbm,roc_auc,0.9366,0.9413,38784,8320,2113,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",72
+0,resnet50_dino,full,leakage_incr,svm_rbf,roc_auc,0.9321,0.939,38784,8320,2113,"{""gamma"": ""0.5/d"", ""C"": 1.0}",72
+0,resnet50_dino,pca256,leakage_incr,deep_mlp,roc_auc,0.9319,0.9347,38784,8320,321,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",69
+0,resnet50_dino,pca256,leakage_incr,lightgbm,roc_auc,0.9333,0.9395,38784,8320,321,"{""num_leaves"": 31, ""colsample_bytree"": 0.9}",26
+0,resnet50_dino,pca256,leakage_incr,svm_rbf,roc_auc,0.9307,0.9392,38784,8320,321,"{""gamma"": ""0.5/d"", ""C"": 1.0}",51
+0,resnet50_dino,pca64,leakage_incr,deep_mlp,roc_auc,0.931,0.9335,38784,8320,129,"{""lr"": 0.001, ""wd"": 0.01, ""dropout"": 0.3}",76
+0,resnet50_dino,pca64,leakage_incr,lightgbm,roc_auc,0.9331,0.9391,38784,8320,129,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",21
+0,resnet50_dino,pca64,leakage_incr,svm_rbf,roc_auc,0.9317,0.9384,38784,8320,129,"{""gamma"": ""0.5/d"", ""C"": 1.0}",63
+0,resnet50_dino,pca16,leakage_incr,deep_mlp,roc_auc,0.9318,0.9348,38784,8320,81,"{""lr"": 0.001, ""wd"": 0.01, ""dropout"": 0.3}",122
+0,resnet50_dino,pca16,leakage_incr,lightgbm,roc_auc,0.9276,0.9327,38784,8320,81,"{""num_leaves"": 127, ""colsample_bytree"": 0.9}",20
+0,resnet50_dino,pca16,leakage_incr,svm_rbf,roc_auc,0.9309,0.9331,38784,8320,81,"{""gamma"": ""1.0/d"", ""C"": 1.0}",77
+0,vits16_dino,full,leakage_incr,deep_mlp,roc_auc,0.9388,0.9457,38784,8320,449,"{""lr"": 0.001, ""wd"": 0.0001, ""dropout"": 0.3}",70
+0,vits16_dino,full,leakage_incr,lightgbm,roc_auc,0.9389,0.9472,38784,8320,449,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",24
+0,vits16_dino,full,leakage_incr,svm_rbf,roc_auc,0.9398,0.9487,38784,8320,449,"{""gamma"": ""1.0/d"", ""C"": 1.0}",54
+0,vits16_dino,pca256,leakage_incr,deep_mlp,roc_auc,0.9367,0.9431,38784,8320,321,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.1}",64
+0,vits16_dino,pca256,leakage_incr,lightgbm,roc_auc,0.9377,0.9446,38784,8320,321,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",24
+0,vits16_dino,pca256,leakage_incr,svm_rbf,roc_auc,0.9361,0.9454,38784,8320,321,"{""gamma"": ""0.5/d"", ""C"": 1.0}",48
+0,vits16_dino,pca64,leakage_incr,deep_mlp,roc_auc,0.9357,0.9427,38784,8320,129,"{""lr"": 0.001, ""wd"": 0.01, ""dropout"": 0.3}",82
+0,vits16_dino,pca64,leakage_incr,lightgbm,roc_auc,0.9342,0.9436,38784,8320,129,"{""num_leaves"": 31, ""colsample_bytree"": 0.9}",20
+0,vits16_dino,pca64,leakage_incr,svm_rbf,roc_auc,0.935,0.9425,38784,8320,129,"{""gamma"": ""0.5/d"", ""C"": 1.0}",64
+0,vits16_dino,pca16,leakage_incr,deep_mlp,roc_auc,0.9313,0.9357,38784,8320,81,"{""lr"": 0.001, ""wd"": 0.0001, ""dropout"": 0.3}",108
+0,vits16_dino,pca16,leakage_incr,lightgbm,roc_auc,0.9244,0.9314,38784,8320,81,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",18
+0,vits16_dino,pca16,leakage_incr,svm_rbf,roc_auc,0.9267,0.9339,38784,8320,81,"{""gamma"": ""1.0/d"", ""C"": 1.0}",82
+0,resnet18_random,full,leakage_incr,deep_mlp,roc_auc,0.8765,0.887,38784,8320,577,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",147
+0,resnet18_random,full,leakage_incr,lightgbm,roc_auc,0.8831,0.8914,38784,8320,577,"{""num_leaves"": 31, ""colsample_bytree"": 0.9}",32
+0,resnet18_random,full,leakage_incr,svm_rbf,roc_auc,0.8675,0.8772,38784,8320,577,"{""gamma"": ""1.0/d"", ""C"": 1.0}",91
+0,resnet18_random,pca256,leakage_incr,deep_mlp,roc_auc,0.8549,0.8644,38784,8320,321,"{""lr"": 0.001, ""wd"": 0.0001, ""dropout"": 0.3}",66
+0,resnet18_random,pca256,leakage_incr,lightgbm,roc_auc,0.8796,0.8878,38784,8320,321,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",27
+0,resnet18_random,pca256,leakage_incr,svm_rbf,roc_auc,0.8533,0.8695,38784,8320,321,"{""gamma"": ""0.5/d"", ""C"": 1.0}",65
+0,resnet18_random,pca64,leakage_incr,deep_mlp,roc_auc,0.8787,0.8834,38784,8320,129,"{""lr"": 0.001, ""wd"": 0.0001, ""dropout"": 0.3}",98
+0,resnet18_random,pca64,leakage_incr,lightgbm,roc_auc,0.8871,0.8927,38784,8320,129,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",22
+0,resnet18_random,pca64,leakage_incr,svm_rbf,roc_auc,0.8683,0.8826,38784,8320,129,"{""gamma"": ""0.5/d"", ""C"": 1.0}",77
+0,resnet18_random,pca16,leakage_incr,deep_mlp,roc_auc,0.9009,0.9014,38784,8320,81,"{""lr"": 0.001, ""wd"": 0.01, ""dropout"": 0.3}",130
+0,resnet18_random,pca16,leakage_incr,lightgbm,roc_auc,0.8934,0.8936,38784,8320,81,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",20
+0,resnet18_random,pca16,leakage_incr,svm_rbf,roc_auc,0.8902,0.8929,38784,8320,81,"{""gamma"": ""2.0/d"", ""C"": 1.0}",92
+0,resnet18_moco,full,utility_eurosat,deep_mlp,accuracy,0.9626,0.9652,16200,5400,512,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",56
+0,resnet18_moco,full,utility_eurosat,lightgbm,accuracy,0.9587,0.9639,16200,5400,512,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",52
+0,resnet18_moco,full,utility_eurosat,svm_rbf,accuracy,0.96,0.9654,16200,5400,512,"{""gamma"": ""0.5/d"", ""C"": 1.0}",60
+0,resnet18_moco,pca256,utility_eurosat,deep_mlp,accuracy,0.9652,0.967,16200,5400,256,"{""lr"": 0.001, ""wd"": 0.01, ""dropout"": 0.3}",60
+0,resnet18_moco,pca256,utility_eurosat,lightgbm,accuracy,0.9528,0.9589,16200,5400,256,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",33
+0,resnet18_moco,pca256,utility_eurosat,svm_rbf,accuracy,0.9596,0.9672,16200,5400,256,"{""gamma"": ""0.5/d"", ""C"": 1.0}",75
+0,resnet18_moco,pca64,utility_eurosat,deep_mlp,accuracy,0.9594,0.96,16200,5400,64,"{""lr"": 0.001, ""wd"": 0.01, ""dropout"": 0.1}",59
+0,resnet18_moco,pca64,utility_eurosat,lightgbm,accuracy,0.953,0.9589,16200,5400,64,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",26
+0,resnet18_moco,pca64,utility_eurosat,svm_rbf,accuracy,0.957,0.9643,16200,5400,64,"{""gamma"": ""1.0/d"", ""C"": 1.0}",66
+0,resnet18_moco,pca16,utility_eurosat,deep_mlp,accuracy,0.9476,0.9483,16200,5400,16,"{""lr"": 0.001, ""wd"": 0.01, ""dropout"": 0.3}",91
+0,resnet18_moco,pca16,utility_eurosat,lightgbm,accuracy,0.9391,0.945,16200,5400,16,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",24
+0,resnet18_moco,pca16,utility_eurosat,svm_rbf,accuracy,0.945,0.9496,16200,5400,16,"{""gamma"": ""2.0/d"", ""C"": 1.0}",63
+0,vits16_moco,full,utility_eurosat,deep_mlp,accuracy,0.9643,0.9639,16200,5400,384,"{""lr"": 0.001, ""wd"": 0.0001, ""dropout"": 0.1}",76
+0,vits16_moco,full,utility_eurosat,lightgbm,accuracy,0.9433,0.9457,16200,5400,384,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",85
+0,vits16_moco,full,utility_eurosat,svm_rbf,accuracy,0.9559,0.9594,16200,5400,384,"{""gamma"": ""1.0/d"", ""C"": 1.0}",54
+0,vits16_moco,pca256,utility_eurosat,deep_mlp,accuracy,0.9604,0.9591,16200,5400,256,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",79
+0,vits16_moco,pca256,utility_eurosat,lightgbm,accuracy,0.9398,0.9444,16200,5400,256,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",104
+0,vits16_moco,pca256,utility_eurosat,svm_rbf,accuracy,0.9496,0.9511,16200,5400,256,"{""gamma"": ""0.5/d"", ""C"": 1.0}",67
+0,vits16_moco,pca64,utility_eurosat,deep_mlp,accuracy,0.9524,0.9548,16200,5400,64,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",56
+0,vits16_moco,pca64,utility_eurosat,lightgbm,accuracy,0.9372,0.9409,16200,5400,64,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",66
+0,vits16_moco,pca64,utility_eurosat,svm_rbf,accuracy,0.9463,0.95,16200,5400,64,"{""gamma"": ""0.5/d"", ""C"": 1.0}",58
+0,vits16_moco,pca16,utility_eurosat,deep_mlp,accuracy,0.9124,0.9037,16200,5400,16,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",60
+0,vits16_moco,pca16,utility_eurosat,lightgbm,accuracy,0.89,0.8885,16200,5400,16,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",38
+0,vits16_moco,pca16,utility_eurosat,svm_rbf,accuracy,0.9059,0.907,16200,5400,16,"{""gamma"": ""0.5/d"", ""C"": 1.0}",62
+0,resnet50_dino,full,utility_eurosat,deep_mlp,accuracy,0.9746,0.9735,16200,5400,2048,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.1}",73
+0,resnet50_dino,full,utility_eurosat,lightgbm,accuracy,0.9617,0.9613,16200,5400,2048,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",79
+0,resnet50_dino,full,utility_eurosat,svm_rbf,accuracy,0.9685,0.9719,16200,5400,2048,"{""gamma"": ""0.5/d"", ""C"": 1.0}",62
+0,resnet50_dino,pca256,utility_eurosat,deep_mlp,accuracy,0.9724,0.9726,16200,5400,256,"{""lr"": 0.001, ""wd"": 0.0001, ""dropout"": 0.3}",52
+0,resnet50_dino,pca256,utility_eurosat,lightgbm,accuracy,0.9652,0.9654,16200,5400,256,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",54
+0,resnet50_dino,pca256,utility_eurosat,svm_rbf,accuracy,0.9702,0.9743,16200,5400,256,"{""gamma"": ""0.5/d"", ""C"": 1.0}",69
+0,resnet50_dino,pca64,utility_eurosat,deep_mlp,accuracy,0.9676,0.968,16200,5400,64,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",50
+0,resnet50_dino,pca64,utility_eurosat,lightgbm,accuracy,0.9557,0.9561,16200,5400,64,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",36
+0,resnet50_dino,pca64,utility_eurosat,svm_rbf,accuracy,0.963,0.9635,16200,5400,64,"{""gamma"": ""0.5/d"", ""C"": 1.0}",61
+0,resnet50_dino,pca16,utility_eurosat,deep_mlp,accuracy,0.9433,0.9363,16200,5400,16,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",65
+0,resnet50_dino,pca16,utility_eurosat,lightgbm,accuracy,0.9319,0.9293,16200,5400,16,"{""num_leaves"": 31, ""colsample_bytree"": 0.9}",27
+0,resnet50_dino,pca16,utility_eurosat,svm_rbf,accuracy,0.935,0.9361,16200,5400,16,"{""gamma"": ""2.0/d"", ""C"": 1.0}",62
+0,vits16_dino,full,utility_eurosat,deep_mlp,accuracy,0.965,0.9667,16200,5400,384,"{""lr"": 0.0003, ""wd"": 0.01, ""dropout"": 0.3}",68
+0,vits16_dino,full,utility_eurosat,lightgbm,accuracy,0.9557,0.9543,16200,5400,384,"{""num_leaves"": 31, ""colsample_bytree"": 0.9}",63
+0,vits16_dino,full,utility_eurosat,svm_rbf,accuracy,0.9643,0.9683,16200,5400,384,"{""gamma"": ""1.0/d"", ""C"": 1.0}",56
+0,vits16_dino,pca256,utility_eurosat,deep_mlp,accuracy,0.9639,0.9648,16200,5400,256,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",64
+0,vits16_dino,pca256,utility_eurosat,lightgbm,accuracy,0.9537,0.9548,16200,5400,256,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",59
+0,vits16_dino,pca256,utility_eurosat,svm_rbf,accuracy,0.9607,0.9637,16200,5400,256,"{""gamma"": ""0.5/d"", ""C"": 1.0}",65
+0,vits16_dino,pca64,utility_eurosat,deep_mlp,accuracy,0.9598,0.9615,16200,5400,64,"{""lr"": 0.001, ""wd"": 0.0001, ""dropout"": 0.3}",57
+0,vits16_dino,pca64,utility_eurosat,lightgbm,accuracy,0.9515,0.9533,16200,5400,64,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",38
+0,vits16_dino,pca64,utility_eurosat,svm_rbf,accuracy,0.9583,0.9596,16200,5400,64,"{""gamma"": ""1.0/d"", ""C"": 1.0}",59
+0,vits16_dino,pca16,utility_eurosat,deep_mlp,accuracy,0.9335,0.9339,16200,5400,16,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",56
+0,vits16_dino,pca16,utility_eurosat,lightgbm,accuracy,0.9283,0.9265,16200,5400,16,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",30
+0,vits16_dino,pca16,utility_eurosat,svm_rbf,accuracy,0.9359,0.933,16200,5400,16,"{""gamma"": ""2.0/d"", ""C"": 1.0}",63
+0,resnet18_random,full,utility_eurosat,deep_mlp,accuracy,0.8209,0.8222,16200,5400,512,"{""lr"": 0.001, ""wd"": 0.01, ""dropout"": 0.3}",86
+0,resnet18_random,full,utility_eurosat,lightgbm,accuracy,0.7946,0.8024,16200,5400,512,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",72
+0,resnet18_random,full,utility_eurosat,svm_rbf,accuracy,0.7961,0.8109,16200,5400,512,"{""gamma"": ""1.0/d"", ""C"": 1.0}",117
+0,resnet18_random,pca256,utility_eurosat,deep_mlp,accuracy,0.8254,0.8281,16200,5400,256,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",76
+0,resnet18_random,pca256,utility_eurosat,lightgbm,accuracy,0.7926,0.805,16200,5400,256,"{""num_leaves"": 31, ""colsample_bytree"": 0.9}",71
+0,resnet18_random,pca256,utility_eurosat,svm_rbf,accuracy,0.7969,0.8109,16200,5400,256,"{""gamma"": ""0.5/d"", ""C"": 1.0}",83
+0,resnet18_random,pca64,utility_eurosat,deep_mlp,accuracy,0.8117,0.8154,16200,5400,64,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",61
+0,resnet18_random,pca64,utility_eurosat,lightgbm,accuracy,0.7894,0.7989,16200,5400,64,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",53
+0,resnet18_random,pca64,utility_eurosat,svm_rbf,accuracy,0.8028,0.8124,16200,5400,64,"{""gamma"": ""0.5/d"", ""C"": 1.0}",81
+0,resnet18_random,pca16,utility_eurosat,deep_mlp,accuracy,0.7731,0.7765,16200,5400,16,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",61
+0,resnet18_random,pca16,utility_eurosat,lightgbm,accuracy,0.75,0.7533,16200,5400,16,"{""num_leaves"": 127, ""colsample_bytree"": 0.9}",41
+0,resnet18_random,pca16,utility_eurosat,svm_rbf,accuracy,0.7594,0.763,16200,5400,16,"{""gamma"": ""1.0/d"", ""C"": 1.0}",100
+0,pixelstats,full,utility_eurosat,deep_mlp,accuracy,0.9515,0.9511,16200,5400,65,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",104
+0,pixelstats,full,utility_eurosat,lightgbm,accuracy,0.9219,0.9233,16200,5400,65,"{""num_leaves"": 31, ""colsample_bytree"": 0.9}",37
+0,pixelstats,full,utility_eurosat,svm_rbf,accuracy,0.9224,0.9269,16200,5400,65,"{""gamma"": ""2.0/d"", ""C"": 1.0}",90
+0,resnet18_moco,full,utility_ben,deep_mlp,macro_ap,0.6703,0.6171,30000,10000,512,"{""lr"": 0.001, ""wd"": 0.0001, ""dropout"": 0.3}",73
+0,resnet18_moco,full,utility_ben,lightgbm,macro_ap,0.5965,0.5753,30000,10000,512,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",177
+0,resnet18_moco,full,utility_ben,svm_rbf,macro_ap,0.6231,0.5784,30000,10000,512,"{""gamma"": ""0.5/d"", ""C"": 1.0}",745
+0,resnet18_moco,pca256,utility_ben,deep_mlp,macro_ap,0.668,0.6231,30000,10000,256,"{""lr"": 0.0003, ""wd"": 0.01, ""dropout"": 0.3}",82
+0,resnet18_moco,pca256,utility_ben,lightgbm,macro_ap,0.5962,0.5628,30000,10000,256,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",124
+0,resnet18_moco,pca256,utility_ben,svm_rbf,macro_ap,0.6246,0.583,30000,10000,256,"{""gamma"": ""0.5/d"", ""C"": 1.0}",808
+0,resnet18_moco,pca64,utility_ben,deep_mlp,macro_ap,0.6518,0.6133,30000,10000,64,"{""lr"": 0.0003, ""wd"": 0.01, ""dropout"": 0.3}",85
+0,resnet18_moco,pca64,utility_ben,lightgbm,macro_ap,0.5622,0.5447,30000,10000,64,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",70
+0,resnet18_moco,pca64,utility_ben,svm_rbf,macro_ap,0.6104,0.5717,30000,10000,64,"{""gamma"": ""0.5/d"", ""C"": 1.0}",877
+0,resnet18_moco,pca16,utility_ben,deep_mlp,macro_ap,0.5965,0.5696,30000,10000,16,"{""lr"": 0.0003, ""wd"": 0.01, ""dropout"": 0.3}",101
+0,resnet18_moco,pca16,utility_ben,lightgbm,macro_ap,0.5145,0.5011,30000,10000,16,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",51
+0,resnet18_moco,pca16,utility_ben,svm_rbf,macro_ap,0.555,0.5275,30000,10000,16,"{""gamma"": ""0.5/d"", ""C"": 1.0}",1059
+0,vits16_moco,full,utility_ben,deep_mlp,macro_ap,0.7112,0.6585,30000,10000,384,"{""lr"": 0.0003, ""wd"": 0.01, ""dropout"": 0.3}",67
+0,vits16_moco,full,utility_ben,lightgbm,macro_ap,0.6167,0.5843,30000,10000,384,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",143
+0,vits16_moco,full,utility_ben,svm_rbf,macro_ap,0.6671,0.6237,30000,10000,384,"{""gamma"": ""0.5/d"", ""C"": 1.0}",739
+0,vits16_moco,pca256,utility_ben,deep_mlp,macro_ap,0.7089,0.6495,30000,10000,256,"{""lr"": 0.0003, ""wd"": 0.01, ""dropout"": 0.3}",68
+0,vits16_moco,pca256,utility_ben,lightgbm,macro_ap,0.6118,0.5749,30000,10000,256,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",130
+0,vits16_moco,pca256,utility_ben,svm_rbf,macro_ap,0.6706,0.6146,30000,10000,256,"{""gamma"": ""1.0/d"", ""C"": 1.0}",689
+0,vits16_moco,pca64,utility_ben,deep_mlp,macro_ap,0.6914,0.6357,30000,10000,64,"{""lr"": 0.0003, ""wd"": 0.01, ""dropout"": 0.3}",75
+0,vits16_moco,pca64,utility_ben,lightgbm,macro_ap,0.6042,0.5665,30000,10000,64,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",88
+0,vits16_moco,pca64,utility_ben,svm_rbf,macro_ap,0.64,0.6014,30000,10000,64,"{""gamma"": ""0.5/d"", ""C"": 1.0}",725
+0,vits16_moco,pca16,utility_ben,deep_mlp,macro_ap,0.6104,0.5582,30000,10000,16,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",89
+0,vits16_moco,pca16,utility_ben,lightgbm,macro_ap,0.5175,0.5014,30000,10000,16,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",76
+0,vits16_moco,pca16,utility_ben,svm_rbf,macro_ap,0.5687,0.5241,30000,10000,16,"{""gamma"": ""1.0/d"", ""C"": 1.0}",945
+0,resnet50_dino,full,utility_ben,deep_mlp,macro_ap,0.7177,0.6659,30000,10000,2048,"{""lr"": 0.0003, ""wd"": 0.01, ""dropout"": 0.3}",117
+0,resnet50_dino,full,utility_ben,lightgbm,macro_ap,0.6499,0.6076,30000,10000,2048,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",383
+0,resnet50_dino,full,utility_ben,svm_rbf,macro_ap,0.6802,0.6389,30000,10000,2048,"{""gamma"": ""0.5/d"", ""C"": 1.0}",830
+0,resnet50_dino,pca256,utility_ben,deep_mlp,macro_ap,0.7135,0.6629,30000,10000,256,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",86
+0,resnet50_dino,pca256,utility_ben,lightgbm,macro_ap,0.6433,0.6047,30000,10000,256,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",130
+0,resnet50_dino,pca256,utility_ben,svm_rbf,macro_ap,0.6796,0.6272,30000,10000,256,"{""gamma"": ""0.5/d"", ""C"": 1.0}",809
+0,resnet50_dino,pca64,utility_ben,deep_mlp,macro_ap,0.7051,0.6362,30000,10000,64,"{""lr"": 0.001, ""wd"": 0.0001, ""dropout"": 0.3}",98
+0,resnet50_dino,pca64,utility_ben,lightgbm,macro_ap,0.6311,0.5933,30000,10000,64,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",106
+0,resnet50_dino,pca64,utility_ben,svm_rbf,macro_ap,0.665,0.6188,30000,10000,64,"{""gamma"": ""0.5/d"", ""C"": 1.0}",863
+0,resnet50_dino,pca16,utility_ben,deep_mlp,macro_ap,0.6594,0.6166,30000,10000,16,"{""lr"": 0.001, ""wd"": 0.0001, ""dropout"": 0.3}",111
+0,resnet50_dino,pca16,utility_ben,lightgbm,macro_ap,0.5708,0.5385,30000,10000,16,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",73
+0,resnet50_dino,pca16,utility_ben,svm_rbf,macro_ap,0.6108,0.585,30000,10000,16,"{""gamma"": ""1.0/d"", ""C"": 1.0}",977
+0,vits16_dino,full,utility_ben,deep_mlp,macro_ap,0.7278,0.6798,30000,10000,384,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",82
+0,vits16_dino,full,utility_ben,lightgbm,macro_ap,0.6522,0.6137,30000,10000,384,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",112
+0,vits16_dino,full,utility_ben,svm_rbf,macro_ap,0.688,0.6426,30000,10000,384,"{""gamma"": ""1.0/d"", ""C"": 1.0}",771
+0,vits16_dino,pca256,utility_ben,deep_mlp,macro_ap,0.7221,0.6752,30000,10000,256,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",85
+0,vits16_dino,pca256,utility_ben,lightgbm,macro_ap,0.6542,0.6161,30000,10000,256,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",142
+0,vits16_dino,pca256,utility_ben,svm_rbf,macro_ap,0.6884,0.6492,30000,10000,256,"{""gamma"": ""1.0/d"", ""C"": 1.0}",790
+0,vits16_dino,pca64,utility_ben,deep_mlp,macro_ap,0.7073,0.646,30000,10000,64,"{""lr"": 0.0003, ""wd"": 0.01, ""dropout"": 0.3}",94
+0,vits16_dino,pca64,utility_ben,lightgbm,macro_ap,0.6344,0.6038,30000,10000,64,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",88
+0,vits16_dino,pca64,utility_ben,svm_rbf,macro_ap,0.6682,0.6279,30000,10000,64,"{""gamma"": ""1.0/d"", ""C"": 1.0}",844
+0,vits16_dino,pca16,utility_ben,deep_mlp,macro_ap,0.6459,0.6062,30000,10000,16,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",112
+0,vits16_dino,pca16,utility_ben,lightgbm,macro_ap,0.552,0.53,30000,10000,16,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",76
+0,vits16_dino,pca16,utility_ben,svm_rbf,macro_ap,0.5985,0.562,30000,10000,16,"{""gamma"": ""2.0/d"", ""C"": 1.0}",967
+0,resnet18_random,full,utility_ben,deep_mlp,macro_ap,0.5869,0.5383,30000,10000,512,"{""lr"": 0.001, ""wd"": 0.01, ""dropout"": 0.3}",115
+0,resnet18_random,full,utility_ben,lightgbm,macro_ap,0.5208,0.4963,30000,10000,512,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",157
+0,resnet18_random,full,utility_ben,svm_rbf,macro_ap,0.5307,0.4964,30000,10000,512,"{""gamma"": ""1.0/d"", ""C"": 1.0}",950
+0,resnet18_random,pca256,utility_ben,deep_mlp,macro_ap,0.5917,0.5485,30000,10000,256,"{""lr"": 0.0003, ""wd"": 0.01, ""dropout"": 0.3}",97
+0,resnet18_random,pca256,utility_ben,lightgbm,macro_ap,0.522,0.4997,30000,10000,256,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",108
+0,resnet18_random,pca256,utility_ben,svm_rbf,macro_ap,0.5428,0.511,30000,10000,256,"{""gamma"": ""1.0/d"", ""C"": 1.0}",912
+0,resnet18_random,pca64,utility_ben,deep_mlp,macro_ap,0.5794,0.5448,30000,10000,64,"{""lr"": 0.001, ""wd"": 0.0001, ""dropout"": 0.3}",102
+0,resnet18_random,pca64,utility_ben,lightgbm,macro_ap,0.4842,0.4633,30000,10000,64,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",75
+0,resnet18_random,pca64,utility_ben,svm_rbf,macro_ap,0.5363,0.4987,30000,10000,64,"{""gamma"": ""1.0/d"", ""C"": 1.0}",1012
+0,resnet18_random,pca16,utility_ben,deep_mlp,macro_ap,0.5498,0.5206,30000,10000,16,"{""lr"": 0.001, ""wd"": 0.0001, ""dropout"": 0.3}",129
+0,resnet18_random,pca16,utility_ben,lightgbm,macro_ap,0.4511,0.4353,30000,10000,16,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",41
+0,resnet18_random,pca16,utility_ben,svm_rbf,macro_ap,0.5102,0.4745,30000,10000,16,"{""gamma"": ""2.0/d"", ""C"": 1.0}",1161
+0,pixelstats,full,utility_ben,deep_mlp,macro_ap,0.6882,0.6357,30000,10000,65,"{""lr"": 0.001, ""wd"": 0.01, ""dropout"": 0.3}",143
+0,pixelstats,full,utility_ben,lightgbm,macro_ap,0.5576,0.5254,30000,10000,65,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",81
+0,pixelstats,full,utility_ben,svm_rbf,macro_ap,0.605,0.5603,30000,10000,65,"{""gamma"": ""2.0/d"", ""C"": 1.0}",1168
+0,resnet18_moco,full,spatial,deep_mlp,macro_ap,0.8771,0.8733,8591,2023,512,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",20
+0,resnet18_moco,full,spatial,lightgbm,macro_ap,0.8759,0.8737,8591,2023,512,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",80
+0,resnet18_moco,full,spatial,svm_rbf,macro_ap,0.8742,0.8735,8591,2023,512,"{""gamma"": ""0.5/d"", ""C"": 1.0}",126
+0,resnet18_moco,pca256,spatial,deep_mlp,macro_ap,0.8687,0.8692,8591,2023,256,"{""lr"": 0.0003, ""wd"": 0.01, ""dropout"": 0.3}",19
+0,resnet18_moco,pca256,spatial,lightgbm,macro_ap,0.8474,0.8471,8591,2023,256,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",44
+0,resnet18_moco,pca256,spatial,svm_rbf,macro_ap,0.8628,0.8651,8591,2023,256,"{""gamma"": ""0.5/d"", ""C"": 1.0}",103
+0,resnet18_moco,pca64,spatial,deep_mlp,macro_ap,0.8427,0.8466,8591,2023,64,"{""lr"": 0.0003, ""wd"": 0.01, ""dropout"": 0.3}",16
+0,resnet18_moco,pca64,spatial,lightgbm,macro_ap,0.8306,0.8266,8591,2023,64,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",30
+0,resnet18_moco,pca64,spatial,svm_rbf,macro_ap,0.8429,0.8426,8591,2023,64,"{""gamma"": ""0.5/d"", ""C"": 1.0}",150
+0,resnet18_moco,pca16,spatial,deep_mlp,macro_ap,0.8168,0.8135,8591,2023,16,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.1}",25
+0,resnet18_moco,pca16,spatial,lightgbm,macro_ap,0.8019,0.7986,8591,2023,16,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",25
+0,resnet18_moco,pca16,spatial,svm_rbf,macro_ap,0.8155,0.8138,8591,2023,16,"{""gamma"": ""0.5/d"", ""C"": 1.0}",202
+0,vits16_moco,full,spatial,deep_mlp,macro_ap,0.8918,0.8967,8591,2023,384,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",20
+0,vits16_moco,full,spatial,lightgbm,macro_ap,0.8618,0.8688,8591,2023,384,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",47
+0,vits16_moco,full,spatial,svm_rbf,macro_ap,0.8854,0.8939,8591,2023,384,"{""gamma"": ""0.5/d"", ""C"": 1.0}",125
+0,vits16_moco,pca256,spatial,deep_mlp,macro_ap,0.8887,0.8881,8591,2023,256,"{""lr"": 0.0003, ""wd"": 0.01, ""dropout"": 0.3}",19
+0,vits16_moco,pca256,spatial,lightgbm,macro_ap,0.8604,0.8714,8591,2023,256,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",49
+0,vits16_moco,pca256,spatial,svm_rbf,macro_ap,0.8769,0.8878,8591,2023,256,"{""gamma"": ""1.0/d"", ""C"": 1.0}",89
+0,vits16_moco,pca64,spatial,deep_mlp,macro_ap,0.8694,0.8729,8591,2023,64,"{""lr"": 0.001, ""wd"": 0.0001, ""dropout"": 0.3}",17
+0,vits16_moco,pca64,spatial,lightgbm,macro_ap,0.8453,0.8546,8591,2023,64,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",34
+0,vits16_moco,pca64,spatial,svm_rbf,macro_ap,0.8619,0.8668,8591,2023,64,"{""gamma"": ""0.5/d"", ""C"": 1.0}",119
+0,vits16_moco,pca16,spatial,deep_mlp,macro_ap,0.8294,0.8301,8591,2023,16,"{""lr"": 0.0003, ""wd"": 0.01, ""dropout"": 0.3}",20
+0,vits16_moco,pca16,spatial,lightgbm,macro_ap,0.8146,0.8218,8591,2023,16,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",26
+0,vits16_moco,pca16,spatial,svm_rbf,macro_ap,0.8271,0.8291,8591,2023,16,"{""gamma"": ""0.5/d"", ""C"": 0.1}",183
+0,resnet50_dino,full,spatial,deep_mlp,macro_ap,0.8868,0.8895,8591,2023,2048,"{""lr"": 0.0003, ""wd"": 0.01, ""dropout"": 0.3}",31
+0,resnet50_dino,full,spatial,lightgbm,macro_ap,0.8558,0.8545,8591,2023,2048,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",105
+0,resnet50_dino,full,spatial,svm_rbf,macro_ap,0.8786,0.8806,8591,2023,2048,"{""gamma"": ""0.5/d"", ""C"": 1.0}",144
+0,resnet50_dino,pca256,spatial,deep_mlp,macro_ap,0.8682,0.8667,8591,2023,256,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",18
+0,resnet50_dino,pca256,spatial,lightgbm,macro_ap,0.8522,0.8511,8591,2023,256,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",45
+0,resnet50_dino,pca256,spatial,svm_rbf,macro_ap,0.8671,0.8676,8591,2023,256,"{""gamma"": ""0.5/d"", ""C"": 1.0}",107
+0,resnet50_dino,pca64,spatial,deep_mlp,macro_ap,0.8471,0.8419,8591,2023,64,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",18
+0,resnet50_dino,pca64,spatial,lightgbm,macro_ap,0.8368,0.8354,8591,2023,64,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",31
+0,resnet50_dino,pca64,spatial,svm_rbf,macro_ap,0.846,0.8441,8591,2023,64,"{""gamma"": ""0.5/d"", ""C"": 1.0}",140
+0,resnet50_dino,pca16,spatial,deep_mlp,macro_ap,0.8234,0.8144,8591,2023,16,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",24
+0,resnet50_dino,pca16,spatial,lightgbm,macro_ap,0.8102,0.8091,8591,2023,16,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",28
+0,resnet50_dino,pca16,spatial,svm_rbf,macro_ap,0.8215,0.816,8591,2023,16,"{""gamma"": ""0.5/d"", ""C"": 1.0}",193
+0,vits16_dino,full,spatial,deep_mlp,macro_ap,0.8622,0.859,8591,2023,384,"{""lr"": 0.001, ""wd"": 0.01, ""dropout"": 0.3}",18
+0,vits16_dino,full,spatial,lightgbm,macro_ap,0.8428,0.8493,8591,2023,384,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",41
+0,vits16_dino,full,spatial,svm_rbf,macro_ap,0.8584,0.862,8591,2023,384,"{""gamma"": ""0.5/d"", ""C"": 1.0}",122
+0,vits16_dino,pca256,spatial,deep_mlp,macro_ap,0.8612,0.8617,8591,2023,256,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",16
+0,vits16_dino,pca256,spatial,lightgbm,macro_ap,0.8422,0.849,8591,2023,256,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",40
+0,vits16_dino,pca256,spatial,svm_rbf,macro_ap,0.8538,0.8574,8591,2023,256,"{""gamma"": ""0.5/d"", ""C"": 1.0}",99
+0,vits16_dino,pca64,spatial,deep_mlp,macro_ap,0.8517,0.8548,8591,2023,64,"{""lr"": 0.001, ""wd"": 0.0001, ""dropout"": 0.1}",16
+0,vits16_dino,pca64,spatial,lightgbm,macro_ap,0.8317,0.8415,8591,2023,64,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",31
+0,vits16_dino,pca64,spatial,svm_rbf,macro_ap,0.842,0.847,8591,2023,64,"{""gamma"": ""0.5/d"", ""C"": 1.0}",133
+0,vits16_dino,pca16,spatial,deep_mlp,macro_ap,0.8287,0.8373,8591,2023,16,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",24
+0,vits16_dino,pca16,spatial,lightgbm,macro_ap,0.8134,0.8304,8591,2023,16,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",25
+0,vits16_dino,pca16,spatial,svm_rbf,macro_ap,0.8237,0.8362,8591,2023,16,"{""gamma"": ""0.5/d"", ""C"": 1.0}",197
+0,resnet18_random,full,spatial,deep_mlp,macro_ap,0.83,0.8503,8591,2023,512,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",27
+0,resnet18_random,full,spatial,lightgbm,macro_ap,0.8254,0.8429,8591,2023,512,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",52
+0,resnet18_random,full,spatial,svm_rbf,macro_ap,0.8283,0.8496,8591,2023,512,"{""gamma"": ""1.0/d"", ""C"": 1.0}",185
+0,resnet18_random,pca256,spatial,deep_mlp,macro_ap,0.8363,0.8522,8591,2023,256,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",17
+0,resnet18_random,pca256,spatial,lightgbm,macro_ap,0.823,0.8421,8591,2023,256,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",42
+0,resnet18_random,pca256,spatial,svm_rbf,macro_ap,0.8311,0.8518,8591,2023,256,"{""gamma"": ""0.5/d"", ""C"": 1.0}",116
+0,resnet18_random,pca64,spatial,deep_mlp,macro_ap,0.8325,0.8476,8591,2023,64,"{""lr"": 0.0003, ""wd"": 0.01, ""dropout"": 0.3}",17
+0,resnet18_random,pca64,spatial,lightgbm,macro_ap,0.8143,0.8358,8591,2023,64,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",32
+0,resnet18_random,pca64,spatial,svm_rbf,macro_ap,0.8237,0.8435,8591,2023,64,"{""gamma"": ""0.5/d"", ""C"": 1.0}",143
+0,resnet18_random,pca16,spatial,deep_mlp,macro_ap,0.802,0.8228,8591,2023,16,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.1}",21
+0,resnet18_random,pca16,spatial,lightgbm,macro_ap,0.7893,0.8134,8591,2023,16,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",27
+0,resnet18_random,pca16,spatial,svm_rbf,macro_ap,0.797,0.8152,8591,2023,16,"{""gamma"": ""1.0/d"", ""C"": 0.1}",187
+0,pixelstats,full,spatial,deep_mlp,macro_ap,0.8547,0.8512,8591,2023,65,"{""lr"": 0.001, ""wd"": 0.01, ""dropout"": 0.3}",36
+0,pixelstats,full,spatial,lightgbm,macro_ap,0.8202,0.8276,8591,2023,65,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",29
+0,pixelstats,full,spatial,svm_rbf,macro_ap,0.8369,0.839,8591,2023,65,"{""gamma"": ""1.0/d"", ""C"": 1.0}",210
+0,image_resnet18,raw,leakage,cnn_scratch,roc_auc,0.9635,0.9702,38784,8320,53248,"{""epochs_run"": 31, ""lr"": 0.001, ""wd"": 0.05}",1221
+1,pixelstats,full,leakage,deep_mlp,roc_auc,0.9174,0.9092,38784,8320,65,"{""lr"": 0.001, ""wd"": 0.0001, ""dropout"": 0.3}",190
+1,pixelstats,full,leakage,lightgbm,roc_auc,0.9057,0.8949,38784,8320,65,"{""num_leaves"": 31, ""colsample_bytree"": 0.9}",24
+1,pixelstats,full,leakage,svm_rbf,roc_auc,0.9,0.8978,38784,8320,65,"{""gamma"": ""2.0/d"", ""C"": 1.0}",100
+1,resnet18_moco,full,leakage,deep_mlp,roc_auc,0.9044,0.8921,38784,8320,512,"{""lr"": 0.001, ""wd"": 0.0001, ""dropout"": 0.3}",74
+1,resnet18_moco,full,leakage,lightgbm,roc_auc,0.9044,0.9008,38784,8320,512,"{""num_leaves"": 127, ""colsample_bytree"": 0.9}",33
+1,resnet18_moco,full,leakage,svm_rbf,roc_auc,0.9006,0.8944,38784,8320,512,"{""gamma"": ""0.5/d"", ""C"": 1.0}",65
+1,vits16_moco,full,leakage,deep_mlp,roc_auc,0.9332,0.924,38784,8320,384,"{""lr"": 0.0003, ""wd"": 0.01, ""dropout"": 0.1}",84
+1,vits16_moco,full,leakage,lightgbm,roc_auc,0.9242,0.9178,38784,8320,384,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",26
+1,vits16_moco,full,leakage,svm_rbf,roc_auc,0.9332,0.9293,38784,8320,384,"{""gamma"": ""0.5/d"", ""C"": 1.0}",59
+1,resnet50_dino,full,leakage,deep_mlp,roc_auc,0.9363,0.9263,38784,8320,2048,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",93
+1,resnet50_dino,full,leakage,lightgbm,roc_auc,0.9366,0.9283,38784,8320,2048,"{""num_leaves"": 31, ""colsample_bytree"": 0.9}",79
+1,resnet50_dino,full,leakage,svm_rbf,roc_auc,0.9374,0.9344,38784,8320,2048,"{""gamma"": ""0.5/d"", ""C"": 1.0}",77
+1,vits16_dino,full,leakage,deep_mlp,roc_auc,0.9426,0.941,38784,8320,384,"{""lr"": 0.0003, ""wd"": 0.01, ""dropout"": 0.1}",70
+1,vits16_dino,full,leakage,lightgbm,roc_auc,0.9387,0.9364,38784,8320,384,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",27
+1,vits16_dino,full,leakage,svm_rbf,roc_auc,0.9419,0.9454,38784,8320,384,"{""gamma"": ""1.0/d"", ""C"": 1.0}",54
+1,resnet18_moco,full,leakage_incr,deep_mlp,roc_auc,0.9134,0.9083,38784,8320,577,"{""lr"": 0.001, ""wd"": 0.0001, ""dropout"": 0.3}",81
+1,resnet18_moco,full,leakage_incr,lightgbm,roc_auc,0.9283,0.9258,38784,8320,577,"{""num_leaves"": 31, ""colsample_bytree"": 0.9}",38
+1,resnet18_moco,full,leakage_incr,svm_rbf,roc_auc,0.9094,0.9046,38784,8320,577,"{""gamma"": ""0.5/d"", ""C"": 1.0}",65
+1,vits16_moco,full,leakage_incr,deep_mlp,roc_auc,0.9344,0.9328,38784,8320,449,"{""lr"": 0.001, ""wd"": 0.01, ""dropout"": 0.3}",80
+1,vits16_moco,full,leakage_incr,lightgbm,roc_auc,0.9347,0.9281,38784,8320,449,"{""num_leaves"": 31, ""colsample_bytree"": 0.9}",29
+1,vits16_moco,full,leakage_incr,svm_rbf,roc_auc,0.9354,0.9319,38784,8320,449,"{""gamma"": ""0.5/d"", ""C"": 1.0}",61
+1,resnet50_dino,full,leakage_incr,deep_mlp,roc_auc,0.9371,0.9295,38784,8320,2113,"{""lr"": 0.0003, ""wd"": 0.01, ""dropout"": 0.1}",113
+1,resnet50_dino,full,leakage_incr,lightgbm,roc_auc,0.9425,0.9377,38784,8320,2113,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",82
+1,resnet50_dino,full,leakage_incr,svm_rbf,roc_auc,0.9381,0.9361,38784,8320,2113,"{""gamma"": ""0.5/d"", ""C"": 1.0}",74
+1,vits16_dino,full,leakage_incr,deep_mlp,roc_auc,0.9426,0.9383,38784,8320,449,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",75
+1,vits16_dino,full,leakage_incr,lightgbm,roc_auc,0.9442,0.9433,38784,8320,449,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",26
+1,vits16_dino,full,leakage_incr,svm_rbf,roc_auc,0.9431,0.9461,38784,8320,449,"{""gamma"": ""0.5/d"", ""C"": 1.0}",58
+2,pixelstats,full,leakage,deep_mlp,roc_auc,0.9053,0.9115,38784,8320,65,"{""lr"": 0.001, ""wd"": 0.0001, ""dropout"": 0.3}",176
+2,pixelstats,full,leakage,lightgbm,roc_auc,0.895,0.8906,38784,8320,65,"{""num_leaves"": 31, ""colsample_bytree"": 0.9}",20
+2,pixelstats,full,leakage,svm_rbf,roc_auc,0.8921,0.8934,38784,8320,65,"{""gamma"": ""2.0/d"", ""C"": 1.0}",95
+2,resnet18_moco,full,leakage,deep_mlp,roc_auc,0.8904,0.8892,38784,8320,512,"{""lr"": 0.001, ""wd"": 0.0001, ""dropout"": 0.3}",75
+2,resnet18_moco,full,leakage,lightgbm,roc_auc,0.8894,0.8893,38784,8320,512,"{""num_leaves"": 31, ""colsample_bytree"": 0.9}",30
+2,resnet18_moco,full,leakage,svm_rbf,roc_auc,0.8872,0.8851,38784,8320,512,"{""gamma"": ""0.5/d"", ""C"": 1.0}",64
+2,vits16_moco,full,leakage,deep_mlp,roc_auc,0.9217,0.9235,38784,8320,384,"{""lr"": 0.0003, ""wd"": 0.01, ""dropout"": 0.3}",71
+2,vits16_moco,full,leakage,lightgbm,roc_auc,0.9119,0.9117,38784,8320,384,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",23
+2,vits16_moco,full,leakage,svm_rbf,roc_auc,0.922,0.9231,38784,8320,384,"{""gamma"": ""0.5/d"", ""C"": 1.0}",59
+2,resnet50_dino,full,leakage,deep_mlp,roc_auc,0.9242,0.9216,38784,8320,2048,"{""lr"": 0.001, ""wd"": 0.01, ""dropout"": 0.1}",106
+2,resnet50_dino,full,leakage,lightgbm,roc_auc,0.9252,0.9194,38784,8320,2048,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",66
+2,resnet50_dino,full,leakage,svm_rbf,roc_auc,0.9252,0.9243,38784,8320,2048,"{""gamma"": ""0.5/d"", ""C"": 1.0}",75
+2,vits16_dino,full,leakage,deep_mlp,roc_auc,0.9335,0.9348,38784,8320,384,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.1}",68
+2,vits16_dino,full,leakage,lightgbm,roc_auc,0.931,0.931,38784,8320,384,"{""num_leaves"": 31, ""colsample_bytree"": 0.9}",21
+2,vits16_dino,full,leakage,svm_rbf,roc_auc,0.935,0.936,38784,8320,384,"{""gamma"": ""1.0/d"", ""C"": 1.0}",50
+2,resnet18_moco,full,leakage_incr,deep_mlp,roc_auc,0.9058,0.901,38784,8320,577,"{""lr"": 0.001, ""wd"": 0.01, ""dropout"": 0.3}",79
+2,resnet18_moco,full,leakage_incr,lightgbm,roc_auc,0.9161,0.9136,38784,8320,577,"{""num_leaves"": 31, ""colsample_bytree"": 0.9}",28
+2,resnet18_moco,full,leakage_incr,svm_rbf,roc_auc,0.8985,0.8921,38784,8320,577,"{""gamma"": ""0.5/d"", ""C"": 1.0}",64
+2,vits16_moco,full,leakage_incr,deep_mlp,roc_auc,0.924,0.9266,38784,8320,449,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",73
+2,vits16_moco,full,leakage_incr,lightgbm,roc_auc,0.9203,0.926,38784,8320,449,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",24
+2,vits16_moco,full,leakage_incr,svm_rbf,roc_auc,0.9252,0.9265,38784,8320,449,"{""gamma"": ""0.5/d"", ""C"": 1.0}",55
+2,resnet50_dino,full,leakage_incr,deep_mlp,roc_auc,0.9284,0.9259,38784,8320,2113,"{""lr"": 0.001, ""wd"": 0.01, ""dropout"": 0.3}",109
+2,resnet50_dino,full,leakage_incr,lightgbm,roc_auc,0.9326,0.9281,38784,8320,2113,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",64
+2,resnet50_dino,full,leakage_incr,svm_rbf,roc_auc,0.9268,0.9253,38784,8320,2113,"{""gamma"": ""0.5/d"", ""C"": 1.0}",69
+2,vits16_dino,full,leakage_incr,deep_mlp,roc_auc,0.9355,0.9361,38784,8320,449,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",67
+2,vits16_dino,full,leakage_incr,lightgbm,roc_auc,0.9351,0.9351,38784,8320,449,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",21
+2,vits16_dino,full,leakage_incr,svm_rbf,roc_auc,0.9365,0.9375,38784,8320,449,"{""gamma"": ""0.5/d"", ""C"": 1.0}",55
+0,own_vit_baseline,full,leakage,deep_mlp,roc_auc,0.9403,0.9461,38784,8320,384,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",99
+0,own_vit_baseline,full,leakage,lightgbm,roc_auc,0.9251,0.9375,38784,8320,384,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",27
+0,own_vit_baseline,full,leakage,svm_rbf,roc_auc,0.937,0.9472,38784,8320,384,"{""gamma"": ""0.5/d"", ""C"": 1.0}",64
+0,own_vit_baseline,pca256,leakage,deep_mlp,roc_auc,0.9345,0.943,38784,8320,256,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",63
+0,own_vit_baseline,pca256,leakage,lightgbm,roc_auc,0.9286,0.9366,38784,8320,256,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",22
+0,own_vit_baseline,pca256,leakage,svm_rbf,roc_auc,0.9298,0.9419,38784,8320,256,"{""gamma"": ""0.5/d"", ""C"": 1.0}",38
+0,own_vit_baseline,pca64,leakage,deep_mlp,roc_auc,0.9209,0.9302,38784,8320,64,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",70
+0,own_vit_baseline,pca64,leakage,lightgbm,roc_auc,0.9128,0.92,38784,8320,64,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",18
+0,own_vit_baseline,pca64,leakage,svm_rbf,roc_auc,0.92,0.9311,38784,8320,64,"{""gamma"": ""0.5/d"", ""C"": 1.0}",60
+0,own_vit_baseline,pca16,leakage,deep_mlp,roc_auc,0.8895,0.8843,38784,8320,16,"{""lr"": 0.001, ""wd"": 0.01, ""dropout"": 0.3}",118
+0,own_vit_baseline,pca16,leakage,lightgbm,roc_auc,0.8798,0.8873,38784,8320,16,"{""num_leaves"": 31, ""colsample_bytree"": 0.9}",17
+0,own_vit_baseline,pca16,leakage,svm_rbf,roc_auc,0.8832,0.8944,38784,8320,16,"{""gamma"": ""1.0/d"", ""C"": 1.0}",72
+0,own_vit_baseline,full,leakage_incr,deep_mlp,roc_auc,0.9402,0.9426,38784,8320,449,"{""lr"": 0.0003, ""wd"": 0.01, ""dropout"": 0.3}",109
+0,own_vit_baseline,full,leakage_incr,lightgbm,roc_auc,0.9271,0.9367,38784,8320,449,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",27
+0,own_vit_baseline,full,leakage_incr,svm_rbf,roc_auc,0.9374,0.9473,38784,8320,449,"{""gamma"": ""0.5/d"", ""C"": 1.0}",65
+0,own_vit_baseline,pca256,leakage_incr,deep_mlp,roc_auc,0.9392,0.9433,38784,8320,321,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",64
+0,own_vit_baseline,pca256,leakage_incr,lightgbm,roc_auc,0.9305,0.939,38784,8320,321,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",23
+0,own_vit_baseline,pca256,leakage_incr,svm_rbf,roc_auc,0.933,0.9442,38784,8320,321,"{""gamma"": ""0.5/d"", ""C"": 1.0}",48
+0,own_vit_baseline,pca64,leakage_incr,deep_mlp,roc_auc,0.9282,0.929,38784,8320,129,"{""lr"": 0.001, ""wd"": 0.0001, ""dropout"": 0.3}",82
+0,own_vit_baseline,pca64,leakage_incr,lightgbm,roc_auc,0.9206,0.9268,38784,8320,129,"{""num_leaves"": 31, ""colsample_bytree"": 0.9}",20
+0,own_vit_baseline,pca64,leakage_incr,svm_rbf,roc_auc,0.926,0.9363,38784,8320,129,"{""gamma"": ""0.5/d"", ""C"": 1.0}",67
+0,own_vit_baseline,pca16,leakage_incr,deep_mlp,roc_auc,0.9177,0.9172,38784,8320,81,"{""lr"": 0.001, ""wd"": 0.0001, ""dropout"": 0.3}",133
+0,own_vit_baseline,pca16,leakage_incr,lightgbm,roc_auc,0.9049,0.9092,38784,8320,81,"{""num_leaves"": 31, ""colsample_bytree"": 0.9}",20
+0,own_vit_baseline,pca16,leakage_incr,svm_rbf,roc_auc,0.9081,0.9163,38784,8320,81,"{""gamma"": ""2.0/d"", ""C"": 1.0}",84
+0,own_vit_baseline,full,utility_eurosat,deep_mlp,accuracy,0.9793,0.978,16200,5400,384,"{""lr"": 0.001, ""wd"": 0.01, ""dropout"": 0.3}",29
+0,own_vit_baseline,full,utility_eurosat,lightgbm,accuracy,0.9772,0.9789,16200,5400,384,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",9
+0,own_vit_baseline,full,utility_eurosat,svm_rbf,accuracy,0.9789,0.9807,16200,5400,384,"{""gamma"": ""2.0/d"", ""C"": 1.0}",36
+0,own_vit_baseline,pca256,utility_eurosat,deep_mlp,accuracy,0.9794,0.9785,16200,5400,256,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.1}",52
+0,own_vit_baseline,pca256,utility_eurosat,lightgbm,accuracy,0.9765,0.9769,16200,5400,256,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",15
+0,own_vit_baseline,pca256,utility_eurosat,svm_rbf,accuracy,0.98,0.9806,16200,5400,256,"{""gamma"": ""0.5/d"", ""C"": 1.0}",82
+0,own_vit_baseline,pca64,utility_eurosat,deep_mlp,accuracy,0.9796,0.9794,16200,5400,64,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",38
+0,own_vit_baseline,pca64,utility_eurosat,lightgbm,accuracy,0.9772,0.9769,16200,5400,64,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",8
+0,own_vit_baseline,pca64,utility_eurosat,svm_rbf,accuracy,0.9794,0.9809,16200,5400,64,"{""gamma"": ""1.0/d"", ""C"": 1.0}",52
+0,own_vit_baseline,pca16,utility_eurosat,deep_mlp,accuracy,0.9796,0.9783,16200,5400,16,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",38
+0,own_vit_baseline,pca16,utility_eurosat,lightgbm,accuracy,0.9761,0.977,16200,5400,16,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",7
+0,own_vit_baseline,pca16,utility_eurosat,svm_rbf,accuracy,0.9794,0.98,16200,5400,16,"{""gamma"": ""2.0/d"", ""C"": 1.0}",37
+0,own_vit_baseline,full,utility_ben,deep_mlp,macro_ap,0.6824,0.6289,30000,10000,384,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",100
+0,own_vit_baseline,full,utility_ben,lightgbm,macro_ap,0.5956,0.5632,30000,10000,384,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",147
+0,own_vit_baseline,full,utility_ben,svm_rbf,macro_ap,0.6215,0.5796,30000,10000,384,"{""gamma"": ""1.0/d"", ""C"": 1.0}",945
+0,own_vit_baseline,pca256,utility_ben,deep_mlp,macro_ap,0.6786,0.605,30000,10000,256,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",99
+0,own_vit_baseline,pca256,utility_ben,lightgbm,macro_ap,0.5945,0.5661,30000,10000,256,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",140
+0,own_vit_baseline,pca256,utility_ben,svm_rbf,macro_ap,0.6178,0.575,30000,10000,256,"{""gamma"": ""1.0/d"", ""C"": 1.0}",923
+0,own_vit_baseline,pca64,utility_ben,deep_mlp,macro_ap,0.677,0.6117,30000,10000,64,"{""lr"": 0.001, ""wd"": 0.0001, ""dropout"": 0.3}",91
+0,own_vit_baseline,pca64,utility_ben,lightgbm,macro_ap,0.573,0.5429,30000,10000,64,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",76
+0,own_vit_baseline,pca64,utility_ben,svm_rbf,macro_ap,0.609,0.5638,30000,10000,64,"{""gamma"": ""1.0/d"", ""C"": 1.0}",929
+0,own_vit_baseline,pca16,utility_ben,deep_mlp,macro_ap,0.6334,0.5806,30000,10000,16,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",117
+0,own_vit_baseline,pca16,utility_ben,lightgbm,macro_ap,0.5123,0.4977,30000,10000,16,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",67
+0,own_vit_baseline,pca16,utility_ben,svm_rbf,macro_ap,0.5726,0.5375,30000,10000,16,"{""gamma"": ""2.0/d"", ""C"": 1.0}",1035
+0,own_vit_baseline,full,spatial,deep_mlp,macro_ap,0.9252,0.9236,8591,2023,384,"{""lr"": 0.001, ""wd"": 0.0001, ""dropout"": 0.3}",29
+0,own_vit_baseline,full,spatial,lightgbm,macro_ap,0.8897,0.8978,8591,2023,384,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",48
+0,own_vit_baseline,full,spatial,svm_rbf,macro_ap,0.9139,0.9193,8591,2023,384,"{""gamma"": ""0.5/d"", ""C"": 1.0}",143
+0,own_vit_baseline,pca256,spatial,deep_mlp,macro_ap,0.9241,0.9268,8591,2023,256,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",18
+0,own_vit_baseline,pca256,spatial,lightgbm,macro_ap,0.9073,0.911,8591,2023,256,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",56
+0,own_vit_baseline,pca256,spatial,svm_rbf,macro_ap,0.9199,0.9235,8591,2023,256,"{""gamma"": ""0.5/d"", ""C"": 1.0}",88
+0,own_vit_baseline,pca64,spatial,deep_mlp,macro_ap,0.9052,0.9057,8591,2023,64,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",19
+0,own_vit_baseline,pca64,spatial,lightgbm,macro_ap,0.8891,0.8952,8591,2023,64,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",44
+0,own_vit_baseline,pca64,spatial,svm_rbf,macro_ap,0.9011,0.9055,8591,2023,64,"{""gamma"": ""0.5/d"", ""C"": 1.0}",120
+0,own_vit_baseline,pca16,spatial,deep_mlp,macro_ap,0.8315,0.8381,8591,2023,16,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.1}",22
+0,own_vit_baseline,pca16,spatial,lightgbm,macro_ap,0.8117,0.8191,8591,2023,16,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",31
+0,own_vit_baseline,pca16,spatial,svm_rbf,macro_ap,0.8273,0.8325,8591,2023,16,"{""gamma"": ""0.5/d"", ""C"": 1.0}",172
+0,own_vit_defended,full,leakage,deep_mlp,roc_auc,0.9211,0.9278,38784,8320,384,"{""lr"": 0.001, ""wd"": 0.01, ""dropout"": 0.3}",195
+0,own_vit_defended,full,leakage,lightgbm,roc_auc,0.8429,0.852,38784,8320,384,"{""num_leaves"": 127, ""colsample_bytree"": 0.9}",18
+0,own_vit_defended,full,leakage,svm_rbf,roc_auc,0.8835,0.9046,38784,8320,384,"{""gamma"": ""0.5/d"", ""C"": 1.0}",106
+0,own_vit_defended,pca256,leakage,deep_mlp,roc_auc,0.9176,0.922,38784,8320,256,"{""lr"": 0.0003, ""wd"": 0.01, ""dropout"": 0.3}",67
+0,own_vit_defended,pca256,leakage,lightgbm,roc_auc,0.9048,0.9163,38784,8320,256,"{""num_leaves"": 31, ""colsample_bytree"": 0.9}",22
+0,own_vit_defended,pca256,leakage,svm_rbf,roc_auc,0.9097,0.924,38784,8320,256,"{""gamma"": ""0.5/d"", ""C"": 1.0}",48
+0,own_vit_defended,pca64,leakage,deep_mlp,roc_auc,0.8866,0.8919,38784,8320,64,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",91
+0,own_vit_defended,pca64,leakage,lightgbm,roc_auc,0.8565,0.8698,38784,8320,64,"{""num_leaves"": 127, ""colsample_bytree"": 0.9}",14
+0,own_vit_defended,pca64,leakage,svm_rbf,roc_auc,0.8717,0.8861,38784,8320,64,"{""gamma"": ""0.5/d"", ""C"": 1.0}",72
+0,own_vit_defended,pca16,leakage,deep_mlp,roc_auc,0.7715,0.7601,38784,8320,16,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",151
+0,own_vit_defended,pca16,leakage,lightgbm,roc_auc,0.596,0.5904,38784,8320,16,"{""num_leaves"": 127, ""colsample_bytree"": 0.9}",2
+0,own_vit_defended,pca16,leakage,svm_rbf,roc_auc,0.759,0.7617,38784,8320,16,"{""gamma"": ""1.0/d"", ""C"": 1.0}",103
+0,own_vit_defended,full,leakage_incr,deep_mlp,roc_auc,0.9258,0.9365,38784,8320,449,"{""lr"": 0.0003, ""wd"": 0.01, ""dropout"": 0.3}",135
+0,own_vit_defended,full,leakage_incr,lightgbm,roc_auc,0.8974,0.9109,38784,8320,449,"{""num_leaves"": 31, ""colsample_bytree"": 0.9}",25
+0,own_vit_defended,full,leakage_incr,svm_rbf,roc_auc,0.915,0.9292,38784,8320,449,"{""gamma"": ""0.5/d"", ""C"": 1.0}",95
+0,own_vit_defended,pca256,leakage_incr,deep_mlp,roc_auc,0.924,0.9296,38784,8320,321,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",64
+0,own_vit_defended,pca256,leakage_incr,lightgbm,roc_auc,0.9209,0.9279,38784,8320,321,"{""num_leaves"": 31, ""colsample_bytree"": 0.9}",22
+0,own_vit_defended,pca256,leakage_incr,svm_rbf,roc_auc,0.9204,0.9315,38784,8320,321,"{""gamma"": ""0.5/d"", ""C"": 1.0}",53
+0,own_vit_defended,pca64,leakage_incr,deep_mlp,roc_auc,0.9214,0.927,38784,8320,129,"{""lr"": 0.001, ""wd"": 0.0001, ""dropout"": 0.3}",87
+0,own_vit_defended,pca64,leakage_incr,lightgbm,roc_auc,0.9104,0.9181,38784,8320,129,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",22
+0,own_vit_defended,pca64,leakage_incr,svm_rbf,roc_auc,0.9183,0.9292,38784,8320,129,"{""gamma"": ""0.5/d"", ""C"": 1.0}",72
+0,own_vit_defended,pca16,leakage_incr,deep_mlp,roc_auc,0.9165,0.9214,38784,8320,81,"{""lr"": 0.001, ""wd"": 0.01, ""dropout"": 0.3}",137
+0,own_vit_defended,pca16,leakage_incr,lightgbm,roc_auc,0.8977,0.9023,38784,8320,81,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",19
+0,own_vit_defended,pca16,leakage_incr,svm_rbf,roc_auc,0.9034,0.9184,38784,8320,81,"{""gamma"": ""1.0/d"", ""C"": 1.0}",87
+0,own_vit_defended,full,utility_eurosat,deep_mlp,accuracy,0.9643,0.9681,16200,5400,384,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",39
+0,own_vit_defended,full,utility_eurosat,lightgbm,accuracy,0.96,0.9652,16200,5400,384,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",9
+0,own_vit_defended,full,utility_eurosat,svm_rbf,accuracy,0.9641,0.9683,16200,5400,384,"{""gamma"": ""0.5/d"", ""C"": 1.0}",42
+0,own_vit_defended,pca256,utility_eurosat,deep_mlp,accuracy,0.9646,0.9656,16200,5400,256,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",42
+0,own_vit_defended,pca256,utility_eurosat,lightgbm,accuracy,0.9628,0.9641,16200,5400,256,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",12
+0,own_vit_defended,pca256,utility_eurosat,svm_rbf,accuracy,0.9635,0.9687,16200,5400,256,"{""gamma"": ""0.5/d"", ""C"": 1.0}",71
+0,own_vit_defended,pca64,utility_eurosat,deep_mlp,accuracy,0.9643,0.9691,16200,5400,64,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",41
+0,own_vit_defended,pca64,utility_eurosat,lightgbm,accuracy,0.9619,0.9644,16200,5400,64,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",10
+0,own_vit_defended,pca64,utility_eurosat,svm_rbf,accuracy,0.9646,0.9691,16200,5400,64,"{""gamma"": ""0.5/d"", ""C"": 1.0}",55
+0,own_vit_defended,pca16,utility_eurosat,deep_mlp,accuracy,0.9624,0.9661,16200,5400,16,"{""lr"": 0.001, ""wd"": 0.0001, ""dropout"": 0.1}",36
+0,own_vit_defended,pca16,utility_eurosat,lightgbm,accuracy,0.9613,0.9648,16200,5400,16,"{""num_leaves"": 127, ""colsample_bytree"": 0.9}",9
+0,own_vit_defended,pca16,utility_eurosat,svm_rbf,accuracy,0.9631,0.9709,16200,5400,16,"{""gamma"": ""0.5/d"", ""C"": 0.1}",40
+0,own_vit_defended,full,utility_ben,deep_mlp,macro_ap,0.6505,0.6006,30000,10000,384,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",123
+0,own_vit_defended,full,utility_ben,lightgbm,macro_ap,0.5666,0.5409,30000,10000,384,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",146
+0,own_vit_defended,full,utility_ben,svm_rbf,macro_ap,0.585,0.5462,30000,10000,384,"{""gamma"": ""1.0/d"", ""C"": 1.0}",1212
+0,own_vit_defended,pca256,utility_ben,deep_mlp,macro_ap,0.6622,0.6109,30000,10000,256,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",156
+0,own_vit_defended,pca256,utility_ben,lightgbm,macro_ap,0.5832,0.5595,30000,10000,256,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",194
+0,own_vit_defended,pca256,utility_ben,svm_rbf,macro_ap,0.613,0.565,30000,10000,256,"{""gamma"": ""1.0/d"", ""C"": 1.0}",1178
+0,own_vit_defended,pca64,utility_ben,deep_mlp,macro_ap,0.6549,0.6081,30000,10000,64,"{""lr"": 0.0003, ""wd"": 0.01, ""dropout"": 0.3}",175
+0,own_vit_defended,pca64,utility_ben,lightgbm,macro_ap,0.5698,0.5427,30000,10000,64,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",150
+0,own_vit_defended,pca64,utility_ben,svm_rbf,macro_ap,0.597,0.5551,30000,10000,64,"{""gamma"": ""1.0/d"", ""C"": 1.0}",1230
+0,own_vit_defended,pca16,utility_ben,deep_mlp,macro_ap,0.5925,0.5487,30000,10000,16,"{""lr"": 0.001, ""wd"": 0.0001, ""dropout"": 0.3}",120
+0,own_vit_defended,pca16,utility_ben,lightgbm,macro_ap,0.4875,0.4711,30000,10000,16,"{""num_leaves"": 127, ""colsample_bytree"": 0.5}",61
+0,own_vit_defended,pca16,utility_ben,svm_rbf,macro_ap,0.5452,0.5089,30000,10000,16,"{""gamma"": ""2.0/d"", ""C"": 1.0}",1064
+0,own_vit_defended,full,spatial,deep_mlp,macro_ap,0.8861,0.8919,8591,2023,384,"{""lr"": 0.001, ""wd"": 0.01, ""dropout"": 0.3}",37
+0,own_vit_defended,full,spatial,lightgbm,macro_ap,0.8336,0.8376,8591,2023,384,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",49
+0,own_vit_defended,full,spatial,svm_rbf,macro_ap,0.8665,0.8682,8591,2023,384,"{""gamma"": ""0.5/d"", ""C"": 1.0}",181
+0,own_vit_defended,pca256,spatial,deep_mlp,macro_ap,0.8947,0.8968,8591,2023,256,"{""lr"": 0.0003, ""wd"": 0.01, ""dropout"": 0.3}",17
+0,own_vit_defended,pca256,spatial,lightgbm,macro_ap,0.8723,0.8749,8591,2023,256,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",56
+0,own_vit_defended,pca256,spatial,svm_rbf,macro_ap,0.8858,0.8878,8591,2023,256,"{""gamma"": ""0.5/d"", ""C"": 1.0}",107
+0,own_vit_defended,pca64,spatial,deep_mlp,macro_ap,0.8774,0.8804,8591,2023,64,"{""lr"": 0.0003, ""wd"": 0.0001, ""dropout"": 0.3}",17
+0,own_vit_defended,pca64,spatial,lightgbm,macro_ap,0.8575,0.8574,8591,2023,64,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",47
+0,own_vit_defended,pca64,spatial,svm_rbf,macro_ap,0.8727,0.8737,8591,2023,64,"{""gamma"": ""0.5/d"", ""C"": 1.0}",129
+0,own_vit_defended,pca16,spatial,deep_mlp,macro_ap,0.783,0.7875,8591,2023,16,"{""lr"": 0.001, ""wd"": 0.01, ""dropout"": 0.1}",21
+0,own_vit_defended,pca16,spatial,lightgbm,macro_ap,0.7549,0.7692,8591,2023,16,"{""num_leaves"": 31, ""colsample_bytree"": 0.5}",31
+0,own_vit_defended,pca16,spatial,svm_rbf,macro_ap,0.7769,0.7831,8591,2023,16,"{""gamma"": ""0.5/d"", ""C"": 1.0}",180

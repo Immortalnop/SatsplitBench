@@ -1,0 +1,11 @@
+pair,ben_map,leak_a,leak_b,diff
+vits16_moco vs resnet18_moco,0.5696,0.8949,0.8648,0.0301
+vits16_moco vs resnet18_moco,0.583,0.8993,0.8739,0.0253
+vits16_moco vs resnet18_moco,0.5963,0.9037,0.883,0.0206
+vits16_moco vs resnet18_moco,0.6097,0.9081,0.8922,0.0159
+vits16_moco vs resnet18_moco,0.6231,0.9125,0.9004,0.0121
+vits16_dino vs resnet50_dino,0.6166,0.9242,0.9054,0.0188
+vits16_dino vs resnet50_dino,0.6289,0.9311,0.918,0.0132
+vits16_dino vs resnet50_dino,0.6413,0.938,0.9273,0.0107
+vits16_dino vs resnet50_dino,0.6536,0.9422,0.932,0.0102
+vits16_dino vs resnet50_dino,0.6659,0.9446,0.9326,0.012

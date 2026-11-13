@@ -1,0 +1,29 @@
+id,test,measure,baseline,defended,diff,ci_lo,ci_hi,hypothesis,p,p_holm,significant_holm,role
+S1,leakage_minus_pixelstats,AUC,own_vit_baseline,,0.0361,0.0279,0.0449,own_vit_baseline: deep_mlp 0.9461 vs pixelstats 0.9100,0.001,,,exploratory
+S1,leakage_incr_minus_pixelstats,AUC,own_vit_baseline,,0.0326,0.0244,0.0417,own_vit_baseline: deep_mlp 0.9426 vs pixelstats 0.9100,0.001,,,exploratory
+S1,leakage_minus_pixelstats,AUC,,own_vit_defended,0.0178,0.008,0.0268,own_vit_defended: deep_mlp 0.9278 vs pixelstats 0.9100,0.001,,,exploratory
+S1,leakage_incr_minus_pixelstats,AUC,,own_vit_defended,0.0265,0.0189,0.0351,own_vit_defended: deep_mlp 0.9365 vs pixelstats 0.9100,0.001,,,exploratory
+S2,leakage_baseline_minus_defended_full,AUC,0.9461,0.9278,0.0183,0.0095,0.028,two-sided,0.001,,,exploratory
+S2,utility_ben_full,BEN macro AP,0.6289,0.6006,-0.0283,,,"defended - baseline, point estimates",,,,exploratory
+S2,utility_eurosat_full,EuroSAT accuracy,0.978,0.9681,-0.0099,,,"defended - baseline, point estimates",,,,exploratory
+S2,spatial_full,spatial macro AP,0.9236,0.8919,-0.0317,,,"defended - baseline, point estimates",,,,exploratory
+S2,leakage_baseline_minus_defended_pca256,AUC,0.943,0.922,0.021,0.0093,0.0344,two-sided,0.001,,,exploratory
+S2,utility_ben_pca256,BEN macro AP,0.605,0.6109,0.0059,,,"defended - baseline, point estimates",,,,exploratory
+S2,utility_eurosat_pca256,EuroSAT accuracy,0.9806,0.9656,-0.015,,,"defended - baseline, point estimates",,,,exploratory
+S2,spatial_pca256,spatial macro AP,0.9268,0.8968,-0.03,,,"defended - baseline, point estimates",,,,exploratory
+S2,leakage_baseline_minus_defended_pca64,AUC,0.9302,0.8919,0.0383,0.0286,0.0491,two-sided,0.001,,,exploratory
+S2,utility_ben_pca64,BEN macro AP,0.6117,0.6081,-0.0036,,,"defended - baseline, point estimates",,,,exploratory
+S2,utility_eurosat_pca64,EuroSAT accuracy,0.9794,0.9691,-0.0103,,,"defended - baseline, point estimates",,,,exploratory
+S2,spatial_pca64,spatial macro AP,0.9057,0.8804,-0.0253,,,"defended - baseline, point estimates",,,,exploratory
+S2,leakage_baseline_minus_defended_pca16,AUC,0.8843,0.7601,0.1242,0.1048,0.1417,two-sided,0.001,,,exploratory
+S2,utility_ben_pca16,BEN macro AP,0.5806,0.5487,-0.0319,,,"defended - baseline, point estimates",,,,exploratory
+S2,utility_eurosat_pca16,EuroSAT accuracy,0.9783,0.9709,-0.0074,,,"defended - baseline, point estimates",,,,exploratory
+S2,spatial_pca16,spatial macro AP,0.8381,0.7875,-0.0506,,,"defended - baseline, point estimates",,,,exploratory
+S3,localisation_iou_baseline_minus_defended,mask IoU (positive tiles),0.3896,0.3428,0.0468,0.0369,0.059,two-sided,0.001,,,exploratory
+S3,localisation_iou_baseline_minus_prior,mask IoU (positive tiles),0.3896,0.3352,0.0544,0.0456,0.0627,two-sided,0.001,,,exploratory
+S3,localisation_iou_defended_minus_prior,mask IoU (positive tiles),0.3428,0.3352,0.0076,-0.0061,0.0186,two-sided,0.218,,,exploratory
+S4,gan_l1_baseline_minus_defended,l1,0.174,0.1963,-0.0223,-0.0235,-0.0212,two-sided,0.001,,,exploratory
+S4,gan_ssim_baseline_minus_defended,ssim,0.8937,0.8915,0.0022,0.0017,0.0026,two-sided,0.001,,,exploratory
+S4,gan_lpips_baseline_minus_defended,lpips,0.2908,0.331,-0.0402,-0.0438,-0.0367,two-sided,0.001,,,exploratory
+S4,gan_sam_baseline_minus_defended,sam,3.5677,3.9338,-0.3661,-0.3908,-0.3421,two-sided,0.001,,,exploratory
+S4,gan_iou_baseline_minus_defended,mask IoU (positive tiles),0.3312,0.2552,0.0761,0.0615,0.0894,two-sided,0.001,,,exploratory
