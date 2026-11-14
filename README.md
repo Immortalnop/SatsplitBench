@@ -2,7 +2,17 @@
 
 How much object-level information leaks from compact Earth observation (EO) embeddings, and how does that leakage trade off against downstream utility as the embeddings are compressed?
 
-Research Question: SatSplit-Bench: accuracy-bytes-compute-privacy benchmark for split inference on EO tasks over orbit-realistic ISLs, with an object-level feature-inversion leakage metric"## Research questions
+Project statement: *SatSplit-Bench: accuracy-bytes-compute-privacy benchmark for split inference on EO tasks over orbit-realistic ISLs, with an object-level feature-inversion leakage metric.* This study covers the accuracy, bytes and privacy parts, including the object-level inversion metric; compute, intermediate split points and ISL simulation are not yet implemented.
+
+## Main findings (Phases 4b–7; details and CIs in `RESULTS.md`)
+
+- **Presence leaks.** Every audited embedding reveals whether a tile contains solar panels (test AUC 0.90–0.95). Much of this is spectral (65 per-band pixel statistics alone reach 0.91), but adding the embedding to those statistics still raises AUC by +0.016 to +0.039 (fragile for ResNet18-MoCo across seeds). ViTs leak more than CNNs. Stronger attackers add ≤ 0.005 AUC; a CNN on raw pixels reaches 0.970.
+- **Location does not leak** from the audited encoders. Grid classifiers, a GAN inverter and a transformer localiser all land within 0.01 IoU of a position-only prior.
+- **Compression is not a defence.** PCA and quantisation cut utility at least as fast as leakage.
+- **Pixel metrics are not leakage metrics** (RQ3): LPIPS does not track object-level leakage; SSIM tracks only the reconstruction-based measures.
+- **An adversarial defence cuts leakage at a cost** (Phase 7, pre-registered): −0.018 AUC against fresh attackers at full size, while BigEarthNet macro AP (−0.028) and EuroSAT accuracy (−0.010) fail non-inferiority. Combined with PCA-16 the reduction is −0.124 AUC (exploratory). The in-training adversary is fooled; fresh attackers are not.
+
+## Research questions
 
 - **RQ1, attribute leakage:** can a linear probe on an embedding detect objects it was not used for (solar farms), above chance?
 - **RQ2, trade-off:** as embeddings are compressed (PCA dims, int8), does leakage fall faster or slower than utility?
@@ -18,15 +28,15 @@ cd ~/Desktop/projects/Satsplitbench
 # Phases 4b, 5 and 6 are finished. To re-run any of them (finished runs are skipped):
 #   caffeinate -i bash scripts/run_phase4b.sh | run_phase5.sh | run_phase6.sh
 
-# Phase 7 baseline (~11-17 h), detached
+# Phase 7 baseline (~11 h on an M-series MacBook, 16 GB), detached
 mkdir -p results/phase7 && nohup caffeinate -i bash scripts/run_phase7.sh baseline > results/phase7/baseline.log 2>&1 &
 tail -f results/phase7/baseline.log        # Ctrl+C stops watching only
 
-# Phase 7 defended (~11-17 h), after the baseline. Uses the pre-registered lambda = 0.5, then runs the Phase 7 analysis
+# Phase 7 defended (~11 h), after the baseline. Uses the pre-registered lambda = 0.5, then runs the Phase 7 analysis
 nohup caffeinate -i bash scripts/run_phase7.sh defended > results/phase7/defended.log 2>&1 &
 ```
 
-Results: `results/phase4b/analysis/`, `results/phase5/analysis/`, `results/phase6/analysis/` and (after the defended run) `results/phase7/analysis/`. Individual steps are listed under each phase below.
+Results: `results/phase4b/analysis/`, `results/phase5/analysis/`, `results/phase6/analysis/` and `results/phase7/analysis/`. Individual steps are listed under each phase below.
 
 ## Status
 
@@ -45,7 +55,7 @@ Results: `results/phase4b/analysis/`, `results/phase5/analysis/`, `results/phase
 
 ---
 
-## Done
+## Phases 0–4: setup and baseline probes
 
 ### Phase 0: Environment setup
 
@@ -211,7 +221,7 @@ Findings:
 
 ---
 
-## Planned
+## Phases 4b–8: research-grade follow-ups
 
 From Phase 4b on, every attacker and model is a research-grade model, tuned on val and evaluated on test. Linear probes stay only as a reference row, because they are the standard measure in the probing literature and carry the RQ2 finding above.
 
@@ -362,15 +372,15 @@ Model: 16 memory tokens from the embedding, 64 learned queries (8×8) with learn
 
 ### Phase 7: Own encoder and defence
 
-- Train the same small ViT twice with the same data and budget: baseline MAE, and MAE with the adversarial leakage penalty.
+- The same small ViT was trained twice with the same data and budget: baseline MAE, and MAE with the adversarial leakage penalty.
 - **One script, one difference.** Both runs train MAE (75% masking), the same land-cover head, and the same solar-farm adversary behind a gradient-reversal layer. Only the reversal strength λ differs: the baseline uses λ = 0, so its adversary trains and monitors leakage but sends exactly zero gradient into the encoder (verified); the defended run uses λ > 0.
 - Encoder: ViT-Small, 8-pixel patches on 64×64×13 (64 tokens), fixed 2D sin-cos positions (so BigEarthNet's 112×112 works unchanged), mean-pooled 384-dim embedding, the same size as the audited ViT-S/16s. 25.3M parameters including decoder and heads. Trained only on train-split tiles (EuroSAT train + GloSoFarID train).
-- Each encoder then goes through exactly the audited encoders' pipeline: compression, quantisation, BigEarthNet, all Phase 4b attackers, the Phase 6 localisation attack and the Phase 5 GAN, all trained fresh on its embeddings.
+- Each encoder then went through exactly the audited encoders' pipeline: compression, quantisation, BigEarthNet, all Phase 4b attackers, the Phase 6 localisation attack and the Phase 5 GAN, all trained fresh on its embeddings.
 - The only difference between the two is the privacy objective, so any change in leakage is caused by the defence.
-- Realistic target: remove the learned excess over pixel statistics, not reach AUC 0.5, since spectral leakage is inherent to any useful embedding.
+- Realistic target: remove the learned excess over pixel statistics, not reach AUC 0.5, since spectral leakage is inherent to any useful embedding. (Result: the excess over pixel statistics fell from +0.036 to +0.018 AUC.)
 - Evaluated only against attackers trained fresh on its outputs (Phase 4b–6), never only against its own adversary.
 
-**Status: done (13 Nov). Verdict: "leakage cut at a cost"; see RESULTS.md, Phase 7.** The settings, recorded in `results/preregistration.md` (section "Phase 7 defence settings") before either encoder is trained:
+**Status: done (13 Nov); results in `RESULTS.md` and `results/phase7/analysis/`. Verdict: "leakage cut at a cost".** The settings, recorded in `results/preregistration.md` (section "Phase 7 defence settings") on 12 Nov, before either encoder was trained:
 - **λ = 0.5**, ramped linearly from 0 over the first 4 epochs (the baseline's λ = 0 stays exactly 0), a single untuned choice because the deadline allows one defended run. `run_phase7.sh defended` refuses any other value.
 - **No spatial adversary.** Phase 6 found almost no location information to remove (mask IoU within 0.01 of the position-only prior), so the defence targets presence leakage only.
 - **Five primary tests** (`scripts/analysis7.py`, Holm over 5): leakage must fall (Phase 4b best attacker, Phase 6 detection AUC, Phase 5 GAN detection AUC) while BigEarthNet macro AP and EuroSAT accuracy stay within 0.02 and 0.01 of the baseline. The verdict is one of "works", "leakage cut at a cost" or "no reduction", and all three are reported.
@@ -382,7 +392,7 @@ nohup caffeinate -i bash scripts/run_phase7.sh defended > results/phase7/defende
 
 | Step | Command | What it does |
 |---|---|---|
-| 1 | `python scripts/own_encoder.py --name own_vit_baseline --adv-weight 0 --ben` | Train (40 epochs, ~5–7 h) and export embeddings incl. BigEarthNet |
+| 1 | `python scripts/own_encoder.py --name own_vit_baseline --adv-weight 0 --ben` | Train (40 epochs, ~5–6 h) and export embeddings incl. BigEarthNet |
 | 2 | `python scripts/compress.py --encoders <name>`, `python scripts/quantise.py --encoders <name>`, `python scripts/bigearthnet.py --compress-only --encoders <name>` | Same compression as the audited encoders |
 | 3 | `python scripts/attack4b.py --tasks leakage leakage_incr utility_eurosat utility_ben spatial --encoders <name>` | All Phase 4b attackers |
 | 4 | `python scripts/localise.py --encoder <name> --variant full` | Phase 6 localisation attack |
@@ -396,7 +406,7 @@ nohup caffeinate -i bash scripts/run_phase7.sh defended > results/phase7/defende
 - Test hypotheses H1–H3 and the Phase 4b–7 questions.
 - Paper, about 6 pages: introduction, related work, setup, results, discussion, conclusion.
 
-**Scope risk:** Phases 5–7 add four models trained from scratch (strong inverter, localisation attack, own encoder twice). If time runs short, cut Phase 7 first; Phases 4b–6 make a complete paper.
+**Remaining:** the paper (deadline 21 Nov 2026). Possible extensions toward the full SatSplit-Bench statement: compute cost per encoder, intermediate split points, and orbit-realistic ISL transmission.
 
 ## Repository layout
 

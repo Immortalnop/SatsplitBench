@@ -1,7 +1,7 @@
 # Context handover: EO Embedding Leakage Study
 
 Written 11 Nov 2026, 10:40 IST. A new chat should read this file first, then README.md (full phase docs)
-and results/preregistration.md. **Submission deadline: 15 Nov.**
+and results/preregistration.md. **Submission deadline: 21 Nov 2026, 11:59 pm** (moved from 15 Nov).
 
 ## What the project is
 University-course research project. It measures how much object-level information (solar farms) leaks from
@@ -93,7 +93,7 @@ compression reduces linear accessibility rather than removing the leakage. int8 
   - Runs: λ=0 for the baseline, λ>0 for the defended encoder. Each one goes through the same compress → 4b → 6 → 5 GAN pipeline.
 
 ## Next steps for the new chat
-1. Start the Phase 7 baseline (detached, see README "How to run"), then the defended run after it. Deadline 15 Nov.
+1. Start the Phase 7 baseline (detached, see README "How to run"), then the defended run after it (both done 13 Nov).
 2. While they run: help draft the paper from `RESULTS.md`; update the plan doc's progress table (Claude Docs artifact, still shows 4b+ as Planned).
 3. After the defended run: read `results/phase7/analysis/` (primary.csv, README.json verdict), add a Phase 7 section to `RESULTS.md`.
 4. If time runs short: report the baseline only and describe the defence as future work (Phases 4b–6 are a complete paper).
