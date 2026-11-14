@@ -20,23 +20,62 @@ Project statement: *SatSplit-Bench: accuracy-bytes-compute-privacy benchmark for
 
 ## How to run
 
-From the project folder, with `eoenv` set up (Phase 0). All phases (0–7) are done; results are in `RESULTS.md`. The commands below re-run a phase (completed runs are skipped). They use the GPU, so run them one after the other. Each resumes where it stopped if run again; `caffeinate -i` keeps the Mac awake. Start long jobs detached from VS Code (`nohup ... &`, in macOS Terminal) so closing the editor cannot kill them, and keep other heavy apps closed: memory pressure (swapping) made Phase 6 stall earlier.
+All phases (0–7) are done; results are in `RESULTS.md`. The commands below re-run a phase: every runner skips runs that already
+finished and resumes where it stopped. The runs use the GPU, so run them one after the other, and keep other heavy apps closed
+(memory pressure made Phase 6 stall once). Start long jobs detached (`nohup ... &` from a system terminal, not an editor's
+terminal), so closing the editor cannot kill them.
+
+### Platforms
+
+| | macOS | Linux | Windows |
+|---|---|---|---|
+| Tested | **Yes** (Apple Silicon, 16 GB, MPS) | No, but the same commands apply | No; use **WSL2** (Ubuntu) and the Linux commands |
+| Phase runners (`scripts/run_phase*.sh`) | bash | bash | bash inside WSL2 (they activate `eoenv/bin/activate`, which a native Windows venv does not have) |
+| Single Python steps | bash/zsh | bash | WSL2, or native PowerShell |
+| Keep the machine awake | `caffeinate -i` | `systemd-inhibit` | inside WSL2, set Windows sleep to "Never" while running |
+
+**GPU device:** the scripts default to `--device mps` when available, otherwise `cpu`. On an NVIDIA GPU, pass `--device cuda`
+to each Python step. The phase runners do not pass `--device`, so on Linux and Windows they currently run on the CPU, which is far
+slower. Phase 4b's land-cover pseudo-labelling step (`analysis4b.py`) also asks for `mps` directly.
+
+### Re-run a phase
+
+**macOS**
 
 ```bash
 cd ~/Desktop/projects/Satsplitbench
-
-# Phases 4b, 5 and 6 are finished. To re-run any of them (finished runs are skipped):
-#   caffeinate -i bash scripts/run_phase4b.sh | run_phase5.sh | run_phase6.sh
-
-# Phase 7 baseline (~11 h on an M-series MacBook, 16 GB), detached
-mkdir -p results/phase7 && nohup caffeinate -i bash scripts/run_phase7.sh baseline > results/phase7/baseline.log 2>&1 &
-tail -f results/phase7/baseline.log        # Ctrl+C stops watching only
-
-# Phase 7 defended (~11 h), after the baseline. Uses the pre-registered lambda = 0.5, then runs the Phase 7 analysis
+mkdir -p results/phase7
+nohup caffeinate -i bash scripts/run_phase7.sh baseline > results/phase7/baseline.log 2>&1 &
+tail -f results/phase7/baseline.log        # Ctrl+C stops watching only, not the run
+# after the baseline (uses the pre-registered lambda = 0.5, then runs the Phase 7 analysis):
 nohup caffeinate -i bash scripts/run_phase7.sh defended > results/phase7/defended.log 2>&1 &
 ```
 
-Results: `results/phase4b/analysis/`, `results/phase5/analysis/`, `results/phase6/analysis/` and `results/phase7/analysis/`. Individual steps are listed under each phase below.
+**Linux** (and Windows inside WSL2)
+
+```bash
+cd /path/to/Satsplitbench                  # in WSL2, e.g. /mnt/c/Users/<you>/projects/Satsplitbench
+mkdir -p results/phase7
+nohup systemd-inhibit --what=idle:sleep bash scripts/run_phase7.sh baseline > results/phase7/baseline.log 2>&1 &
+tail -f results/phase7/baseline.log
+nohup systemd-inhibit --what=idle:sleep bash scripts/run_phase7.sh defended > results/phase7/defended.log 2>&1 &
+```
+
+If `systemd-inhibit` is not available (some WSL2 setups), drop it: `nohup bash scripts/run_phase7.sh baseline > ... &`.
+
+**Windows, native PowerShell** (single steps only; the runners need bash)
+
+```powershell
+cd C:\path\to\Satsplitbench
+.\eoenv\Scripts\Activate.ps1
+python scripts\own_encoder.py --name own_vit_baseline --adv-weight 0 --ben --device cuda
+Get-Content results\phase7\baseline.log -Wait      # follow a log file
+```
+
+The same pattern runs any phase (`run_phase4b.sh`, `run_phase5.sh`, `run_phase6.sh`, `run_phase7.sh baseline|defended`); each
+phase section below lists its individual Python steps. On Windows, use `\` in paths, or forward slashes, which Python also accepts.
+
+Results: `results/phase4b/analysis/`, `results/phase5/analysis/`, `results/phase6/analysis/` and `results/phase7/analysis/`.
 
 ## Status
 
@@ -59,7 +98,7 @@ Results: `results/phase4b/analysis/`, `results/phase5/analysis/`, `results/phase
 
 ### Phase 0: Environment setup
 
-Python virtual environment in `eoenv/` (Mac, Apple Silicon, MPS available).
+Python 3.12 virtual environment in `eoenv/`. Developed on a Mac (Apple Silicon, MPS available).
 
 | Package | Version |
 |---|---|
@@ -67,11 +106,31 @@ Python virtual environment in `eoenv/` (Mac, Apple Silicon, MPS available).
 | torchgeo | 0.10.1 |
 | scikit-learn | 1.9.1 |
 | tensorflow | 2.21.0 (only for reading GloSoFarID TFRecords) |
+| timm / torchmetrics / lightgbm | 1.0.31 / 1.9.0 / 4.7.0 |
+| numpy / scipy / pandas / rasterio | 2.5.4 / 1.18.1 / 3.1.1 / 1.5.2 |
+
+**macOS / Linux / WSL2**
 
 ```bash
+python3.12 -m venv eoenv
 source eoenv/bin/activate
-python -c "import torch, torchgeo; print(torch.backends.mps.is_available(), torchgeo.__version__)"
+pip install torch==2.15.0 torchvision==0.29.2 torchgeo==0.10.1 timm==1.0.31 torchmetrics==1.9.0 \
+  scikit-learn==1.9.1 lightgbm==4.7.0 tensorflow==2.21.0 numpy==2.5.4 scipy==1.18.1 pandas==3.1.1 rasterio==1.5.2
+brew install libomp            # macOS only: LightGBM needs it
+python -c "import torch, torchgeo; print('mps', torch.backends.mps.is_available(), 'cuda', torch.cuda.is_available(), torchgeo.__version__)"
 ```
+
+**Windows (native PowerShell)**
+
+```powershell
+py -3.12 -m venv eoenv
+.\eoenv\Scripts\Activate.ps1      # if blocked: Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+pip install torch==2.15.0 torchvision==0.29.2 torchgeo==0.10.1 timm==1.0.31 torchmetrics==1.9.0 `
+  scikit-learn==1.9.1 lightgbm==4.7.0 tensorflow==2.21.0 numpy==2.5.4 scipy==1.18.1 pandas==3.1.1 rasterio==1.5.2
+python -c "import torch, torchgeo; print('cuda', torch.cuda.is_available(), torchgeo.__version__)"
+```
+
+For an NVIDIA GPU, install the CUDA build of torch from the selector at pytorch.org instead of the default wheel.
 
 ### Phase 1: Data acquisition
 
@@ -101,12 +160,23 @@ BigEarthNet is Level-2A (surface reflectance) and has no B10 cirrus band, so it 
 
 The data is on Zenodo ([record 10939100](https://zenodo.org/records/10939100)) as five gzipped TFRecord shards (about 10.3 GB). The [GitHub repo](https://github.com/yzyly1992/GloSoFarID) holds only a converter script, which is not needed here. Only the 2023 global shard is downloaded.
 
+macOS / Linux / WSL2:
+
 ```bash
 mkdir -p data/glosofarid
 # -C - resumes a partial download; the loop retries if the connection drops
 until curl -L -C - --retry 5 --retry-delay 5 -o data/glosofarid/solar_2023_global.tfrecord.gz \
   "https://zenodo.org/records/10939100/files/solar_2023_global.tfrecord.gz?download=1"; do sleep 5; done
-md5 data/glosofarid/solar_2023_global.tfrecord.gz   # 6c3d50e8728b88e53472ed40d7be29ee
+md5 data/glosofarid/solar_2023_global.tfrecord.gz        # macOS; on Linux: md5sum ...
+# expected: 6c3d50e8728b88e53472ed40d7be29ee
+```
+
+Windows PowerShell (`curl.exe`, not the `curl` alias; re-run the line to resume after a drop):
+
+```powershell
+New-Item -ItemType Directory -Force data\glosofarid | Out-Null
+curl.exe -L -C - --retry 5 --retry-delay 5 -o data\glosofarid\solar_2023_global.tfrecord.gz "https://zenodo.org/records/10939100/files/solar_2023_global.tfrecord.gz?download=1"
+Get-FileHash -Algorithm MD5 data\glosofarid\solar_2023_global.tfrecord.gz   # 6C3D50E8728B88E53472ED40D7BE29EE
 ```
 
 `scripts/load_glosofarid.py` reads the TFRecords straight into numpy, skipping the 24 GB .tif conversion:
@@ -283,6 +353,9 @@ Run everything, in pre-registered order (resumes if interrupted; roughly 15–18
 mkdir -p results/phase4b && caffeinate -i bash scripts/run_phase4b.sh 2>&1 | tee results/phase4b/run.log
 ```
 
+On Linux / WSL2, replace `caffeinate -i` with `systemd-inhibit --what=idle:sleep` (or drop it); on native Windows run the steps
+in the table below one by one. See [How to run](#how-to-run).
+
 The script runs these steps; each can also be run on its own:
 
 | Step | Command | What it does | Time |
@@ -321,6 +394,9 @@ Run after Phase 4b has finished (both use the GPU, and RQ3 reads Phase 4b's resu
 ```bash
 mkdir -p results/phase5 && caffeinate -i bash scripts/run_phase5.sh 2>&1 | tee results/phase5/run.log
 ```
+
+On Linux / WSL2, replace `caffeinate -i` with `systemd-inhibit --what=idle:sleep` (or drop it); on native Windows run the steps
+in the table below one by one. See [How to run](#how-to-run).
 
 The analysis plan is pre-registered in `results/preregistration.md` (Phase 5 section), written before any Phase 5 model was trained: 8 primary tests (learned and spatial leakage through GAN inversion at full size, Holm-corrected), with secondary analyses and RQ3's rank correlations.
 
@@ -361,6 +437,9 @@ Every run writes `results/phase5/<method>/<encoder>/<variant>/` (`metrics.json`,
 mkdir -p results/phase6 && caffeinate -i bash scripts/run_phase6.sh 2>&1 | tee results/phase6/run.log
 ```
 
+On Linux / WSL2, replace `caffeinate -i` with `systemd-inhibit --what=idle:sleep` (or drop it); on native Windows run the steps
+in the table below one by one. See [How to run](#how-to-run).
+
 | Step | Command | What it does |
 |---|---|---|
 | 1 | `python scripts/localise.py --encoder pixelstats --variant full` | Pixel-statistics control |
@@ -389,6 +468,9 @@ Model: 16 memory tokens from the embedding, 64 learned queries (8×8) with learn
 mkdir -p results/phase7 && nohup caffeinate -i bash scripts/run_phase7.sh baseline > results/phase7/baseline.log 2>&1 &
 nohup caffeinate -i bash scripts/run_phase7.sh defended > results/phase7/defended.log 2>&1 &    # after the baseline; ends with analysis7.py
 ```
+
+On Linux / WSL2, replace `caffeinate -i` with `systemd-inhibit --what=idle:sleep` (or drop it); on native Windows run the steps
+in the table below one by one. See [How to run](#how-to-run).
 
 | Step | Command | What it does |
 |---|---|---|
