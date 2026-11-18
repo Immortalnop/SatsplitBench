@@ -25,6 +25,21 @@ finished and resumes where it stopped. The runs use the GPU, so run them one aft
 (memory pressure made Phase 6 stall once). Start long jobs detached (`nohup ... &` from a system terminal, not an editor's
 terminal), so closing the editor cannot kill them.
 
+> **Before a long run: stop the machine from sleeping, and re-enable sleep afterwards.** `caffeinate -i` (macOS) and
+> `systemd-inhibit` (Linux) only block *idle* sleep while the command runs; closing a laptop lid still sleeps it. To keep
+> running with the lid closed, disable sleep system-wide (stay on AC power and keep the laptop on a hard surface).
+>
+> | OS | Disable sleep | Re-enable sleep | Check |
+> |---|---|---|---|
+> | macOS | `sudo pmset -a disablesleep 1` | `sudo pmset -a disablesleep 0` | `pmset -g \| grep -i sleepdisabled` (1 = disabled) |
+> | Linux (systemd) | `sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target` | `sudo systemctl unmask sleep.target suspend.target hibernate.target hybrid-sleep.target` | `systemctl status sleep.target` |
+> | Windows (PowerShell as admin) | `powercfg /change standby-timeout-ac 0; powercfg /change hibernate-timeout-ac 0` | `powercfg /change standby-timeout-ac 30; powercfg /change hibernate-timeout-ac 180` (or your previous values) | `powercfg /query SCHEME_CURRENT SUB_SLEEP` |
+>
+> Lid closed: on Linux also set `HandleLidSwitch=ignore` (and `HandleLidSwitchExternalPower=ignore`) in
+> `/etc/systemd/logind.conf`, then `sudo systemctl restart systemd-logind`; undo by restoring `suspend`. On Windows:
+> `powercfg /setacvalueindex SCHEME_CURRENT SUB_BUTTONS LIDACTION 0; powercfg /setactive SCHEME_CURRENT`
+> (0 = do nothing; set it back to `1` = sleep afterwards). On macOS, `disablesleep 1` already covers the lid.
+
 ### Platforms
 
 | | macOS | Linux | Windows |
@@ -142,16 +157,44 @@ All data lives under `data/` (git-ignored).
 | GloSoFarID, 2023 global shard | Object leakage (solar farms) | `data/glosofarid/` | 3,463 patches, 256×256, 13 bands, masks | md5 `6c3d50e8728b88e53472ed40d7be29ee` matches Zenodo |
 | BigEarthNet v2, S2 (optional) | Utility and leakage on the same images | `data/bigearthnet/` | 549,488 patches, 120×120, 12 bands, 19 labels | 549,488 patches + 549,488 reference maps extracted |
 
-**EuroSAT**
+Large downloads drop. Each command below is wrapped in a loop that retries until it succeeds. The torchgeo downloads
+(EuroSAT, BigEarthNet) restart a file from the beginning on failure, and `checksum=True` makes torchgeo verify the archive's
+MD5, so a broken file is never used; if a loop keeps failing on the same partial archive, delete that archive and run it again.
+The GloSoFarID `curl` download resumes where it stopped.
+
+**EuroSAT** (about 2 GB)
+
+macOS / Linux / WSL2:
 
 ```bash
-python -c "from torchgeo.datasets import EuroSAT; EuroSAT(root='data/eurosat', split='train', download=True)"
+until python -c "from torchgeo.datasets import EuroSAT; EuroSAT(root='data/eurosat', split='train', download=True, checksum=True)"; do
+  echo "download failed, retrying in 10 s"; sleep 10
+done
+```
+
+Windows PowerShell:
+
+```powershell
+do { python -c "from torchgeo.datasets import EuroSAT; EuroSAT(root='data/eurosat', split='train', download=True, checksum=True)"; if ($LASTEXITCODE) { Start-Sleep 10 } } until ($LASTEXITCODE -eq 0)
 ```
 
 **BigEarthNet v2 (Sentinel-2 only)**
 
+About 64 GB of archives (`BigEarthNet-S2.tar.gzaa` + `.gzab`, plus `Reference_Maps`), and more again once extracted. Check free disk
+space first.
+
+macOS / Linux / WSL2:
+
 ```bash
-python -c "from torchgeo.datasets import BigEarthNetV2; BigEarthNetV2(root='data/bigearthnet', split='train', bands='s2', download=True)"
+until python -c "from torchgeo.datasets import BigEarthNetV2; BigEarthNetV2(root='data/bigearthnet', split='train', bands='s2', download=True, checksum=True)"; do
+  echo "download failed, retrying in 30 s"; sleep 30
+done
+```
+
+Windows PowerShell:
+
+```powershell
+do { python -c "from torchgeo.datasets import BigEarthNetV2; BigEarthNetV2(root='data/bigearthnet', split='train', bands='s2', download=True, checksum=True)"; if ($LASTEXITCODE) { Start-Sleep 30 } } until ($LASTEXITCODE -eq 0)
 ```
 
 BigEarthNet is Level-2A (surface reflectance) and has no B10 cirrus band, so it has 12 bands. EuroSAT and GloSoFarID have all 13.
@@ -171,11 +214,14 @@ md5 data/glosofarid/solar_2023_global.tfrecord.gz        # macOS; on Linux: md5s
 # expected: 6c3d50e8728b88e53472ed40d7be29ee
 ```
 
-Windows PowerShell (`curl.exe`, not the `curl` alias; re-run the line to resume after a drop):
+Windows PowerShell (`curl.exe`, not the `curl` alias; the loop resumes after each drop):
 
 ```powershell
 New-Item -ItemType Directory -Force data\glosofarid | Out-Null
-curl.exe -L -C - --retry 5 --retry-delay 5 -o data\glosofarid\solar_2023_global.tfrecord.gz "https://zenodo.org/records/10939100/files/solar_2023_global.tfrecord.gz?download=1"
+do {
+  curl.exe -L -C - --retry 5 --retry-delay 5 -o data\glosofarid\solar_2023_global.tfrecord.gz "https://zenodo.org/records/10939100/files/solar_2023_global.tfrecord.gz?download=1"
+  if ($LASTEXITCODE) { Start-Sleep 5 }
+} until ($LASTEXITCODE -eq 0)
 Get-FileHash -Algorithm MD5 data\glosofarid\solar_2023_global.tfrecord.gz   # 6C3D50E8728B88E53472ED40D7BE29EE
 ```
 
@@ -209,6 +255,14 @@ Each frozen encoder ran once over EuroSAT and GloSoFarID at native 64×64, 10 m.
 ```bash
 python scripts/load_glosofarid.py data/glosofarid/solar_2023_global.tfrecord.gz --out data/glosofarid/npy --masks
 python scripts/embed.py --sanity     # all encoders + random-init control, both datasets
+```
+
+Detached alternative (macOS; on Linux use `systemd-inhibit --what=idle:sleep` instead of `caffeinate -i`):
+
+```bash
+mkdir -p results/logs
+nohup caffeinate -i python scripts/embed.py --sanity > results/logs/phase2_embed.log 2>&1 &
+tail -f results/logs/phase2_embed.log
 ```
 
 Results (`--sanity` = linear probe, EuroSAT train → val; chance 10%):
@@ -246,6 +300,8 @@ All four take 13 bands. The ViTs use 16-pixel patches, so a 64×64 tile is 4×4 
 python scripts/compress.py      # all encoders in data/embeddings, ~15 s
 ```
 
+Detached alternative: `mkdir -p results/logs && nohup caffeinate -i python scripts/compress.py > results/logs/phase3_compress.log 2>&1 &`
+
 - 8 variants per encoder: `full` (uncompressed reference), `pca16`, `pca64`, `pca256`, each also as `_int8`.
 - PCA and int8 scales are fitted on training rows only: EuroSAT train + GloSoFarID train tiles, subsampled to equal numbers (16,200 each). Val/test rows are only transformed.
 - int8: symmetric per-dimension scale = max |value| on training rows / 127. Round-trip error is at most half a quantisation step; under 0.006% of values clip.
@@ -265,6 +321,14 @@ Sizes per embedding: 16 B (`pca16_int8`) up to 8,192 B (ResNet50 `full`). int8 c
 
 ```bash
 python scripts/probes.py        # all encoders x variants + controls, ~30 min on MPS
+```
+
+Detached alternative:
+
+```bash
+mkdir -p results/logs
+nohup caffeinate -i python scripts/probes.py > results/logs/phase4_probes.log 2>&1 &
+tail -f results/logs/phase4_probes.log
 ```
 
 - **Tasks:** utility = EuroSAT land cover (test accuracy, chance 10%); leakage = GloSoFarID tile "solar farm present" (test ROC-AUC, chance 0.5).
@@ -353,8 +417,16 @@ Run everything, in pre-registered order (resumes if interrupted; roughly 15–18
 mkdir -p results/phase4b && caffeinate -i bash scripts/run_phase4b.sh 2>&1 | tee results/phase4b/run.log
 ```
 
+Detached alternative (recommended for long runs; survives closing the terminal or editor):
+
+```bash
+mkdir -p results/phase4b
+nohup caffeinate -i bash scripts/run_phase4b.sh > results/phase4b/run.log 2>&1 &
+tail -f results/phase4b/run.log        # Ctrl+C stops watching only, not the run
+```
+
 On Linux / WSL2, replace `caffeinate -i` with `systemd-inhibit --what=idle:sleep` (or drop it); on native Windows run the steps
-in the table below one by one. See [How to run](#how-to-run).
+in the table below one by one. See [How to run](#how-to-run), including how to disable sleep.
 
 The script runs these steps; each can also be run on its own:
 
@@ -395,8 +467,16 @@ Run after Phase 4b has finished (both use the GPU, and RQ3 reads Phase 4b's resu
 mkdir -p results/phase5 && caffeinate -i bash scripts/run_phase5.sh 2>&1 | tee results/phase5/run.log
 ```
 
+Detached alternative (recommended for long runs; survives closing the terminal or editor):
+
+```bash
+mkdir -p results/phase5
+nohup caffeinate -i bash scripts/run_phase5.sh > results/phase5/run.log 2>&1 &
+tail -f results/phase5/run.log        # Ctrl+C stops watching only, not the run
+```
+
 On Linux / WSL2, replace `caffeinate -i` with `systemd-inhibit --what=idle:sleep` (or drop it); on native Windows run the steps
-in the table below one by one. See [How to run](#how-to-run).
+in the table below one by one. See [How to run](#how-to-run), including how to disable sleep.
 
 The analysis plan is pre-registered in `results/preregistration.md` (Phase 5 section), written before any Phase 5 model was trained: 8 primary tests (learned and spatial leakage through GAN inversion at full size, Holm-corrected), with secondary analyses and RQ3's rank correlations.
 
@@ -437,8 +517,16 @@ Every run writes `results/phase5/<method>/<encoder>/<variant>/` (`metrics.json`,
 mkdir -p results/phase6 && caffeinate -i bash scripts/run_phase6.sh 2>&1 | tee results/phase6/run.log
 ```
 
+Detached alternative (recommended for long runs; survives closing the terminal or editor):
+
+```bash
+mkdir -p results/phase6
+nohup caffeinate -i bash scripts/run_phase6.sh > results/phase6/run.log 2>&1 &
+tail -f results/phase6/run.log        # Ctrl+C stops watching only, not the run
+```
+
 On Linux / WSL2, replace `caffeinate -i` with `systemd-inhibit --what=idle:sleep` (or drop it); on native Windows run the steps
-in the table below one by one. See [How to run](#how-to-run).
+in the table below one by one. See [How to run](#how-to-run), including how to disable sleep.
 
 | Step | Command | What it does |
 |---|---|---|
@@ -467,10 +555,18 @@ Model: 16 memory tokens from the embedding, 64 learned queries (8×8) with learn
 ```bash
 mkdir -p results/phase7 && nohup caffeinate -i bash scripts/run_phase7.sh baseline > results/phase7/baseline.log 2>&1 &
 nohup caffeinate -i bash scripts/run_phase7.sh defended > results/phase7/defended.log 2>&1 &    # after the baseline; ends with analysis7.py
+tail -f results/phase7/baseline.log      # or defended.log; Ctrl+C stops watching only
+```
+
+Foreground alternative (stops if the terminal closes):
+
+```bash
+mkdir -p results/phase7 && caffeinate -i bash scripts/run_phase7.sh baseline 2>&1 | tee results/phase7/baseline.log
+caffeinate -i bash scripts/run_phase7.sh defended 2>&1 | tee results/phase7/defended.log
 ```
 
 On Linux / WSL2, replace `caffeinate -i` with `systemd-inhibit --what=idle:sleep` (or drop it); on native Windows run the steps
-in the table below one by one. See [How to run](#how-to-run).
+in the table below one by one. See [How to run](#how-to-run), including how to disable sleep.
 
 | Step | Command | What it does |
 |---|---|---|
