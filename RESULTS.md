@@ -1,7 +1,7 @@
 # Results, phase by phase
 
 Running record of what each phase found. The methods are in README.md and the pre-registered tests in
-results/preregistration.md. Phases 0–7 are complete.
+results/preregistration.md. Phases 0–8 are complete.
 
 **Conventions**
 - Leakage means "does this 64×64 GloSoFarID tile contain solar panels?", scored as test ROC-AUC (chance 0.5).
@@ -457,3 +457,130 @@ why the own baseline is the only encoder whose embedding carries some location.
 **Phase 7 limits:** one λ (untuned), one seed, one split, one object class and one dataset pair; the own encoders saw
 GloSoFarID and EuroSAT train tiles, so they are not general-purpose foundation models; the compression and location results are
 exploratory.
+
+---
+
+## Phase 8: SatSplit extensions (compute, split points, ISLs)
+
+Run 18 Nov 2026: 8a 18:14–18:24, 8b 18:38–21:24, 8c 21:24 (`results/phase8/`). 8b was pre-registered the same day
+(`results/preregistration.md`, "Phase 8b split-point settings"). Splits are layer1–4 for ResNets, and blocks 3/6/9/12 for ViTs.
+`gap` is the pooled vector at the split. `map4` is the spatial map (4×4-pooled for ResNets, patch tokens for ViTs).
+All 8b numbers come from deep-MLP attackers whose hyperparameters were picked on validation; the scores are test scores.
+
+### 8a. Compute and payload size per split (descriptive; `results/phase8/compute.csv`)
+
+| Arch | Split | Head share of FLOPs | Full map, int8 | vs raw tile (106,496 B, fp32 map) | Head latency, MPS batch 1 |
+|---|---|---|---|---|---|
+| ResNet18 (0.36 GFLOPs) | layer1 → layer4 | 44% → 100% | 16,384 → 2,048 B | 0.62× → 0.08× | 1.0 → 3.0 ms |
+| ResNet50 (0.73 GFLOPs) | layer1 → layer4 | 26% → 100% | 65,536 → 8,192 B | **2.46×** → 0.31× | 1.4 → 7.0 ms |
+| ViT-S/16 (0.77 GFLOPs) | block3 → block12 | 29% → 100% | 6,528 B at every split | 0.25× | 8.3 → 10.2 ms |
+| own ViT-S/8 (2.83 GFLOPs) | block3 → block12 | 26% → 100% | 24,576 B at every split | 0.92× | 1.4 → 3.7 ms |
+
+- zlib already compresses the raw tile to 36,013 B (0.34×). So early ResNet maps in fp32 are **larger** than the compressed image.
+- ResNet maps shrink with depth. ViT token maps stay the same size at every split, so splitting a ViT early saves compute but no bytes.
+- Every check passed:
+  - The FLOP counter reproduces ResNet-18 at 224 (3.63 GFLOPs).
+  - head + tail = total FLOPs and parameters at every split.
+  - The stages reproduce each encoder exactly.
+
+### 8b.1 Pre-registered primary tests (Holm over 8, 1,000 resamples, one-sided)
+
+| Test | Encoder | Measure | Final | Earliest | Diff [95% CI] | p_holm |
+|---|---|---|---|---|---|---|
+| P8b.1 | R18-MoCo | presence AUC, `gap`, final − earliest | 0.904 | 0.902 | +0.002 [−0.009, +0.014] | 0.586 |
+| P8b.2 | ViT-MoCo | 〃 | 0.929 | 0.924 | +0.005 [−0.003, +0.013] | 0.385 |
+| P8b.3 | R50-DINO | 〃 | 0.926 | 0.924 | +0.002 [−0.006, +0.010] | 0.586 |
+| P8b.4 | ViT-DINO | 〃 | 0.944 | 0.929 | **+0.016** [+0.009, +0.022] | **0.008** |
+| P8b.5 | R18-MoCo | spatial macro AP, `map4`, earliest − final | 0.896 | 0.947 | **+0.052** [+0.042, +0.063] | **0.008** |
+| P8b.6 | ViT-MoCo | 〃 | 0.933 | 0.936 | +0.003 [−0.001, +0.007] | 0.385 |
+| P8b.7 | R50-DINO | 〃 | 0.929 | 0.952 | **+0.023** [+0.017, +0.031] | **0.008** |
+| P8b.8 | ViT-DINO | 〃 | 0.943 | 0.946 | +0.003 [−0.001, +0.007] | 0.385 |
+
+**Verdicts (pre-registered rule):**
+- "Depth adds presence leakage": **not supported (1/4)**.
+- "Early splits leak location": **mixed (2/4)**. It holds for both ResNets and for neither ViT.
+
+### 8b.2 Secondary results (exploratory, 300 resamples; `results/phase8/analysis/`)
+
+Test scores by split, from earliest to final:
+
+| Encoder | Presence AUC (`gap`) | BigEarthNet AP (`gap`) | EuroSAT acc (`gap`) | Spatial AP (`map4`) |
+|---|---|---|---|---|
+| R18-MoCo | 0.902 / 0.922 / 0.918 / 0.904 | 0.627 / 0.649 / 0.628 / 0.617 | 0.962 / 0.972 / 0.977 / 0.965 | 0.947 / 0.936 / 0.933 / 0.896 |
+| ViT-MoCo | 0.924 / 0.930 / 0.926 / 0.929 | 0.626 / 0.643 / 0.657 / 0.658 | 0.953 / 0.961 / 0.966 / 0.964 | 0.936 / 0.934 / 0.935 / 0.933 |
+| R50-DINO | 0.924 / 0.938 / 0.939 / 0.926 | 0.644 / 0.656 / 0.664 / 0.666 | 0.980 / 0.983 / 0.982 / 0.974 | 0.952 / 0.946 / 0.934 / 0.929 |
+| ViT-DINO | 0.929 / 0.941 / 0.939 / 0.944 | 0.638 / 0.658 / 0.665 / 0.680 | 0.960 / 0.965 / 0.966 / 0.967 | 0.946 / 0.948 / 0.947 / 0.943 |
+| random R18 | 0.884 / 0.893 / 0.868 / 0.829 | 0.606 / 0.604 / 0.576 / 0.538 | 0.948 / 0.939 / 0.910 / 0.822 | 0.936 / 0.923 / 0.911 / 0.851 |
+
+Findings:
+- **Presence leakage is set by the first stage.**
+  - In the audited encoders it varies by ≤ 0.02 AUC across splits, and the middle splits are often the highest.
+  - It already matches pixelstats at the earliest split; ViT-MoCo, R50-DINO and ViT-DINO are significantly above it (+0.014 to +0.019).
+  - Splitting earlier never brought presence leakage below pixelstats in an audited encoder. Only the random encoder falls below it, and only at deep splits.
+- **Utility mostly rises with depth.** BigEarthNet AP rises with depth for ViT-MoCo, R50-DINO and ViT-DINO (up to +0.042 for ViT-DINO); R18-MoCo peaks at layer2. So an early split gives no privacy gain and loses utility.
+- **Spatial maps leak location; pooled vectors do not.**
+  - Grid IoU from `map4` beats the position-only prior (0.497) at every split of every encoder:
+    - earliest split: +0.15 to +0.19;
+    - final split: +0.07 to +0.17.
+  - The pooled final embeddings in Phase 4b scored +0.01 to +0.06.
+  - The random encoder's layer1 map is almost as good (+0.149). This means the location signal is the map's spatial layout, not learned features.
+  - The Phase 4b–6 statement "location does not leak" therefore holds for **pooled** payloads only.
+- **The joint frontier does not narrow the choice.** Pareto over int8 bytes, head FLOPs and BigEarthNet AP leaves all 20 splits non-dominated, because bytes and FLOPs pull against each other in ResNets.
+
+### 8c. Orbit-realistic ISLs (`results/phase8/isl_*.csv`)
+
+Sources and settings:
+- Real orbits come from CelesTrak TLEs (18 Nov 2026) propagated with skyfield over 24 h in 10 s steps.
+- The line of sight must stay ≥ 100 km above the Earth.
+- Workload is a 290 km swath at 6.63 km/s, giving 4,693 tiles/s, or 4.0 Gbit/s raw.
+
+| Scenario | Link | Line of sight | Windows / day | Distance (km) |
+|---|---|---|---|---|
+| S1 LEO→GEO relay | Sentinel-2A/2B/2C → EDRS-C or Eutelsat 9B | 70–71% | 13–14 (≈ 78 min each) | 35,000–49,300 |
+| S2 same plane (real) | Sentinel-2A ↔ 2B | 100% | continuous | 4,454–4,465 |
+| S2 same plane (real) | 2A ↔ 2C, 2B ↔ 2C | 0% | none | 13,600–14,300 |
+| S2 leader–follower (synthetic) | 1° / 5° / 20° apart | 100% | continuous | 125 / 625 / 2,489 |
+| S3 Walker 24/3/1 (synthetic) | in-plane neighbour | 100% | continuous | 5,486 |
+| S3 Walker 24/3/1 (synthetic) | adjacent plane | 33.5% | 29 (≈ 17 min each) | 898–12,308 |
+
+What fits live, as bytes per tile at 4,693 tiles/s:
+
+| Link class | Max bytes per tile | Raw / zlib-raw live share | Best feasible payload (BigEarthNet AP; its presence leakage) | Best feasible (EuroSAT acc; leakage) |
+|---|---|---|---|---|
+| S-band 2 Mbit/s | 53 B | 0.05% / 0.15% | none fits | `resnet50_dino/pca64_q4`, 32 B: 0.963; 0.925 |
+| Ka-band 500 Mbit/s | 13.3 kB | 12.5% / 37% | `vits16_dino@block12` int8 map, 6,528 B: 0.680; 0.923 | R50-DINO layer2 `gap`, 2,048 B: 0.983; 0.938 |
+| Optical 1.8 Gbit/s | 47.9 kB | 45% / **100%** | same, fp32 map: 0.680; 0.923 | R50-DINO layer2 int8 map: 0.983; 0.926 |
+| Optical ≥ 10 Gbit/s | ≥ 266 kB | 100% / 100% | 〃 | 〃 |
+
+Findings:
+- **Embeddings are needed for bandwidth only below optical rates.**
+  - At 1.8 Gbit/s (the EDRS optical class), the zlib-compressed raw tile already flows live.
+  - At Ka-band, embeddings and token maps fit where raw images do not.
+  - At S-band, only the 4-bit quantised PCA codes fit.
+- **Every feasible high-utility payload leaks presence at AUC 0.92–0.94.** The lowest-leakage payloads are:
+  - the random R18 layer4 vector (0.829), whose BigEarthNet AP is 0.538;
+  - R18-MoCo pca16_q1 (0.798), whose EuroSAT accuracy is 0.892.
+  
+  Bandwidth limits never push the choice toward a private payload at no cost.
+- **Sentinel-2's real geometry matters.** 2A–2B are about 4,460 km apart, with continuous line of sight. 2C sits opposite them in the orbit and can never link to either. A LEO→GEO relay is available about 70% of the day but adds about 120 ms one-way latency (≈ 136–146 ms against ≈ 15–25 ms for 2A↔2B).
+
+Assumptions:
+- Nominal link rates, with no link budget, pointing or acquisition time.
+- Circular two-body synthetic orbits.
+- No queueing or on-board storage.
+- 13 bands on the 10 m grid, which overstates Sentinel-2's raw volume.
+
+### What Phase 8 adds
+
+1. **RQ4, the split point does not control presence leakage.** It is near its maximum after the first stage, so moving the
+   split earlier saves bytes only in ResNets, saves compute, and loses utility. It gives no privacy.
+2. **Spatial payloads leak location** at every split, while pooled ones do not. The payload *form* matters more for location than the split point.
+3. **RQ5: real ISLs are fast enough for embeddings, and at optical rates even for compressed raw tiles.** None of the feasible
+   high-utility payloads is private.
+
+**Phase 8 limits:**
+- One attacker family (deep MLP) and one split seed.
+- `map4` is pooled, so the full maps could leak more.
+- The ResNet50 layer3 map was reduced by PCA to 2,048 dims.
+- Latency was measured on an M-series laptop, not flight hardware.
+- 8c is a rate-and-geometry model, not a link budget.

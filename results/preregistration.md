@@ -172,3 +172,53 @@ Uncorrected, labelled exploratory:
 
 - A single seed and split for each encoder (cost). Differences are paired over test patches, so they carry the sampling uncertainty of the test set but not the variation between training runs; the paper says so.
 - No claim is made beyond the one defence setting, the one label (solar-farm presence) and the one dataset pair.
+
+# Phase 8b split-point settings (pre-registration)
+
+Written on 2026-11-18, **before any Phase 8b attacker was run on real data**, after Phases 4b–7 were complete. What was seen before writing: the plan in README.md (Phase 8, written earlier the same day, with these two hypotheses); code tests on 300-row subsets, which check that the feature extraction runs and that the final split reproduces the Phase 2 embeddings exactly; and **one pipeline test on full data**, run to check that `attack4b.py` reads a split-point variant: `resnet18_moco@layer1`, `map4`, `spatial`, deep MLP, val macro AP 0.938, test 0.947. That number is disclosed here. It was produced after the hypotheses were written and did not change them. The same cell is computed again in the real run.
+
+## Setting
+
+A split point cuts an encoder into a head (satellite A) and a tail (satellite B or ground). The payload sent across the inter-satellite link is the head's output. Splits (`scripts/splitpoints.py`):
+
+| Encoder | Splits (earliest → final) |
+|---|---|
+| resnet18_moco, resnet50_dino, resnet18_random (control) | layer1, layer2, layer3, layer4 |
+| vits16_moco, vits16_dino | block3, block6, block9, block12 |
+
+The final split (layer4 / block12) is the Phase 2–7 encoder output.
+
+Two payload forms per split (`scripts/splits8b.py`):
+- **`gap`**: global average pool (ResNets); CLS token after the final LayerNorm (ViTs). On EuroSAT, GloSoFarID and the Phase 4b BigEarthNet subset. At the final split it equals the stored Phase 2 embedding (checked).
+- **`map4`**: the feature map average-pooled to 4 × 4 (ResNet layer1–2), native 4 × 4 (layer3), native 2 × 2 (layer4), or the 16 patch tokens after the final LayerNorm (ViTs), flattened. GloSoFarID only; stored as float16. **Any `map4` wider than 8,192 dims (only resnet50_dino@layer3, 16,384) is reduced by PCA to 2,048 dims, fitted on at most 20,000 randomly drawn train rows of split seed 0.** The variance kept is recorded in `meta.json`. This is a lower bound on what the full transmitted map reveals.
+
+Attacker: the Phase 4b deep residual MLP only (same architecture and grid: lr {1e-3, 3e-4} × weight decay {1e-4, 1e-2} × dropout {0.1, 0.3}, chosen on validation; inputs standardised on train). In Phase 4b it was the chosen attacker, or within 0.005 AUC of it, in almost every cell, and it is about 3 times cheaper than running all three. Split seed 0 only. Tasks as in Phase 4b: `gap` → `leakage`, `leakage_incr`, `utility_eurosat`, `utility_ben`; `map4` → `spatial`, `leakage`.
+
+## Primary tests
+
+Eight tests, Holm-corrected together (α = 0.05). Paired cluster bootstrap over GloSoFarID test patches, 1,000 resamples, one-sided, using the same test rows for both splits. Earliest split = layer1 / block3; final = layer4 / block12.
+
+| Test | Hypothesis | Measure |
+|---|---|---|
+| P8b.1–4 | **Depth adds presence leakage:** AUC(final) − AUC(earliest) > 0, one test per audited encoder | `leakage`, `gap` |
+| P8b.5–8 | **Early splits leak location:** macro AP(earliest) − macro AP(final) > 0, one test per audited encoder | `spatial`, `map4` |
+
+Reasoning: Phase 4b found that the leakage beyond pixel statistics is learned, so it should grow with depth. Phases 4b–6 found almost no location information in the final embeddings, so if location leaks anywhere it should be at early splits, where the maps still have spatial resolution.
+
+### Verdict rule
+
+For each family of four: **supported** if at least 3 are significant after Holm, **not supported** if at most 1 is, **mixed** if 2. Every test is reported whatever it shows. A test whose inputs are missing counts as p = 1 and is reported as not run.
+
+## Secondary analyses (exploratory, no multiplicity correction; 300 bootstrap resamples)
+
+- Leakage, spatial AP and utility curves over all four splits, per encoder, with 95% CIs.
+- `gap` leakage and `leakage_incr` minus the pixel-statistics control, per split (two-sided).
+- Spatial grid IoU (`map4`) minus the location prior, per split.
+- The random-encoder control at every split.
+- Payload bytes and head FLOPs per split (Phase 8a), the Pareto frontier over (int8 map bytes, head FLOPs, BigEarthNet AP) with the leakage at each frontier point, and the ISL feasibility of each payload (Phase 8c).
+- Tier 3, if run: the Phase 6 localiser on `map4` at the earliest split of each audited encoder, against the location prior.
+
+## Fallbacks and scope
+
+- Run order: tier 1 (`gap` leakage + BigEarthNet utility, `map4` spatial, audited encoders), then tier 2 (the rest, plus the random control), then tier 3 (localiser, optional). If tier 1 has not finished by **2026-11-19 14:00**, the encoders that finished are reported and the rest are listed as not run.
+- One attacker family, one split seed, one training run per cell. The own encoders (Phase 7) are not included. No claim is made beyond these four encoders, this object class and these datasets.

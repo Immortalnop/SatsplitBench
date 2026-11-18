@@ -42,10 +42,22 @@ with the venv `eoenv` (torch 2.15, torchgeo 0.10.1, sklearn 1.9.1, timm 1.0.31, 
 | Phase | State |
 |---|---|
 | 0–7 | **All done (13 Nov).** Results in `RESULTS.md` and `results/phase{4b,5,6,7}/analysis/` |
+| 8 | **Done (18 Nov).** Results in `RESULTS.md` and `results/phase8/` |
 
 Phase 7 verdict: **"leakage cut at a cost"**. P1–P3 leakage reductions significant (−0.018 / −0.025 / −0.048 AUC);
 BigEarthNet (−0.028) and EuroSAT (−0.010) fail non-inferiority. Exploratory: at pca16 leakage falls −0.124. Remaining work is
 writing only (paper, plan doc, git commit).
+
+Phase 8 (added 18 Nov, see README "Phase 8"): 8a compute per split, 8b split points (pre-registered 18 Nov in
+`results/preregistration.md`, "Phase 8b split-point settings"; 8 primary tests), 8c orbit-realistic ISLs (CelesTrak TLEs,
+skyfield). Scripts: splitpoints.py, compute8a.py, splits8b.py, analysis8b.py, isl8c.py, run_phase8.sh (all tested on
+subsets). **Ran in full 18 Nov, 18:38–21:24** (log `results/phase8/run.log`; results in RESULTS.md "Phase 8").
+Verdicts: depth adds presence leakage **not supported (1/4)**, with only ViT-DINO significant (+0.016); early splits leak location
+**mixed (2/4)**, true for both ResNets (+0.052, +0.023) and for neither ViT. Spatial `map4` payloads beat the location prior at every split
+(+0.07 to +0.19 IoU), so "location does not leak" applies to pooled payloads only. 8c: S-band fits only quantised codes;
+1.8 Gbit/s optical carries even zlib raw live; every feasible high-utility payload leaks AUC 0.92–0.94.
+Disclosed in the pre-registration: one pipeline test result was seen (resnet18_moco@layer1 map4 spatial, test AP 0.947).
+Phase 9 = paper. Deadline 21 Nov 2026, 23:59.
 
 Phase 7 settings (pre-registered 2026-11-12 in `results/preregistration.md`, section "Phase 7 defence settings"):
 **λ = 0.5** (ramped linearly from 0 over 4 epochs; baseline λ = 0), **no spatial adversary** (Phase 6 shows almost no

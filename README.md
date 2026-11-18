@@ -2,25 +2,49 @@
 
 How much object-level information leaks from compact Earth observation (EO) embeddings, and how does that leakage trade off against downstream utility as the embeddings are compressed?
 
-Project statement: *SatSplit-Bench: accuracy-bytes-compute-privacy benchmark for split inference on EO tasks over orbit-realistic ISLs, with an object-level feature-inversion leakage metric.* This study covers the accuracy, bytes and privacy parts, including the object-level inversion metric; compute, intermediate split points and ISL simulation are not yet implemented.
-
-## Main findings (Phases 4b–7; details and CIs in `RESULTS.md`)
-
-- **Presence leaks.** Every audited embedding reveals whether a tile contains solar panels (test AUC 0.90–0.95). Much of this is spectral (65 per-band pixel statistics alone reach 0.91), but adding the embedding to those statistics still raises AUC by +0.016 to +0.039 (fragile for ResNet18-MoCo across seeds). ViTs leak more than CNNs. Stronger attackers add ≤ 0.005 AUC; a CNN on raw pixels reaches 0.970.
-- **Location does not leak** from the audited encoders. Grid classifiers, a GAN inverter and a transformer localiser all land within 0.01 IoU of a position-only prior.
-- **Compression is not a defence.** PCA and quantisation cut utility at least as fast as leakage.
-- **Pixel metrics are not leakage metrics** (RQ3): LPIPS does not track object-level leakage; SSIM tracks only the reconstruction-based measures.
-- **An adversarial defence cuts leakage at a cost** (Phase 7, pre-registered): −0.018 AUC against fresh attackers at full size, while BigEarthNet macro AP (−0.028) and EuroSAT accuracy (−0.010) fail non-inferiority. Combined with PCA-16 the reduction is −0.124 AUC (exploratory). The in-training adversary is fooled; fresh attackers are not.
+Project statement: *SatSplit-Bench: accuracy-bytes-compute-privacy benchmark for split inference on EO tasks over orbit-realistic ISLs, with an object-level feature-inversion leakage metric.* Phases 0–7 cover accuracy, bytes and privacy, including the object-level inversion metric, for a split after the full encoder. Phase 8 adds compute, intermediate split points and orbit-realistic ISLs. All of these are done; Phase 9 is the paper.
 
 ## Research questions
 
 - **RQ1, attribute leakage:** can a linear probe on an embedding detect objects it was not used for (solar farms), above chance?
 - **RQ2, trade-off:** as embeddings are compressed (PCA dims, int8), does leakage fall faster or slower than utility?
 - **RQ3, metric mismatch:** do pixel metrics (SSIM, LPIPS) of an inverted image rank encoders the same way as object-level leakage?
+- **RQ4, split point** (Phase 8a/8b): how do leakage, utility, payload bytes and on-board compute change with the split point inside the encoder?
+- **RQ5, ISL feasibility** (Phase 8c): which payloads fit real inter-satellite link rates and contact windows, and what utility and leakage do the feasible ones carry?
+
+## Main findings (Phases 4b–8; details and CIs in `RESULTS.md`)
+
+- **Presence leaks.** Every audited embedding reveals whether a tile contains solar panels (test AUC 0.90–0.95). Much of this is spectral (65 per-band pixel statistics alone reach 0.91), but adding the embedding to those statistics still raises AUC by +0.016 to +0.039 (fragile for ResNet18-MoCo across seeds). ViTs leak more than CNNs. Stronger attackers add ≤ 0.005 AUC; a CNN on raw pixels reaches 0.970.
+- **Location does not leak from pooled embeddings.** Grid classifiers, a GAN inverter and a transformer localiser all land within 0.01 IoU of a position-only prior. Spatial payloads are different: feature maps sent at a split beat the prior by +0.07 to +0.19 IoU (Phase 8b).
+- **Compression is not a defence.** PCA and quantisation cut utility at least as fast as leakage.
+- **Pixel metrics are not leakage metrics** (RQ3): LPIPS does not track object-level leakage; SSIM tracks only the reconstruction-based measures.
+- **The split point does not control presence leakage** (RQ4, Phase 8b, pre-registered). Leakage is already near its maximum after the first stage, within ≤ 0.02 AUC across splits. Utility mostly rises with depth. Early ResNet maps are larger than the zlib-compressed tile (R50 layer1: 2.46× raw in fp32).
+- **Real ISLs carry embeddings, but none of the feasible high-utility payloads is private** (RQ5, Phase 8c). Sentinel-2A↔2B have continuous line of sight at about 4,460 km, and LEO→GEO relays are visible about 70% of the day. At S-band only the 4-bit PCA codes fit live (32 B, EuroSAT 0.963). At Ka-band the embeddings fit while raw tiles don't. At 1.8 Gbit/s optical, even zlib-compressed raw tiles flow live. Every feasible high-utility payload leaks at AUC 0.92–0.94.
+- **An adversarial defence cuts leakage at a cost** (Phase 7, pre-registered): −0.018 AUC against fresh attackers at full size, while BigEarthNet macro AP (−0.028) and EuroSAT accuracy (−0.010) fail non-inferiority. Combined with PCA-16 the reduction is −0.124 AUC (exploratory). The in-training adversary is fooled; fresh attackers are not.
+
+## Status
+
+| Phase | What | Status |
+|---|---|---|
+| 0 | Environment setup | Done |
+| 1 | Data acquisition | Done |
+| 2 | Embeddings | Done |
+| 3 | Compression | Done |
+| 4 | Probes and controls (linear + MLP) | Done |
+| 4b | Learned-leakage follow-ups (pre-registered) | Done |
+| 5 | Inversion: weak and strong inverters | Done |
+| 6 | Localisation attack | Done |
+| 7 | Own encoder and defence | Done: "leakage cut at a cost" (leakage −0.018 AUC, utility fails non-inferiority) |
+| 8a | Compute per split (FLOPs, parameters, latency, bytes) | Done |
+| 8b | Split points inside the encoder (pre-registered 18 Nov) | Done: depth adds presence leakage "not supported" (1/4); early splits leak location "mixed" (2/4, ResNets only) |
+| 8c | Orbit-realistic ISLs (real orbits, link rates, contact windows) | Done |
+| 9 | Analysis and paper | Planned (deadline 21 Nov 2026, 23:59) |
+
+---
 
 ## How to run
 
-All phases (0–7) are done; results are in `RESULTS.md`. The commands below re-run a phase: every runner skips runs that already
+Phases 0–8 are done; results are in `RESULTS.md`. The Phase 8 commands are in [Phase 8 scripts and how to run them](#phase-8-scripts-and-how-to-run-them). The commands below re-run a phase: every runner skips runs that already
 finished and resumes where it stopped. The runs use the GPU, so run them one after the other, and keep other heavy apps closed
 (memory pressure made Phase 6 stall once). Start long jobs detached (`nohup ... &` from a system terminal, not an editor's
 terminal), so closing the editor cannot kill them.
@@ -91,23 +115,6 @@ The same pattern runs any phase (`run_phase4b.sh`, `run_phase5.sh`, `run_phase6.
 phase section below lists its individual Python steps. On Windows, use `\` in paths, or forward slashes, which Python also accepts.
 
 Results: `results/phase4b/analysis/`, `results/phase5/analysis/`, `results/phase6/analysis/` and `results/phase7/analysis/`.
-
-## Status
-
-| Phase | What | Status |
-|---|---|---|
-| 0 | Environment setup | Done |
-| 1 | Data acquisition | Done |
-| 2 | Embeddings | Done |
-| 3 | Compression | Done |
-| 4 | Probes and controls (linear + MLP) | Done |
-| 4b | Learned-leakage follow-ups (pre-registered) | Done |
-| 5 | Inversion: weak and strong inverters | Done |
-| 6 | Localisation attack | Done |
-| 7 | Own encoder and defence | Done: "leakage cut at a cost" (leakage −0.018 AUC, utility fails non-inferiority) |
-| 8 | Analysis and paper | Planned |
-
----
 
 ## Phases 0–4: setup and baseline probes
 
@@ -355,7 +362,7 @@ Findings:
 
 ---
 
-## Phases 4b–8: research-grade follow-ups
+## Phases 4b–7: research-grade follow-ups
 
 From Phase 4b on, every attacker and model is a research-grade model, tuned on val and evaluated on test. Linear probes stay only as a reference row, because they are the standard measure in the probing literature and carry the RQ2 finding above.
 
@@ -381,11 +388,9 @@ Each model is chosen for what it lets the study measure:
 | 5 | Pixel-statistics inverter (control) | GAN (CNN) | Same GAN, input = pixel statistics (reuse by design) | Same | Learned leakage = embedding inverter minus this |
 | 5 | Panel segmenter | CNN | U-Net on real GloSoFarID tiles and masks | Dice + BCE | Run on reconstructions: detection and mask IoU |
 | 6 | Localisation attack | Transformer + CNN head | Query-based decoder (DETR / Mask2Former style): memory tokens from the embedding, 64 learnable queries (8×8), 4 cross-attention layers, conv upsampling head | Dice + focal loss | Mask IoU vs location prior and pixel-statistics control |
-| 7 | Own encoder, baseline | Transformer | ViT-Tiny/Small, 8-pixel patches on 64×64×13 (64 tokens) | Masked autoencoder (MAE), 75% masking, train-split tiles only | Phase 4b–6 attackers |
+| 7 | Own encoder, baseline | Transformer | ViT-Small, 8-pixel patches on 64×64×13 (64 tokens) | Masked autoencoder (MAE), 75% masking, train-split tiles only | Phase 4b–6 attackers |
 | 7 | Own encoder, defended | Transformer + MLP heads | Same ViT and budget, plus a solar-farm adversary behind a gradient-reversal layer | MAE + land-cover head − adversary | Phase 4b–6 attackers, retrained fresh |
-| 7 | Defence filter (optional) | MLP-based | Variational information bottleneck (stochastic encoder with a KL penalty) on frozen pretrained embeddings, plus the gradient-reversal adversary | Utility head + KL + adversary | Phase 4b–6 attackers |
-
-LightGBM is not installed yet (`uv pip install lightgbm`).
+| 7 | Defence filter (optional; not run, dropped for time) | MLP-based | Variational information bottleneck (stochastic encoder with a KL penalty) on frozen pretrained embeddings, plus the gradient-reversal adversary | Utility head + KL + adversary | Phase 4b–6 attackers |
 
 Out of scope: diffusion-based inversion (too heavy for the timeline on a Mac). Named as a limitation: stronger attacks can only reveal more.
 
@@ -577,14 +582,257 @@ in the table below one by one. See [How to run](#how-to-run), including how to d
 | 5 | `python scripts/invert.py --method gan --encoder <name> --variant full` | Phase 5 GAN inverter |
 | 6 | `python scripts/analysis7.py` (run by the defended stage) | Baseline vs defended: 5 pre-registered tests, secondary analyses |
 
-### Phase 8: Analysis and paper
+## Phase 8: SatSplit extensions (done 18 Nov; results in `RESULTS.md`)
 
-- Main figure: utility (x) vs leakage (y), one line per encoder, one point per compression level, with the pixel-statistics level marked. Utility on BigEarthNet mAP for H2; EuroSAT kept as a second panel.
-- Report mean ± std over seeds and 95% CIs; paired tests for encoder comparisons.
-- Test hypotheses H1–H3 and the Phase 4b–7 questions.
-- Paper, about 6 pages: introduction, related work, setup, results, discussion, conclusion.
+Phases 0–7 measure accuracy, bytes and privacy for **one** split point: after the full encoder. Phase 8 adds the three parts
+of the SatSplit-Bench statement that are still missing: **compute** (8a), **split points** (8b) and **orbit-realistic ISLs**
+(8c). Build order: 8a → 8b → 8c. 8b uses 8a's split definitions, and 8c uses the compute numbers from 8a and the byte sizes
+from 8a and 8b.
 
-**Remaining:** the paper (deadline 21 Nov 2026). Possible extensions toward the full SatSplit-Bench statement: compute cost per encoder, intermediate split points, and orbit-realistic ISL transmission.
+The setting: satellite A images a tile, runs the encoder **head** up to a split point and sends the **payload** over an
+inter-satellite link (ISL). Satellite B (or a ground station) runs the **tail**. The privacy question is what an eavesdropper
+or an untrusted relay learns from the payload.
+
+### Shared definitions: split points and payloads
+
+Input tile: 13 bands × 64 × 64 at 10 m, uint16 = **106,496 B**. That's the "send the raw image" baseline. The feature shapes
+below were checked with timm's `forward_intermediates` at 64×64:
+
+| Encoder | Split | Feature map | Full map, fp32 | Full map, int8 | fp32 vs raw | Pooled vector (dims) |
+|---|---|---|---|---|---|---|
+| ResNet18 (MoCo, random) | layer1 | 64 × 16 × 16 | 65,536 B | 16,384 B | 0.62× | 64 |
+| | layer2 | 128 × 8 × 8 | 32,768 B | 8,192 B | 0.31× | 128 |
+| | layer3 | 256 × 4 × 4 | 16,384 B | 4,096 B | 0.15× | 256 |
+| | layer4 (= Phases 2–7) | 512 × 2 × 2 | 8,192 B | 2,048 B | 0.08× | 512 |
+| ResNet50 (DINO) | layer1 | 256 × 16 × 16 | 262,144 B | 65,536 B | **2.46×** | 256 |
+| | layer2 | 512 × 8 × 8 | 131,072 B | 32,768 B | 1.23× | 512 |
+| | layer3 | 1024 × 4 × 4 | 65,536 B | 16,384 B | 0.62× | 1024 |
+| | layer4 (= Phases 2–7) | 2048 × 2 × 2 | 32,768 B | 8,192 B | 0.31× | 2048 |
+| ViT-S/16 (MoCo, DINO) | blocks 3 / 6 / 9 / 12 (12 = Phases 2–7) | 17 tokens × 384 | 26,112 B | 6,528 B | 0.25× | 384 |
+
+Every split gets two payload forms:
+- **`gap`, pooled vector:** global average pooling for ResNet stages, and the CLS token after the final LayerNorm for ViT
+  blocks. At layer4 and block 12 this reproduces the existing Phase 2 embeddings exactly. The extraction checks that (max
+  absolute difference < 1e-4) and stops if it fails.
+- **`map4`, spatial map:** the feature map average-pooled to 4 × 4 (ResNet layer1–2; layer3 is natively 4 × 4, and layer4
+  keeps its native 2 × 2), or the 16 patch tokens for the ViTs, flattened and stored as float16, on GloSoFarID only. An
+  attacker that sees the full transmitted map can only learn more, so `map4` results are a lower bound.
+
+BigEarthNet tiles are 112 × 112, so their maps are larger. The pooled vectors keep the same dimensions, so the BigEarthNet
+utility task uses `gap` only.
+
+New research questions:
+- **RQ4, split point:** how do leakage, utility, payload bytes and on-board compute change with the split point inside the encoder?
+- **RQ5, ISL feasibility:** which payloads fit real ISL rates and contact windows, and what utility and leakage do the feasible ones carry?
+
+### 8a: Compute
+
+**Question:** what does each split cost on board satellite A?
+
+Measured for each encoder × split, plus the own ViT-S/8 (final split) and the raw-transmission baseline:
+
+| Measure | How |
+|---|---|
+| Parameters, head and tail | counted per module, up to and after the split |
+| FLOPs, head and tail | `torch.utils.flop_counter.FlopCounterMode`, batch 1, 13 × 64 × 64 input (a multiply-add counts as 2 FLOPs) |
+| Peak activation memory of the head | largest intermediate tensor, in bytes |
+| Head latency | MPS and CPU, batch 1 and 64; 20 warm-up runs and 100 timed runs; median and IQR; `torch.mps.synchronize()` before every timer read |
+| Payload bytes | both forms × fp32 / fp16 / int8, from the table above |
+| Raw baseline | raw bytes and losslessly compressed raw bytes (zlib, mean over 1,000 test tiles) |
+
+**Sanity checks (the script fails if any is off):**
+- The FLOP counter gives ≈ 3.6 GFLOPs (1.8 GMACs) for torchvision ResNet-18 at 3 × 224 × 224.
+- Head + tail FLOPs equal the full model's FLOPs.
+- At the final split, the head parameters equal the encoder's parameters.
+
+**Limits:** laptop latency is not flight hardware, and radiation-tolerant on-board processors are much slower. FLOPs and bytes
+are hardware-independent, so they are the primary compute measures. Latency is reported only as a relative ranking. Energy is
+not measured; FLOPs serve as the proxy.
+
+**Output:** `scripts/compute8a.py` → `results/phase8/compute.csv`. No training, under 1 h. Descriptive only, so it needs no
+pre-registration. Run the latency timing when nothing else is using the GPU; FLOPs and bytes can be computed at any time.
+
+### 8b: Split points (pre-registered before running)
+
+**Question:** RQ4. Does an earlier split leak more or less, and does it give away location that the final embedding does not?
+
+**Encoders:** the 4 audited encoders, plus `resnet18_random` as a control, at every split in the table: 15 new split points
+(the 12 audited ones are tiers 1–2, the 3 random ones tier 2). The final split repeats the existing embeddings and is
+re-checked against them, and is attacked again with the deep MLP so every split uses the same attacker. The own encoders
+are left out for time.
+
+**Pipeline:**
+1. **Extract** (`scripts/splits8b.py`): one pass per dataset (EuroSAT train/val/test; all 55,408 GloSoFarID tiles; the
+   BigEarthNet 30k/10k/10k subset with the Phase 4b preprocessing) collects every split at once. It writes
+   `data/compressed/<encoder>@<split>/{gap,map4}/*.npy`, so `attack4b.py` and `localise.py` read the files unchanged.
+   About 1.5–2.5 h, mostly reading BigEarthNet.
+2. **Attack** (deep MLP only, with hyperparameters chosen on val, split seed 0). In Phase 4b the deep MLP was chosen, or within
+   0.005 AUC of the chosen attacker, in almost every case. Using it alone cuts the run time by about 3×.
+   - `gap`: `leakage`, `leakage_incr`, `utility_eurosat`, `utility_ben`
+   - `map4`: `spatial` (16-cell grid, macro AP), `leakage`
+   - Outputs: `results/phase8/runs8b.csv` and `results/preds/phase8b/`. About 5–8 h.
+3. **Localise (optional, tier 3):** the Phase 6 localiser on `map4` at the earliest split of each audited encoder (4 runs,
+   about 0.5–1 h each).
+4. **Analyse** (`scripts/analysis8b.py`): primary tests, secondary curves, the frontier table and figures.
+
+**Primary tests** (Holm over 8; cluster bootstrap over patches with 1,000 resamples; one-sided; leakage = test score of the
+attacker chosen on validation):
+
+| Tests | Hypothesis | Measure |
+|---|---|---|
+| P8b.1–4 | **Depth adds presence leakage:** final split − earliest split (layer1 / block 3) > 0, one test per audited encoder | leakage AUC, `gap` |
+| P8b.5–8 | **Early splits leak location:** earliest split − final split > 0, one test per audited encoder | spatial macro AP, `map4` |
+
+Why these two: Phase 4b found the leakage beyond pixel statistics is learned, so it should grow with depth. Phases 4b–6 found
+almost no location information in final embeddings, so if location leaks anywhere, it should be at early splits, where the
+maps still have spatial resolution.
+
+**Verdict rule, per family of 4 tests:** supported if at least 3 are significant after Holm, not supported if at most 1 is,
+mixed otherwise. Every test is reported, whatever the outcome.
+
+**Secondary analyses (exploratory):**
+- leakage and utility curves over all splits;
+- `leakage_incr` at each split (does any split beat the pixel statistics?);
+- the random-encoder control at each split;
+- leakage per payload byte;
+- the Pareto frontier over payload bytes, head FLOPs (from 8a), utility and leakage;
+- `map4` presence leakage;
+- localiser IoU against the location prior (tier 3).
+
+**Pre-registered fallbacks:**
+- If a `map4` matrix doesn't fit in memory (worst case: ResNet50 layer3 at 16,384 dims × about 39k train rows), fit PCA-2048
+  on the train rows only and record that.
+- If tier 1 hasn't finished by **19 Nov, 14:00**, report the encoders that finished and list the rest as not run.
+
+**Tiers:**
+- Tier 1: `gap` `leakage` + `utility_ben`, and `map4` `spatial`, for the 4 audited encoders.
+- Tier 2: `leakage_incr`, `utility_eurosat`, `map4` `leakage`, the random control.
+- Tier 3: the localiser.
+
+Before 8b runs, this section is copied into `results/preregistration.md` under "Phase 8b split-point settings", with the date.
+
+### 8c: Orbit-realistic ISLs
+
+**Question:** RQ5. Given real orbits and link rates, which payloads can be sent, and what do they cost in utility and leakage?
+
+**Orbits:** public TLEs from CelesTrak, fetched once and saved with their epoch in `data/orbits/`: Sentinel-2A/2B/2C, EDRS-A
+(hosted on Eutelsat 9B) and EDRS-C. Check the exact catalog names when fetching. They are propagated with `skyfield` (SGP4)
+over 24 h at 10 s steps. Line of sight counts as clear when the straight segment between the satellites stays at least
+100 km above the Earth's surface (an atmosphere margin).
+
+**Scenarios:**
+
+| Scenario | Link | Notes |
+|---|---|---|
+| S1, LEO → GEO relay | Sentinel-2 → EDRS, optical, 1.8 Gbit/s nominal | Sentinel-2's real data-relay path; gives visibility windows and distances |
+| S2, LEO crosslink in one plane | every real Sentinel-2 pair (2A, 2B, 2C); synthetic leader–follower pairs at 1°, 5° and 20° phase (about 125, 625 and 2,500 km) | From the 18 Nov 2026 TLEs: 2B and 2C are about 180° apart and never in line of sight, while 2A (no longer in its original slot) sits about 4,460 km from 2B with continuous line of sight. The script reports each pair's line-of-sight share rather than assuming it. The synthetic pairs give continuous contact. |
+| S3, LEO constellation | synthetic Walker-delta at 786 km SSO (e.g. 24/3/1), links to neighbours in the same and adjacent planes | inter-plane distances and windows |
+
+**Link classes** (nominal rates are input parameters, defaults `s_band` 2 Mbit/s, `ka_band` 500 Mbit/s, `optical_1g8`
+1.8 Gbit/s, `optical_10g` 10 Gbit/s, `optical_100g` 100 Gbit/s, changed with `--links name=rate`; the paper cites a source for
+each value used): S-band RF (about
+1–10 Mbit/s), Ka-band RF (about 0.1–1 Gbit/s), optical (1.8 Gbit/s for EDRS; about 10–100 Gbit/s for commercial optical
+ISLs). Optionally, RF rates scale with distance through free-space path loss, rate(d) = min(R_max, R_ref · (d_ref / d)²).
+
+**Workload:** a Sentinel-2-like imager (290 km swath, about 6.6 km/s ground speed) produces about **4,700 tiles/s** of
+640 m × 640 m tiles while imaging. That's about **4.0 Gbit/s raw** with all 13 bands on the 10 m grid. The real instrument
+keeps its 20 m and 60 m bands at lower resolution, so this overstates raw volume; the paper reports it both ways.
+
+**Outputs, per scenario × link class × payload** (payloads from 8a/8b plus the Phase 3/4b PCA and quantisation variants):
+- the rate needed to send in real time (tiles/s × bytes × 8), and the share of imaged tiles a link can carry live;
+- tiles per contact window and per day, from the visibility windows;
+- per-tile latency T = T_head (8a) + 8 · bytes / rate + distance / c (queueing not modelled);
+- **the ISL-feasible frontier:** for each link, the payloads that fit, the best utility among them, and the leakage that comes
+  with it. That answers "what does a given link force you to leak?".
+
+**Sanity checks:** the TLEs give a Sentinel-2 period of about 100.6 min and an altitude of about 786 km, EDRS-C sits at about
+35,786 km, and the line of sight between 2A and 2B is never clear.
+
+**Output:** `scripts/isl8c.py` → `results/phase8/isl_links.csv`, `isl_windows.csv`, `isl_payloads.csv`,
+`isl_feasibility.csv`, `isl_frontier.csv` and `isl_README.json`. The frontier is computed twice: with BigEarthNet utility
+(Phase 4b float variants and 8b splits) and with EuroSAT utility (which also covers the Phase 4b quantile codes, the only
+payloads small enough for S-band). New dependency:
+`pip install skyfield`. Runs in minutes. Descriptive only, so it needs no pre-registration.
+
+**Limits:** these are nominal rates, not full link budgets, so pointing, acquisition time and terminal duty cycles are left
+out. On-board storage and queueing are not modelled, and the constellations in S2 and S3 are synthetic.
+
+### Phase 8 schedule (deadline 21 Nov 2026, 23:59)
+
+| When | Work | Cut-off rule |
+|---|---|---|
+| 18 Nov, evening | ~~build 8a, 8b and 8c; write the 8b pre-registration; run `run_phase8.sh all`~~ (done, finished 21:24) | if 8b hasn't started by 23:59, move it to future work |
+| 19 Nov | ~~check the run, read `results/phase8/analysis/` and `isl_*.csv`, write the Phase 8 section of `RESULTS.md`~~ (done 18 Nov) | 8b tier 1 by 14:00, otherwise report it as partial |
+| 20–21 Nov | Phase 9: the paper | no new experiments after 20 Nov, 09:00 |
+
+### Phase 8 scripts and how to run them
+
+| Script | Phase | What it does |
+|---|---|---|
+| `scripts/splitpoints.py` | 8a, 8b | split points, stage functions and the `gap` / `map4` readouts (shared) |
+| `scripts/compute8a.py` | 8a | parameters, FLOPs, peak activation, payload bytes, head latency → `results/phase8/compute.csv` |
+| `scripts/splits8b.py` | 8b | extracts `gap` and `map4` at every split into `data/compressed/<encoder>@<split>/` (about 14 GB) |
+| `scripts/attack4b.py` (unchanged) | 8b | deep-MLP attackers on the split variants → `results/phase8/runs8b.csv` |
+| `scripts/analysis8b.py` | 8b | the 8 pre-registered tests, secondary tables, frontier, figure → `results/phase8/analysis/` |
+| `scripts/isl8c.py` | 8c | TLEs, contact windows, payloads, feasibility, frontier → `results/phase8/isl_*.csv` |
+| `scripts/run_phase8.sh` | all | runs `8a`, `8b`, `8c`, or `all` (8a → 8b → 8c); every stage resumes where it stopped |
+
+Checks built in, all of which passed in testing:
+- Every encoder's stages reproduce its own output exactly (difference 0).
+- On 300-row subsets of EuroSAT, GloSoFarID and BigEarthNet, the final-split `gap` equals the stored Phase 2 embeddings
+  (difference 0).
+- The FLOP counter gives 3.63 GFLOPs for torchvision ResNet-18 at 224 × 224.
+- Head + tail FLOPs and parameters add up to the full model at every split.
+- The Sentinel-2 orbit (100.6 min period, about 797 km altitude) and EDRS-C (35,793 km) check out.
+- `run_phase8.sh 8b` refuses to start without the "Phase 8b split-point settings" section in `results/preregistration.md`
+  (now written).
+
+**One-time setup:** `pip install skyfield` (already done in `eoenv`). 8c fetches public TLEs from CelesTrak once a day into
+`data/orbits/`.
+
+**Run everything, detached** (macOS; about 7–10 h, mostly 8b). 8a goes first, because its latency timing needs an idle GPU:
+
+```bash
+cd ~/Desktop/projects/Satsplitbench
+mkdir -p results/phase8
+nohup caffeinate -i bash scripts/run_phase8.sh all > results/phase8/run.log 2>&1 &
+tail -f results/phase8/run.log            # Ctrl+C stops watching only
+```
+
+Add the optional tier 3 (the localiser on the earliest split, +2–4 h) with
+`TIER3=1 nohup caffeinate -i bash scripts/run_phase8.sh all > results/phase8/run.log 2>&1 &`.
+
+**Or one stage at a time:**
+
+```bash
+nohup caffeinate -i bash scripts/run_phase8.sh 8a > results/phase8/8a.log 2>&1 &    # ~15-25 min
+nohup caffeinate -i bash scripts/run_phase8.sh 8b > results/phase8/8b.log 2>&1 &    # ~6-9 h, after 8a
+nohup caffeinate -i bash scripts/run_phase8.sh 8c > results/phase8/8c.log 2>&1 &    # ~1 min, after 8b
+```
+
+Foreground alternative (stops if the terminal closes): `caffeinate -i bash scripts/run_phase8.sh all 2>&1 | tee results/phase8/run.log`.
+
+**Single steps** (as the runner calls them):
+
+| Step | Command |
+|---|---|
+| 8a | `python scripts/compute8a.py` (add `--no-latency` for FLOPs, parameters and bytes only, ~1 min) |
+| 8b extract | `python scripts/splits8b.py` (test: `--encoders resnet18_moco --limit 300 --out /tmp/t8b`) |
+| 8b attack | `python scripts/attack4b.py --tasks leakage utility_ben --encoders resnet18_moco@layer1 --variants gap --attackers deep_mlp --out results/phase8/runs8b.csv --preds results/preds/phase8b` |
+| 8b analysis | `python scripts/analysis8b.py` |
+| 8c | `python scripts/isl8c.py` (offline: `--tle-file data/orbits/tle_<date>.txt`) |
+
+On Linux / WSL2, replace `caffeinate -i` with `systemd-inhibit --what=idle:sleep`. On native Windows, run the single steps in
+PowerShell; the runner needs bash. See [How to run](#how-to-run), including how to disable sleep.
+
+## Phase 9: Analysis and paper (planned)
+
+- **Main figure:** utility (x) vs leakage (y), one line per encoder, one point per compression level, with the pixel-statistics level marked. BigEarthNet macro AP is the utility axis (for H2), with EuroSAT as a second panel.
+- **Phase 8 figures:** leakage, utility, bytes and head FLOPs against split point (8a/8b), and the ISL-feasible frontier: for each link class, the best utility that fits and the leakage it carries (8c).
+- Report 95% CIs and, where seeds exist, mean ± std; paired tests for encoder comparisons. Label every result as pre-registered or exploratory.
+- Answer H1–H3, RQ1–RQ5 and the Phase 4b–8 questions.
+- Paper, about 6 pages: introduction, related work, setup, results, discussion and limits, conclusion. Secondary tables go to an appendix.
+- Deadline: 21 Nov 2026, 23:59.
 
 ## Repository layout
 
@@ -598,6 +846,8 @@ data/                      # downloaded datasets (git-ignored)
   embeddings/              # Phase 2 outputs (+ BigEarthNet ben_*.npy, split seeds 1-2)
   compressed/              # Phase 3 outputs (+ pixelstats control)
   quantised/               # Phase 4b q8/q4/q2/q1 variants
+  orbits/                  # Phase 8c: CelesTrak TLEs, one file per download date
+  compressed/<enc>@<split>/  # Phase 8b split-point variants (gap, map4)
 eoenv/                     # Python virtual environment
 scripts/
   load_glosofarid.py       # GloSoFarID TFRecords -> numpy (+ masks)
@@ -624,12 +874,21 @@ scripts/
   run_phase5.sh            # runs all of Phase 5
   run_phase6.sh            # runs all of Phase 6
   run_phase7.sh            # runs Phase 7: baseline, then defended
+  splitpoints.py           # Phase 8: split points, stages, gap/map4 readouts (shared by 8a and 8b)
+  compute8a.py             # Phase 8a: FLOPs, parameters, latency, payload bytes per split
+  splits8b.py              # Phase 8b: extract pooled and spatial features at every split point
+  analysis8b.py            # Phase 8b: pre-registered split-point tests, frontier, figure
+  isl8c.py                 # Phase 8c: orbits, contact windows, ISL feasibility
+  run_phase8.sh            # runs Phase 8: 8a, 8b, 8c or all
 results/
-  preregistration.md       # Phase 4b pre-registration
+  preregistration.md       # pre-registrations: Phases 4b, 5, 6, 7 and 8b
   probes.csv               # Phase 4 results
   probes.log
   phase4b/                 # runs.csv, analysis/
-  phase5/                  # inversion.csv, per-run folders
+  phase5/                  # inversion.csv, per-run folders, analysis/
+  phase6/                  # localisation.csv, per-run folders, analysis/
+  phase7/                  # baseline.log, defended.log, training json, analysis/
+  phase8/                  # compute.csv, runs8b.csv, isl_*.csv, analysis/, run.log
   preds/                   # per-tile test predictions
   models/                  # trained image models
 ```
