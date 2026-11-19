@@ -8,6 +8,7 @@
 #        TIER3=1 also runs the localiser on the earliest split of each audited encoder (+2-4 h)
 #   8c   isl8c.py: orbits, contact windows, ISL feasibility                    (~1 min; fetches TLEs once a day)
 #   all  8a, then 8b, then 8c (8c last so its frontier includes the 8b payloads)
+#   8d   deepen8.py follow-ups (exploratory, after 8b): pixel-map control, gap-vs-map location, split seeds 1-2 (~2-3 h)
 set -euo pipefail
 cd "$(dirname "$0")/.."
 source eoenv/bin/activate
@@ -53,6 +54,25 @@ run_8b() {
   python scripts/analysis8b.py
 }
 
+run_8d() {
+  [ -f results/phase8/runs8b.csv ] || { echo "Run 8b first."; exit 1; }
+  grep -q "Phase 8d follow-ups" results/preregistration.md || {
+    echo "Record the 8d note in results/preregistration.md (section 'Phase 8d follow-ups') first."; exit 1; }
+  ENDS=""; for e in $AUDITED; do s=$(splits_of "$e"); ENDS="$ENDS $e@$(echo $s | cut -d' ' -f1) $e@$(echo $s | awk '{print $NF}')"; done
+  echo "== 8d.1 Pixel 4x4 map control $(date '+%F %T')"
+  [ -f data/compressed/pixels/map4/glosofarid.npy ] || python scripts/deepen8.py --build
+  $ATTACK --tasks spatial leakage --encoders pixels --variants map4
+  echo "== 8d.2 Spatial attack on the pooled vector at the earliest and final split $(date '+%F %T')"
+  $ATTACK --tasks spatial --encoders $ENDS --variants gap
+  for seed in 1 2; do
+    echo "== 8d.3 Replication of the 8 primary contrasts, split seed $seed $(date '+%F %T')"
+    $ATTACK --split-seed $seed --tasks leakage --encoders $ENDS --variants gap
+    $ATTACK --split-seed $seed --tasks spatial --encoders $ENDS --variants map4
+  done
+  echo "== 8d.4 Analysis $(date '+%F %T')"
+  python scripts/deepen8.py --analyse
+}
+
 run_8c() {
   echo "== 8c. Orbit-realistic ISLs $(date '+%F %T')"
   python scripts/isl8c.py
@@ -62,7 +82,8 @@ case "$stage" in
   8a) run_8a ;;
   8b) run_8b ;;
   8c) run_8c ;;
+  8d) run_8d ;;
   all) run_8a; run_8b; run_8c ;;
-  *) echo "unknown stage $stage (8a | 8b | 8c | all)"; exit 1 ;;
+  *) echo "unknown stage $stage (8a | 8b | 8c | 8d | all)"; exit 1 ;;
 esac
 echo "== Phase 8 stage '$stage' done $(date '+%F %T'). Results in results/phase8/"

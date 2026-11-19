@@ -43,6 +43,7 @@ with the venv `eoenv` (torch 2.15, torchgeo 0.10.1, sklearn 1.9.1, timm 1.0.31, 
 |---|---|
 | 0–7 | **All done (13 Nov).** Results in `RESULTS.md` and `results/phase{4b,5,6,7}/analysis/` |
 | 8 | **Done (18 Nov).** Results in `RESULTS.md` and `results/phase8/` |
+| 8d | **Done (18 Nov, 23:15–23:56).** Exploratory follow-ups in `results/phase8/deepen/`. 8b effects replicate 3/3 seeds; map vs gap +0.03 to +0.16 IoU (8/8); pixel 4×4 map already +0.13 IoU over the prior, and encoders add at most about +0.05 |
 
 Phase 7 verdict: **"leakage cut at a cost"**. P1–P3 leakage reductions significant (−0.018 / −0.025 / −0.048 AUC);
 BigEarthNet (−0.028) and EuroSAT (−0.010) fail non-inferiority. Exploratory: at pca16 leakage falls −0.124. Remaining work is

@@ -222,3 +222,19 @@ For each family of four: **supported** if at least 3 are significant after Holm,
 
 - Run order: tier 1 (`gap` leakage + BigEarthNet utility, `map4` spatial, audited encoders), then tier 2 (the rest, plus the random control), then tier 3 (localiser, optional). If tier 1 has not finished by **2026-11-19 14:00**, the encoders that finished are reported and the rest are listed as not run.
 - One attacker family, one split seed, one training run per cell. The own encoders (Phase 7) are not included. No claim is made beyond these four encoders, this object class and these datasets.
+
+# Phase 8d follow-ups (exploratory; written 2026-11-18, after the 8b results were seen)
+
+These analyses were chosen **after** the 8b primary results were seen, so they are exploratory, not confirmatory.
+They do not change any 8b verdict.
+
+1. **Pixel control for location.** Pseudo-encoder `pixels`/`map4` is the raw tile divided by 10,000 and average-pooled to 4×4 (13 bands × 16 = 208 dims).
+   - Tasks: spatial and leakage.
+   - Comparison: encoder `map4` minus the pixel map on the same test tiles (macro AP or AUC, and grid IoU).
+   - Holm within each task over the 16 audited encoder-by-split cells.
+2. **Payload form.** The spatial task on `gap` at the earliest and final split of each audited encoder.
+   - Comparison: `map4` minus `gap` grid IoU.
+   - Holm over 8.
+3. **Replication.** The 8 primary 8b contrasts on split seeds 1 and 2: same attacker, same grid, one-sided, Holm over 8 within each seed. A contrast is called replicated if it is significant in at least 2 of the 3 seeds.
+
+All tests use a paired cluster bootstrap over patches with 1,000 resamples. Script: `scripts/deepen8.py`. Run with `scripts/run_phase8.sh 8d`.

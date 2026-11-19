@@ -15,10 +15,10 @@ Project statement: *SatSplit-Bench: accuracy-bytes-compute-privacy benchmark for
 ## Main findings (Phases 4b–8; details and CIs in `RESULTS.md`)
 
 - **Presence leaks.** Every audited embedding reveals whether a tile contains solar panels (test AUC 0.90–0.95). Much of this is spectral (65 per-band pixel statistics alone reach 0.91), but adding the embedding to those statistics still raises AUC by +0.016 to +0.039 (fragile for ResNet18-MoCo across seeds). ViTs leak more than CNNs. Stronger attackers add ≤ 0.005 AUC; a CNN on raw pixels reaches 0.970.
-- **Location does not leak from pooled embeddings.** Grid classifiers, a GAN inverter and a transformer localiser all land within 0.01 IoU of a position-only prior. Spatial payloads are different: feature maps sent at a split beat the prior by +0.07 to +0.19 IoU (Phase 8b).
+- **Location does not leak from pooled embeddings.** Grid classifiers, a GAN inverter and a transformer localiser all land within 0.01 IoU of a position-only prior. Spatial payloads are different: feature maps sent at a split beat the prior by +0.07 to +0.19 IoU (Phase 8b), and beat the pooled vector on the same tiles in 8/8 tests. Most of this is the image layout itself, though. The raw tile pooled to the same 4×4 grid already gets +0.13, and the encoders add at most about +0.05 (Phase 8d, exploratory).
 - **Compression is not a defence.** PCA and quantisation cut utility at least as fast as leakage.
 - **Pixel metrics are not leakage metrics** (RQ3): LPIPS does not track object-level leakage; SSIM tracks only the reconstruction-based measures.
-- **The split point does not control presence leakage** (RQ4, Phase 8b, pre-registered). Leakage is already near its maximum after the first stage, within ≤ 0.02 AUC across splits. Utility mostly rises with depth. Early ResNet maps are larger than the zlib-compressed tile (R50 layer1: 2.46× raw in fp32).
+- **The split point does not control presence leakage** (RQ4, Phase 8b, pre-registered; replicated on 3 split seeds in 8d). Leakage is already near its maximum after the first stage, within ≤ 0.02 AUC across splits. Utility mostly rises with depth. Early ResNet maps are larger than the zlib-compressed tile (R50 layer1: 2.46× raw in fp32).
 - **Real ISLs carry embeddings, but none of the feasible high-utility payloads is private** (RQ5, Phase 8c). Sentinel-2A↔2B have continuous line of sight at about 4,460 km, and LEO→GEO relays are visible about 70% of the day. At S-band only the 4-bit PCA codes fit live (32 B, EuroSAT 0.963). At Ka-band the embeddings fit while raw tiles don't. At 1.8 Gbit/s optical, even zlib-compressed raw tiles flow live. Every feasible high-utility payload leaks at AUC 0.92–0.94.
 - **An adversarial defence cuts leakage at a cost** (Phase 7, pre-registered): −0.018 AUC against fresh attackers at full size, while BigEarthNet macro AP (−0.028) and EuroSAT accuracy (−0.010) fail non-inferiority. Combined with PCA-16 the reduction is −0.124 AUC (exploratory). The in-training adversary is fooled; fresh attackers are not.
 
@@ -38,13 +38,14 @@ Project statement: *SatSplit-Bench: accuracy-bytes-compute-privacy benchmark for
 | 8a | Compute per split (FLOPs, parameters, latency, bytes) | Done |
 | 8b | Split points inside the encoder (pre-registered 18 Nov) | Done: depth adds presence leakage "not supported" (1/4); early splits leak location "mixed" (2/4, ResNets only) |
 | 8c | Orbit-realistic ISLs (real orbits, link rates, contact windows) | Done |
+| 8d | Follow-ups to 8b (exploratory): pixel-map control, `gap` vs `map4` location, split seeds 1–2 | Done: the significant 8b effects replicate in 3/3 seeds |
 | 9 | Analysis and paper | Planned (deadline 21 Nov 2026, 23:59) |
 
 ---
 
 ## How to run
 
-Phases 0–8 are done; results are in `RESULTS.md`. The Phase 8 commands are in [Phase 8 scripts and how to run them](#phase-8-scripts-and-how-to-run-them). The commands below re-run a phase: every runner skips runs that already
+Phases 0–8d are done; results are in `RESULTS.md`. The Phase 8 commands are in [Phase 8 scripts and how to run them](#phase-8-scripts-and-how-to-run-them). The commands below re-run a phase: every runner skips runs that already
 finished and resumes where it stopped. The runs use the GPU, so run them one after the other, and keep other heavy apps closed
 (memory pressure made Phase 6 stall once). Start long jobs detached (`nohup ... &` from a system terminal, not an editor's
 terminal), so closing the editor cannot kill them.
@@ -775,6 +776,7 @@ out. On-board storage and queueing are not modelled, and the constellations in S
 | `scripts/attack4b.py` (unchanged) | 8b | deep-MLP attackers on the split variants → `results/phase8/runs8b.csv` |
 | `scripts/analysis8b.py` | 8b | the 8 pre-registered tests, secondary tables, frontier, figure → `results/phase8/analysis/` |
 | `scripts/isl8c.py` | 8c | TLEs, contact windows, payloads, feasibility, frontier → `results/phase8/isl_*.csv` |
+| `scripts/deepen8.py` | 8d | exploratory follow-ups: pixel 4×4-map control, `gap` vs `map4` location, 8b contrasts on split seeds 1–2 → `results/phase8/deepen/` |
 | `scripts/run_phase8.sh` | all | runs `8a`, `8b`, `8c`, or `all` (8a → 8b → 8c); every stage resumes where it stopped |
 
 Checks built in, all of which passed in testing:
@@ -808,7 +810,12 @@ Add the optional tier 3 (the localiser on the earliest split, +2–4 h) with
 nohup caffeinate -i bash scripts/run_phase8.sh 8a > results/phase8/8a.log 2>&1 &    # ~15-25 min
 nohup caffeinate -i bash scripts/run_phase8.sh 8b > results/phase8/8b.log 2>&1 &    # ~6-9 h, after 8a
 nohup caffeinate -i bash scripts/run_phase8.sh 8c > results/phase8/8c.log 2>&1 &    # ~1 min, after 8b
+nohup caffeinate -i bash scripts/run_phase8.sh 8d > results/phase8/8d.log 2>&1 &    # ~1-1.5 h, after 8b; exploratory follow-ups
 ```
+
+8d is not part of `all`. Its plan was written after the 8b results were seen, so its results are reported as exploratory
+(`results/preregistration.md`, "Phase 8d follow-ups"). Outputs go to `results/phase8/deepen/`: `vs_pixels.csv`, `form.csv`,
+`replication.csv` and `README.json`.
 
 Foreground alternative (stops if the terminal closes): `caffeinate -i bash scripts/run_phase8.sh all 2>&1 | tee results/phase8/run.log`.
 

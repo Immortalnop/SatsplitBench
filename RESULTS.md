@@ -570,16 +570,71 @@ Assumptions:
 - No queueing or on-board storage.
 - 13 bands on the 10 m grid, which overstates Sentinel-2's raw volume.
 
+### 8d. Follow-ups (exploratory; `results/phase8/deepen/`)
+
+Run 18 Nov 2026, 23:15–23:56. The 8d plan was written **after** the 8b results were seen
+(`results/preregistration.md`, "Phase 8d follow-ups"), so 8d does not change any 8b verdict.
+Every comparison is paired on the same test tiles: cluster bootstrap over patches, 1,000 resamples, Holm within each family.
+
+**1. Replication of the 8 primary contrasts on split seeds 0, 1 and 2** (Holm over 8 within each seed):
+
+| Contrast | R18-MoCo | ViT-MoCo | R50-DINO | ViT-DINO |
+|---|---|---|---|---|
+| Presence, final − earliest (`gap`) | +0.002 / −0.000 / +0.003 (0/3) | +0.005 / +0.004 / +0.013 (1/3) | +0.002 / −0.002 / +0.002 (0/3) | **+0.016 / +0.026 / +0.014 (3/3)** |
+| Location, earliest − final (`map4`) | **+0.052 / +0.066 / +0.048 (3/3)** | +0.003 / +0.001 / +0.003 (0/3) | **+0.023 / +0.032 / +0.023 (3/3)** | +0.003 / +0.006 / +0.005 (0/3) |
+
+Each effect that was significant in 8b replicates in all three seeds. Each effect that was null stays null, except ViT-MoCo
+presence, which is significant once. So the 8b verdicts are robust: "not supported" and "mixed" respectively.
+
+**2. Payload form: `map4` vs `gap` on the same tiles** (spatial task; Holm over 8):
+
+| Encoder | Earliest split, grid IoU map / gap | Final split, grid IoU map / gap |
+|---|---|---|
+| R18-MoCo | 0.664 / 0.549 (+0.116) | 0.563 / 0.536 (+0.027) |
+| ViT-MoCo | 0.647 / 0.562 (+0.085) | 0.650 / 0.553 (+0.098) |
+| R50-DINO | 0.684 / 0.588 (+0.095) | 0.628 / 0.552 (+0.076) |
+| ViT-DINO | 0.675 / 0.526 (+0.150) | 0.666 / 0.507 (+0.159) |
+
+The pooled vectors sit at 0.51–0.59, close to the position-only prior (0.497), as in Phase 4b. The map is better in all 8
+comparisons, each with p_holm 0.008, so the leak comes from the payload's **form**, not its depth. ViT-DINO shows the gap
+most clearly: its pooled vector has the least location of the four encoders, while its map has among the most.
+
+**3. Pixel control: the raw tile average-pooled to the same 4×4 grid** (13 × 16 = 208 dims; Holm over 16 audited cells per task):
+
+The pixel map alone reaches spatial macro AP 0.932 and grid IoU 0.631, which is +0.134 over the prior. Measured against it:
+
+| Encoder `map4` minus pixel map | Grid IoU, earliest → final split | Presence AUC, earliest → final split |
+|---|---|---|
+| R18-MoCo | +0.034 / +0.017 / −0.000 / **−0.068** | +0.012 / +0.008 / +0.013 / −0.001 (only layer1 significant) |
+| ViT-MoCo | +0.016 / +0.025 / +0.015 / +0.020 | −0.004 / +0.009 / +0.007 / +0.002 (none significant) |
+| R50-DINO | +0.053 / +0.045 / +0.025 / −0.003 | **+0.024 / +0.028 / +0.029 / +0.033** (all significant) |
+| ViT-DINO | +0.044 / +0.051 / +0.046 / +0.035 | **+0.026 / +0.030 / +0.030 / +0.025** (all significant) |
+
+Every positive IoU difference is significant (p_holm ≤ 0.036). The two near-zero cells and the R18-MoCo layer4 deficit are not
+gains over the pixels. Reading the table:
+- **About three-quarters of the location signal in a spatial payload is already in the pooled pixels.** Pixels give
+  +0.134 IoU over the prior; the best encoder map gives +0.186.
+- The encoders add at most about +0.05, mostly at early ResNet splits and at every ViT-DINO split. At the final ResNet splits
+  they add nothing, or remove some.
+- For presence, the DINO maps carry learned signal beyond the pixel map (+0.024 to +0.033) at every split, while the MoCo maps
+  carry almost none. The pixel map's presence AUC (0.898) is just below pixelstats (0.91).
+- Controls: the random encoder's map falls from +0.015 to −0.104 IoU relative to the pixels as depth grows. That is the expected
+  decay for untrained features.
+
 ### What Phase 8 adds
 
 1. **RQ4, the split point does not control presence leakage.** It is near its maximum after the first stage, so moving the
    split earlier saves bytes only in ResNets, saves compute, and loses utility. It gives no privacy.
-2. **Spatial payloads leak location** at every split, while pooled ones do not. The payload *form* matters more for location than the split point.
-3. **RQ5: real ISLs are fast enough for embeddings, and at optical rates even for compressed raw tiles.** None of the feasible
+2. **Spatial payloads leak location; pooled ones do not** (8d: +0.03 to +0.16 IoU on the same tiles, 8/8). Most of that
+   signal is already in the pixels pooled to the same grid, so a spatial payload leaks location mainly because it keeps the
+   image layout. The encoders add at most about +0.05. The payload *form* matters more for location than the split point.
+3. **The significant 8b effects replicate in 3 of 3 split seeds** (8d), and the null effects stay null in at least 2 of 3 seeds.
+4. **RQ5: real ISLs are fast enough for embeddings, and at optical rates even for compressed raw tiles.** None of the feasible
    high-utility payloads is private.
 
 **Phase 8 limits:**
-- One attacker family (deep MLP) and one split seed.
+- One attacker family (deep MLP). The primary contrasts were replicated on 3 split seeds in 8d; the other cells use seed 0 only.
+- The 8d follow-ups were planned after 8b, so they are exploratory.
 - `map4` is pooled, so the full maps could leak more.
 - The ResNet50 layer3 map was reduced by PCA to 2,048 dims.
 - Latency was measured on an M-series laptop, not flight hardware.
