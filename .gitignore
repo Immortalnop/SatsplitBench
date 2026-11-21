@@ -12,3 +12,5 @@ paper/
 *.pdf
 *.tex
 *.zip
+# Exception: the final submitted report is tracked
+!csd361_Report_group4.pdf
