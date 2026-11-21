@@ -1,3 +1,0 @@
-encoder,adv_weight,epochs,mae_first,mae_last,utility_ce_last,adversary_bce_last,adversary_acc_last,seconds
-own_vit_baseline,0.0,40,0.7219,0.174,0.0001,0.157,0.9557,18353
-own_vit_defended,0.5,40,0.7277,0.2163,0.0147,0.8749,0.6911,20346
