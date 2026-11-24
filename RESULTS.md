@@ -1,7 +1,7 @@
 # Results, phase by phase
 
 Running record of what each phase found. The methods are in README.md and the pre-registered tests in
-results/preregistration.md. Phases 0–8 are complete.
+results/preregistration.md. Phases 0–9 are complete (Phase 9: paper, figures and the threshold metrics in 4b.9).
 
 **Conventions**
 - Leakage means "does this 64×64 GloSoFarID tile contain solar panels?", scored as test ROC-AUC (chance 0.5).
@@ -225,6 +225,21 @@ Location prior (cell position only): grid IoU 0.497.
   0.94–0.97 for the DINO encoders.
 - It is hardest where panels resemble the surroundings: Highway, Industrial and Residential reach 0.79–0.90.
 - The encoder ranking (ViT-DINO > R50-DINO ≈ ViT-MoCo > R18-MoCo) holds in almost every class.
+
+### 4b.9 Threshold metrics (added for the paper; `scripts/prf_table.py` → `results/phase4b/analysis/prf.csv`)
+Best Phase 4b attacker per input (selected by validation AUC; the Phase 4 probes saved no validation scores), threshold =
+F1-optimal on validation, scored once on the 8,320 test tiles.
+
+| Input | Attacker | Precision | Recall | F1 | Accuracy | TN / FP / FN / TP |
+|---|---|---|---|---|---|---|
+| ViT-DINO | SVM | 0.899 | 0.749 | 0.817 | 0.918 | 6126 / 171 / 508 / 1515 |
+| ViT-MoCo | SVM | 0.834 | 0.725 | 0.776 | 0.898 | 6006 / 291 / 557 / 1466 |
+| R50-DINO | LightGBM | 0.792 | 0.733 | 0.761 | 0.888 | 5907 / 390 / 541 / 1482 |
+| R18-MoCo | deep MLP | 0.732 | 0.685 | 0.708 | 0.863 | 5791 / 506 / 638 / 1385 |
+| pixelstats | deep MLP | 0.737 | 0.711 | 0.724 | 0.868 | 5784 / 513 / 584 / 1439 |
+| random | deep MLP | 0.558 | 0.642 | 0.597 | 0.789 | 5268 / 1029 / 725 / 1298 |
+
+The AUC ordering holds at a fixed operating point; R18-MoCo is again below pixel statistics.
 
 ### Phase 4b status of the hypotheses
 

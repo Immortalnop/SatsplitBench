@@ -2,7 +2,7 @@
 
 How much object-level information leaks from compact Earth observation (EO) embeddings, and how does that leakage trade off against downstream utility as the embeddings are compressed?
 
-Project statement: *SatSplit-Bench: accuracy-bytes-compute-privacy benchmark for split inference on EO tasks over orbit-realistic ISLs, with an object-level feature-inversion leakage metric.* Phases 0–7 cover accuracy, bytes and privacy, including the object-level inversion metric, for a split after the full encoder. Phase 8 adds compute, intermediate split points and orbit-realistic ISLs. All of these are done; Phase 9 is the paper.
+Project statement: *SatSplit-Bench: accuracy-bytes-compute-privacy benchmark for split inference on EO tasks over orbit-realistic ISLs, with an object-level feature-inversion leakage metric.* Phases 0–7 cover accuracy, bytes and privacy, including the object-level inversion metric, for a split after the full encoder. Phase 8 adds compute, intermediate split points and orbit-realistic ISLs. All phases, including the Phase 9 paper (IEEE conference format, 8 pages), are done.
 
 ## Research questions
 
@@ -39,13 +39,13 @@ Project statement: *SatSplit-Bench: accuracy-bytes-compute-privacy benchmark for
 | 8b | Split points inside the encoder (pre-registered 18 Nov) | Done: depth adds presence leakage "not supported" (1/4); early splits leak location "mixed" (2/4, ResNets only) |
 | 8c | Orbit-realistic ISLs (real orbits, link rates, contact windows) | Done |
 | 8d | Follow-ups to 8b (exploratory): pixel-map control, `gap` vs `map4` location, split seeds 1–2 | Done: the significant 8b effects replicate in 3/3 seeds |
-| 9 | Analysis and paper | Planned (deadline 21 Nov 2026, 23:59) |
+| 9 | Analysis and paper | Done: figures, precision/recall table and IEEE paper (see [Phase 9](#phase-9-analysis-and-paper)) |
 
 ---
 
 ## How to run
 
-Phases 0–8d are done; results are in `RESULTS.md`. The Phase 8 commands are in [Phase 8 scripts and how to run them](#phase-8-scripts-and-how-to-run-them). The commands below re-run a phase: every runner skips runs that already
+Phases 0–9 are done; results are in `RESULTS.md`, and the paper figures and tables are regenerated with the [Phase 9 scripts](#phase-9-analysis-and-paper). The Phase 8 commands are in [Phase 8 scripts and how to run them](#phase-8-scripts-and-how-to-run-them). The commands below re-run a phase: every runner skips runs that already
 finished and resumes where it stopped. The runs use the GPU, so run them one after the other, and keep other heavy apps closed
 (memory pressure made Phase 6 stall once). Start long jobs detached (`nohup ... &` from a system terminal, not an editor's
 terminal), so closing the editor cannot kill them.
@@ -130,6 +130,7 @@ Python 3.12 virtual environment in `eoenv/`. Developed on a Mac (Apple Silicon, 
 | scikit-learn | 1.9.1 |
 | tensorflow | 2.21.0 (only for reading GloSoFarID TFRecords) |
 | timm / torchmetrics / lightgbm | 1.0.31 / 1.9.0 / 4.7.0 |
+| skyfield / matplotlib | 1.55 / 3.11.2 (Phase 8c, paper figures) |
 | numpy / scipy / pandas / rasterio | 2.5.4 / 1.18.1 / 3.1.1 / 1.5.2 |
 
 **macOS / Linux / WSL2**
@@ -138,7 +139,8 @@ Python 3.12 virtual environment in `eoenv/`. Developed on a Mac (Apple Silicon, 
 python3.12 -m venv eoenv
 source eoenv/bin/activate
 pip install torch==2.15.0 torchvision==0.29.2 torchgeo==0.10.1 timm==1.0.31 torchmetrics==1.9.0 \
-  scikit-learn==1.9.1 lightgbm==4.7.0 tensorflow==2.21.0 numpy==2.5.4 scipy==1.18.1 pandas==3.1.1 rasterio==1.5.2
+  scikit-learn==1.9.1 lightgbm==4.7.0 tensorflow==2.21.0 numpy==2.5.4 scipy==1.18.1 pandas==3.1.1 rasterio==1.5.2 \
+  skyfield==1.55 matplotlib==3.11.2
 brew install libomp            # macOS only: LightGBM needs it
 python -c "import torch, torchgeo; print('mps', torch.backends.mps.is_available(), 'cuda', torch.cuda.is_available(), torchgeo.__version__)"
 ```
@@ -149,7 +151,8 @@ python -c "import torch, torchgeo; print('mps', torch.backends.mps.is_available(
 py -3.12 -m venv eoenv
 .\eoenv\Scripts\Activate.ps1      # if blocked: Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 pip install torch==2.15.0 torchvision==0.29.2 torchgeo==0.10.1 timm==1.0.31 torchmetrics==1.9.0 `
-  scikit-learn==1.9.1 lightgbm==4.7.0 tensorflow==2.21.0 numpy==2.5.4 scipy==1.18.1 pandas==3.1.1 rasterio==1.5.2
+  scikit-learn==1.9.1 lightgbm==4.7.0 tensorflow==2.21.0 numpy==2.5.4 scipy==1.18.1 pandas==3.1.1 rasterio==1.5.2 `
+  skyfield==1.55 matplotlib==3.11.2
 python -c "import torch, torchgeo; print('cuda', torch.cuda.is_available(), torchgeo.__version__)"
 ```
 
@@ -832,14 +835,26 @@ Foreground alternative (stops if the terminal closes): `caffeinate -i bash scrip
 On Linux / WSL2, replace `caffeinate -i` with `systemd-inhibit --what=idle:sleep`. On native Windows, run the single steps in
 PowerShell; the runner needs bash. See [How to run](#how-to-run), including how to disable sleep.
 
-## Phase 9: Analysis and paper (planned)
+## Phase 9: Analysis and paper
 
-- **Main figure:** utility (x) vs leakage (y), one line per encoder, one point per compression level, with the pixel-statistics level marked. BigEarthNet macro AP is the utility axis (for H2), with EuroSAT as a second panel.
-- **Phase 8 figures:** leakage, utility, bytes and head FLOPs against split point (8a/8b), and the ISL-feasible frontier: for each link class, the best utility that fits and the leakage it carries (8c).
-- Report 95% CIs and, where seeds exist, mean ± std; paired tests for encoder comparisons. Label every result as pre-registered or exploratory.
-- Answer H1–H3, RQ1–RQ5 and the Phase 4b–8 questions.
-- Paper, about 6 pages: introduction, related work, setup, results, discussion and limits, conclusion. Secondary tables go to an appendix.
-- Deadline: 21 Nov 2026, 23:59.
+**Status: done.** All numbers in the paper come from the result files below and can be regenerated with these scripts
+(no training; each runs in under a minute):
+
+| Script | Output | What it makes |
+|---|---|---|
+| `python scripts/prf_table.py` | `results/phase4b/analysis/prf.csv` | Precision, recall, F1, accuracy and confusion matrix for presence leakage (best Phase 4b attacker per input, threshold = F1-optimal on validation, scored once on test) |
+| `python scripts/paper_figures.py` | `paper/figures/fig2-5_*.png` | Fig. 2 utility vs leakage along the compression curve; Fig. 3 GAN reconstructions; Fig. 4 split-point curves; Fig. 5 ISL feasibility |
+| `python scripts/paper_fig1.py` | `paper/figures/fig1_pipeline.png` | Fig. 1 pipeline diagram |
+
+The paper itself is an IEEE conference paper (`IEEEtran`, double column, 8 pages): `paper/main.tex` plus the five figures,
+compiled on Overleaf (upload `paper/satsplitbench_overleaf.zip` via New Project → Upload Project). Sections: Introduction,
+Related Work, Proposed Methodology, Experimental Setup, Experimental Results and Discussion (with an ablation analysis),
+Conclusion and Future Work, and 35 references. The `paper/` folder, Word drafts, PDFs and zips are git-ignored and are
+submitted separately with the code zip.
+
+Datasets are not included in the repository or the submission. Download them as described in Phase 1:
+[EuroSAT](https://github.com/phelber/EuroSAT) and [BigEarthNet v2](https://bigearth.net) through TorchGeo, and
+[GloSoFarID](https://zenodo.org/records/10939100) from Zenodo.
 
 ## Repository layout
 
@@ -887,6 +902,9 @@ scripts/
   analysis8b.py            # Phase 8b: pre-registered split-point tests, frontier, figure
   isl8c.py                 # Phase 8c: orbits, contact windows, ISL feasibility
   run_phase8.sh            # runs Phase 8: 8a, 8b, 8c or all
+  prf_table.py             # Phase 9: precision / recall / F1 / confusion matrix for presence leakage
+  paper_figures.py         # Phase 9: paper figures 2-5 from saved results
+  paper_fig1.py            # Phase 9: paper figure 1 (pipeline diagram)
 results/
   preregistration.md       # pre-registrations: Phases 4b, 5, 6, 7 and 8b
   probes.csv               # Phase 4 results
@@ -898,4 +916,5 @@ results/
   phase8/                  # compute.csv, runs8b.csv, isl_*.csv, analysis/, run.log
   preds/                   # per-tile test predictions
   models/                  # trained image models
+paper/                     # IEEE paper: main.tex, figures/, drafts (git-ignored; submitted separately)
 ```

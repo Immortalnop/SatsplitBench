@@ -1,6 +1,0 @@
-id,test,measure,baseline,defended,diff,ci_lo,ci_hi,hypothesis,p,p_holm,significant_holm,role
-P1,leakage_phase4b,"AUC, best attacker",0.9461,0.9278,0.0183,0.0095,0.028,baseline - defended > 0  [attackers: deep_mlp / deep_mlp],0.001,0.005,True,primary
-P2,detection_localisation,detection AUC,0.9257,0.9008,0.0249,0.0141,0.0358,baseline - defended > 0,0.001,0.005,True,primary
-P3,detection_gan_inversion,detection AUC,0.8239,0.7761,0.0479,0.0389,0.0576,baseline - defended > 0,0.001,0.005,True,primary
-P4,utility_bigearthnet_noninferiority,macro AP,0.6289,0.6006,-0.0283,-0.0471,-0.0161,defended - baseline > -0.02,0.91,0.91,False,primary
-P5,utility_eurosat_noninferiority,accuracy,0.978,0.9681,-0.0098,-0.0143,-0.0054,defended - baseline > -0.01,0.443,0.886,False,primary

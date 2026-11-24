@@ -4,3 +4,13 @@ __pycache__/
 .DS_Store
 HANDOVER.md
 results/
+
+# Paper drafts, report and course documents (never push)
+paper/
+*.docx
+~$*
+*.pdf
+*.tex
+*.zip
+# Exception: the final submitted report is tracked
+!csd361_Report_group4.pdf
